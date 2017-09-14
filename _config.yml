@@ -24,7 +24,7 @@ github_username:  wabilin
 
 # Build settings
 markdown: kramdown
-theme: jekyll-theme-merlot
+theme: jekyll-theme-minimal
 plugins:
   - jekyll-feed
 
