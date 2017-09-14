@@ -24,10 +24,11 @@ github_username:  wabilin
 
 # Build settings
 markdown: kramdown
-theme: jekyll-theme-minimal
+theme: jekyll-theme-tactile
 plugins:
   - jekyll-feed
 
+excerpt_separator:  '<!-- more -->'
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
 # to override the default setting.

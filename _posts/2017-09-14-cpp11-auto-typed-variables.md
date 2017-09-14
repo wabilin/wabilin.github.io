@@ -19,6 +19,8 @@ auto v = something;
 // 而使用關鍵字auto，看 something 來決定的 v 型別
 ```
 
+<!-- more -->
+
 ## introduction
 型別推導並不是什麼艱澀難懂的概念，以動態語言 Python 為例，一個整數的變數會這樣寫：
 ```python
