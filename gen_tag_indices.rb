@@ -22,6 +22,7 @@ def collect_tags(post_dir_path)
           puts line
           _, *tags = line.split(/\s/)
           tag_set.merge(tags)
+          break
         end
       end
     end
