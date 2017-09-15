@@ -216,7 +216,6 @@ PLATFORMS
 DEPENDENCIES
   github-pages
   jekyll-compose
-  jekyll-feed (~> 0.6)
 
 BUNDLED WITH
    1.16.0.pre.2
