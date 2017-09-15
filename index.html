@@ -4,8 +4,17 @@ layout: default
 
 <div class="home">
 
-  <h1 class="page-heading">Posts</h1>
+  <h2 class="page-heading">Tags:</h2>
+  <div id="tag_cloud">
+    {% for tag in site.tags %}
+      <a href="/tag_indices/{{ tag | first | slugize }}/">
+        {{ tag | first }}
+      </a>
+    {% endfor %}
+  </div>
+  <br>
 
+  <h1 class="page-heading">Posts</h1>
   <ul class="post-list">
     {% for post in paginator.posts %}
       <li>
