@@ -2,6 +2,7 @@
 layout: post
 title: C++11 auto-typed variables
 tags: cpp
+license: cc0
 ---
 
 本篇搬移自舊部落格 (2013年4月)
@@ -191,8 +192,3 @@ i := 0
 - http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2006/n1984.pdf
 - http://www.cprogramming.com/c++11/c++11-auto-decltype-return-value-after-function.html
 - http://zh.wikipedia.org
-
-
-## License
-To the extent possible under law,
-Ting Shu Lin has waived all copyright and related or neighboring rights to this work.

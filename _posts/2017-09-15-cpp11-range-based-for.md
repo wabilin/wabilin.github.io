@@ -2,6 +2,7 @@
 layout: post
 title: C++11 Range-based for
 tags: cpp
+license: cc0
 ---
 本篇搬移自舊部落格 (2013年4月)
 

@@ -11,4 +11,8 @@ layout: default
     {{ content }}
   </div>
 
+  {% if page.license == "cc0" %}
+    CCO
+    {% include license_cc0.html %}
+  {% endif %}
 </article>

@@ -19,6 +19,10 @@ layout: default
     {{ content }}
   </div>
 
+  {% if page.license == "cc0" %}
+    {% include license_cc0.html %}
+  {% endif %}
+
   {% if site.disqus.shortname %}
     {% include disqus_comments.html %}
   {% endif %}
