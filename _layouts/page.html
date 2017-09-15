@@ -7,6 +7,16 @@ layout: default
     <h1 class="post-title">{{ page.title | escape }}</h1>
   </header>
 
+
+  <div id="tag_cloud">
+    Tags:
+    {% for tag in page.tags %}
+      <a href="/tag_indices/{{ tag | first | slugize }}/">
+        {{ tag | first }}
+      </a>
+    {% endfor %}
+  </div>
+
   <div class="post-content">
     {{ content }}
   </div>
