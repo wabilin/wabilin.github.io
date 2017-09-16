@@ -2,6 +2,7 @@
 layout: post
 title: "如何讓 Python 使用 C 的函式庫"
 license: cc-by-sa
+tags: python
 ---
 從開始寫 C 到現在三年了, Python 雖然比較晚碰但也寫了一些，
 不過倒是從最近才開始認真研究這個技術 : 在 Python 中呼叫 C 所寫的函式。
