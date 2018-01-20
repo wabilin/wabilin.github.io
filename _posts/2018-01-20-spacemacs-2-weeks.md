@@ -9,9 +9,11 @@ license: cc0
 開始使用 [Spacemacs](http://spacemacs.org) 兩個星期，我可以說這是我用過最喜歡的文字編輯器。
 他結合了編輯器大戰的兩巨頭 vim 與 emacs 的操作方式，在入門上卻「**親民**」許多。
 
-如果曾經(或正在) vim 或 emacs 上遭受挫折，卻又嚮往他們的某些優點，不妨一試 Spacemacs 。
+如果曾經(或正在** vim 或 emacs 上遭受挫折，卻又嚮往他們的某些優點，不妨一試 Spacemacs 。
 
 簡單說，他是一個：**裝了 vim 又裝了一堆超實用功能又全部設定得又完整又有邏輯的 emacs**
+
+**使用 Spacemacs 你只需要會一些 vim 或 emacs 的基本操作，其他較進階的功能則無須特別記憶或設定。**
 
 vim 和 emacs 我都有過些許的使用經驗。
 「親民」實在很難當作二者的標榜，大多時候勸誘新手的說法是：「嘿，這個你熟悉了就會超強超快啦～」
@@ -24,7 +26,7 @@ vim 和 emacs 我都有過些許的使用經驗。
 1. 設定調教略為麻煩
 1. 太多快速鍵(特別在裝了大插件後)，又缺乏能系統性記憶的方式
 
-我在用 vim 的第一天就有了一整頁的 `.vimrc`，在三個月後又長了五倍大。雖然試圖努力精簡整理，但後來也是越長越肥。
+我在用 vim 的第一天就有了一整頁的 `.vimrc` ，在三個月後又長了五倍大。雖然試圖努力精簡整理，但後來也是越長越肥。
 而在裝了一些插件之後，把功能設到一些「自己覺得好按」的位置上之後，再下一個插件又要想該給哪些位置。
 
 然而這些自己不斷長出來的設定，當初並沒有審慎的規劃設計，只是個人養成的(或抄來的)習慣而已。
@@ -59,17 +61,17 @@ emacs 的按法明顯輕鬆許多，所以我存檔的時候都會使用 emacs �
 `Space` (開始) -> 分類 -> 功能
 
 舉例來說
-1. 如果我要打開專案(Project)中的檔案(File)，我就會按 `Space` - `p` - `f`
-1. 如果我要打開專案(Project)的樹狀結構(Tree)，就會按 `Space` - `p` - `t`
-1. 如果要查看 Git 的 Status，就是 `Space` - `g` - `s`
-1. 如果要開啟 Git Blame 功能，就是 `Space` - `g` - `b`
+1. 如果我要打開專案(Project)中的檔案(File)，我就會按 `Space p f`
+1. 如果我要打開專案(Project)的樹狀結構(Tree)，就會按 `Space p t`
+1. 如果要查看 Git 的 Status，就是 `Space g s`
+1. 如果要開啟 Git Blame 功能，就是 `Space g b`
 
 這樣的按鍵規劃，讓人非常快速就可以上手，而且不容易忘記。
 
 如果真的想不起來... 其實在按每個按鍵的時候下面都有提示可以偷看：
 ![SPC-p hint]({{ site.url }}/assets/img/2018/01/emacs_2_weeks/1.jpg)
 
-如果這樣還找不到功能，也可以用 `Space - ?` 或 `Space - Space` 來搜尋
+如果這樣還找不到功能，也可以用 `Space ?` 或 `Space Space` 來搜尋
 
 例如想要找 replace 功能:
 ![SPC-? hint]({{ site.url }}/assets/img/2018/01/emacs_2_weeks/2.jpg)
@@ -98,7 +100,14 @@ emacs 的按法明顯輕鬆許多，所以我存檔的時候都會使用 emacs �
 1. Spacemacs 可以在 console 中正常使用，不過視窗版本體驗又更棒更豐富。
 1. vim 在按 w 時，一個 word 是包含底線的，這點和 emacs 的預設不同，可以加一行設定: `(add-hook 'prog-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))`
 1. 如果系統沒有裝其他搜尋工具的話，會使用 `grep` 搜尋，速度有點慢，建議安裝一下 [ag](https://github.com/ggreer/the_silver_searcher)
-1. 絕大部分的設定和套件安裝都是編輯 dotfile ，請按 `Space` - `e` - `d` 打開設定。
+1. 絕大部分的設定和套件安裝都是編輯 dotfile ，請按 `Space f e d` 打開設定。
 1. 字型、配色也都可以按個人喜好設定，關於主題設定可以參考[這裡](https://emacs.stackexchange.com/questions/24958/how-install-a-custom-theme-to-spacemacs)
 1. 可以在首頁更新所有 Package，別怕更新後壞掉，因為也可以直接在首頁還原(Rollback)上次的更新。
 1. 如果是 VIM 使用者想上軌道，可以參考官方對 VIM USER 的入門文件 <http://spacemacs.org/doc/VIMUSERS.html>
+1. 當你按錯鍵想取消，按 `Ctrl-g` 就對了
+
+### 推薦的實用功能
+1. [magit](https://github.com/magit/magit): 在安裝 git layer 後， `Space g` 開啟。我曾經試過許多 git 工具，這是少數真的可以讓人幾乎不用回到 console 下 git command 的。
+1. 類似 easymotion: 按下 `Space j j` 搜尋字母快速跳躍、`Space j l` 快速跳行。
+1. 分割視窗、在視窗間移動 `Space w`。 在 buffer(可以想成tab) 間移動 `Space b b`，快速切到上個 buffer `Space TAB` 。
+1. 想要裝什麼功能，按 `Space f e d` 找 `dotspacemacs-configuration-layers` 就可以了。
