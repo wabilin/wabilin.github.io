@@ -50,23 +50,24 @@ BD 到貨之後重新整理了一下，發現點比原本想的還多。
 *站在千本鳥居的入口*
 ![fusimi-movieshot-2]({{ site.url }}/assets/img/2020/05/movie/IMG_9077.jpg)
 ![fusimi-real-2]({{ site.url }}/assets/img/2020/05/hello-real-world/DSC03966.JPG)
-(外拍的人一直站在那邊，只好讓他們入境了)
+(外拍的人一直站在那邊，只好讓他們入鏡了)
 
 
-千本鳥居真的很壯觀，雖然平常都是人很難真的看到這個景就是了（笑）
+千本鳥居真的很壯觀，雖然平常滿滿的人潮，很難看到這個景就是了（笑）
 ![fusimi-real-3]({{ site.url }}/assets/img/2020/05/hello-real-world/DSC03971.JPG)
 
-在千本鳥居（大）看到剛進入成功的老師
+*在千本鳥居（大）看到剛進入成功的老師*
 ![fusimi-movieshot-3]({{ site.url }}/assets/img/2020/05/movie/IMG_9082.jpg)
 ![fusimi-real-3]({{ site.url }}/assets/img/2020/05/hello-real-world/DSC04007.JPG)
 
-從外部看是翠綠山林中綿延無盡的鳥居
+從外部看是翠綠山林中綿延的鳥居
 ![fusimi-real-4]({{ site.url }}/assets/img/2020/05/hello-real-world/DSC04016.JPG)
 
 ## 雙ヶ岡
 交通方式: JR 花園
 
-直実和老師每天朝練的地方。
+*直実和老師每天朝練的地方*
+
 雖然寫「名勝」但是基本上幾乎沒有人會來的偏僻地方。
 山路幾乎沒有在維護的感覺，一個人來的時候很擔心出事會回不去，果然是個適合練功的地方w
 ![fusimi-movieshot-4]({{ site.url }}/assets/img/2020/05/movie/IMG_9095.jpg)
@@ -87,18 +88,17 @@ BD 到貨之後重新整理了一下，發現點比原本想的還多。
 ## 宇治朝霧橋
 交通方式: JR 宇治 / 京阪 宇治
 
-夏季煙火大會，全片中最關鍵的劇情轉折處。
+*夏季煙火大會，全片中最關鍵的劇情轉折處*
 
 從遠方看朝霧橋。
 ![fusimi-real-9_1]({{ site.url }}/assets/img/2020/05/hello-real-world/DSC00496.jpg)
 
-京粉應該會發現，這裡也是《吹響吧！上低音號》的名場景所在XD
+京粉應該發現了，這裡也是《吹響吧！上低音號》的名場景所在 XD
 
 ![fusimi-real-9_1]({{ site.url }}/assets/img/2020/05/hello-real-world/DSC00480.jpg)
 ![fusimi-real-9_1]({{ site.url }}/assets/img/2020/05/hello-real-world/DSC00482.jpg)
 
 由於這裡是京阿尼的地盤，附近也可以看到不少京都動畫人物的『飛び出し注意』立牌。
-
 
 觀光中心也有擺出 HELLO WORLD 的立牌！ <br>
 背後有上低音號的海報，兩個願望一次滿足！
@@ -110,7 +110,7 @@ BD 到貨之後重新整理了一下，發現點比原本想的還多。
 ![fusimi-movieshot-7]({{ site.url }}/assets/img/2020/05/movie/IMG_9113.jpg)
 ![fusimi-real-9]({{ site.url }}/assets/img/2020/05/hello-real-world/DSC00520.jpg)
 
-直実跌落樓梯之處QQ
+*直実跌落樓梯QQ*
 ![fusimi-movieshot-7]({{ site.url }}/assets/img/2020/05/movie/IMG_9116.jpg)
 ![fusimi-real-10]({{ site.url }}/assets/img/2020/05/hello-real-world/DSC00531.jpg)
 
@@ -123,15 +123,19 @@ BD 到貨之後重新整理了一下，發現點比原本想的還多。
 又順便逛到了隔壁棚的名場景: 久美子的椅子
 ![fusimi-real-8]({{ site.url }}/assets/img/2020/05/hello-real-world/IMG_6910.jpg)
 
-稍微爬了一下山，又見一個隔壁棚場景
+稍微爬了一下山，又一個隔壁棚場景
 ![fusimi-real-8]({{ site.url }}/assets/img/2020/05/hello-real-world/DSC00649.jpg)
+
+宇治一帶雖然也是觀光地，相較於京都內的觀光勝地比較沒這麼擁擠。
+
+同時也是由於同時也是京阿尼的總本山，非常推薦來一逛！
 
 ## 堀川高校
 動畫中錦高校，實際取材自堀川高校。
 
-附近也是本能寺之亂的本能寺遺跡（真是火事頻發的地方啊...）
+附近也是本能寺之亂的本能寺遺跡 *（真是火事頻發的地方啊...）*
 
-喜歡戰國史的人必來... 但實際上真的只剩下一個碑。
+喜歡戰國史的人必來... 話雖如此，實際上真的只剩下一個碑。
 ![fusimi-real-8]({{ site.url }}/assets/img/2020/05/hello-real-world/IMG_6645.jpg)
 
 ![fusimi-movieshot-7]({{ site.url }}/assets/img/2020/05/movie/IMG_9100.jpg)
@@ -142,17 +146,17 @@ BD 到貨之後重新整理了一下，發現點比原本想的還多。
 ![fusimi-movieshot-7]({{ site.url }}/assets/img/2020/05/movie/IMG_9107.jpg)
 
 ![fusimi-real-8]({{ site.url }}/assets/img/2020/05/hello-real-world/IMG_6654.jpg)
-
 巡禮到這個點心中一陣QQ...
 
 ----
+Part 2 就先到這裡。
 
-整理了一下還剩下的點:
+目前還剩下的點:<br>
 京都車站、南圖書館、北圖書館、京阪伏見稲荷站、地下鉄二条駅、京都府廳、出町柳、出町柳駅前、北園公車站、堀川蛸薬師公車站、東寺、JR宇治駅、京都大学、四条烏丸、五条堀川大橋、本願寺、中央郵便局、京都塔
 
 真是可怕的多啊XD，期待自己能在兩個月之內完成。
 
 預計跑完一次之後會再製作地圖和參觀建議，畢竟以海外觀光來說這麼多點，不做取捨的話很難規劃行程吧。<br>
-也希望疫情早日平定，讓大家都能來巡禮一波。
+也希望疫情早日平定，讓大家都能來巡禮一回。
 
 \[1\]: 圖片來源: 官方網站 https://hello-world-movie.com/
