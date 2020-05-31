@@ -14,7 +14,7 @@ BD 到貨之後重新整理了一下，發現點比原本想的還多。
 本篇包含：上賀茂神社（續）、伏見稲荷大社、雙ヶ岡、朝霧橋、堀川高校
 
 <!-- more -->
-由於 BD 播放禁止截圖，動畫截圖是用手機拍電視... 品質請包涵
+由於 BD 播放禁止截圖，動畫截圖是用手機拍電視... 品質請包涵<br>
 另外由於大多是重看 BD 前就去的，拍照的構圖會和電影中的不太一樣
 
 ## 上賀茂神社（續）
@@ -114,16 +114,16 @@ BD 到貨之後重新整理了一下，發現點比原本想的還多。
 ![fusimi-movieshot-7]({{ site.url }}/assets/img/2020/05/movie/IMG_9116.jpg)
 ![fusimi-real-10]({{ site.url }}/assets/img/2020/05/hello-real-world/DSC00531.jpg)
 
-雖然影片中場景在朝霧橋，但是作為電影海報場景的應該是旁邊的喜撰橋
+雖然影片中場景在朝霧橋，但是作為電影海報場景的應該是旁邊的喜撰橋 \[1\]
 ![fusimi-movieshot-poster]({{ site.url }}/assets/img/2020/05/movie/ogp_img2.jpg)
-\[1\]
+
 ![fusimi-real-8]({{ site.url }}/assets/img/2020/05/hello-real-world/DSC00566.jpg)
 ![fusimi-real-8]({{ site.url }}/assets/img/2020/05/hello-real-world/DSC00568.jpg)
 
 又順便逛到了隔壁棚的名場景: 久美子的椅子
 ![fusimi-real-8]({{ site.url }}/assets/img/2020/05/hello-real-world/IMG_6910.jpg)
 
-稍微爬了一下山，又一個隔壁棚場景
+稍微爬了一下山，又一個久美子和麗奈的名場景
 ![fusimi-real-8]({{ site.url }}/assets/img/2020/05/hello-real-world/DSC00649.jpg)
 
 宇治一帶雖然也是觀光地，相較於京都內的觀光勝地比較沒這麼擁擠。
