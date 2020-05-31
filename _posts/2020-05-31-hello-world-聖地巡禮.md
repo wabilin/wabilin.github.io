@@ -3,7 +3,7 @@ layout: post
 title: Hello World 聖地巡禮 Part 2
 date: 2020-05-31 15:01 +0900
 license: cc-by-sa
-tags: 觀光 電影 動畫
+tags: 京都 觀光 電影 動畫
 ---
 
 本來以為 HELLO WORLD 的聖地巡禮幾乎完成了。
