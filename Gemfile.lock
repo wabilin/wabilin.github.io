@@ -246,6 +246,7 @@ PLATFORMS
 DEPENDENCIES
   github-pages
   jekyll-compose
+  jekyll-theme-cayman
 
 BUNDLED WITH
    2.1.4
