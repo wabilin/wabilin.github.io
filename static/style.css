@@ -1,8 +1,144 @@
+:root {
+  --index-link-color: #555;
+}
+
+body, h1, h2, h3, h4, h5, h6 {
+  font-family: Lato,"PingFang SC","Microsoft YaHei",sans-serif;
+}
+
+strong {
+  font-weight: bold;
+}
+
+a {
+  color: black;
+}
+
+a:visited, a:link {
+  text-decoration: none;
+}
+
+a:hover {
+  background-color: #EEE;
+}
+
+code, pre {
+  font-family: 'Fira Code',consolas,Menlo,"PingFang SC","Microsoft YaHei",monospace;
+}
+
+code.hljs {
+  font-size: .9375rem;
+}
+
+p > code {
+  padding: .125rem;
+  border-style: solid;
+  border-radius: .125rem;
+  background-color: #f2f2f2;
+}
+
+img {
+  max-width: 100%;
+  margin: .25rem;
+  box-shadow: 1px 1px 5px gray;
+}
+
+.blog-title {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  font-family: 'Fira Code',Lato,"PingFang SC","Microsoft YaHei",sans-serif;
+}
+
+.blog-title > h1 {
+  margin: auto;
+  display: inline-block;
+  color: white;
+  background-color: black;
+  padding: .5rem;
+}
+.blog-title > h1 > a {
+  color: white;
+}
+
+.post {
+  margin: auto;
+  max-width: 800px;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+@media only screen and (max-width: 600px) {
+  .post {
+    margin: auto;
+    max-width: 800px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+.post-header {
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.post-header > h2 {
+  text-align: center;
+}
+.post-header > h2 > a {
+  border-bottom: none;
+  color: black;
+}
+.post-header > h2 > a:hover {
+  background-color: #EEE;
+}
+
+.post-section > hgroup {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.post-section > hgroup > h2 {
+  text-align: center;
+  font-weight: 400;
+  font-size: 1.5rem;
+  color: black;
+}
+
+.post-section > article {
+  word-wrap: break-word;
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--index-link-color);
+}
+
+.post-section > article > p {
+  margin-top: .75rem;
+  margin-bottom: .75rem;
+}
+
 .post-title {
   color: black;
-};
+}
 
 .post-content {
   color: #111;
   font-family: 'LiHeiPro', 'PingFang', '微軟正黑體', sans-serif;
-};
+}
+
+.footer-back {
+  margin-top: 1.5rem;
+}
+
+.footer-back > a {
+  padding: 0 .4rem;
+  color: white;
+  background-color: black;
+}
+
+.page-footer {
+  color: gray;
+  text-align: center;
+  max-width: 600px;
+  margin: 2rem auto;
+}
