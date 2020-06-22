@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Spacemacs - 人生最佳的編輯器體驗
-tags: emacs spacemacs
+tags: emacs, spacemacs
 license: cc0
 ---
 *這不是一篇信仰文，這是篇在編輯器的深淵中終於拉到一條繩子文。*

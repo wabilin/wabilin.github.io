@@ -4,12 +4,12 @@
   "author": "Wabilin",
   "license": "MIT",
   "scripts": {
-    "serve": "draft renderers.js",
+    "start": "draft renderers.js",
     "build": "write renderers.js",
     "postbuild": "yarn minify:html && yarn minify:css",
     "minify:html": "for f in ./dist/**/*.html; do html-minifier-terser -c ./hmt.config.json -o $f $f; done",
     "minify:css": "postcss ./dist/*.css -r",
-    "predeploy": "npm run build",
+    "predeploy": "yarn build",
     "deploy": "gh-pages -d ./dist"
   },
   "keywords": [],

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Dart 語言設計上的問題: Boolean Type"
-tags: dart pl
+tags: dart, pl
 license: cc0
 ---
 

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 在 Windows 使用 PS4 搖桿進行遊戲
-tags: ps4 windows
+tags: ps4, windows
 license: cc0
 ---
 
