@@ -93,20 +93,19 @@ ol, ul {
 }
 
 .post-header {
-  margin-top: 1.5rem;
-  margin-bottom: 1rem;
-  text-align: center;
+  margin: 1.5rem auto 1rem auto ;
+  width: 400px;
 }
 
-.post-header > h2 {
-  text-align: center;
+.post-time {
+  font-size: .75rem;
+  color: gray;
+  margin-bottom: .25rem;
 }
+
 .post-header > h2 > a {
   border-bottom: none;
   color: black;
-}
-.post-header > h2 > a:hover {
-  background-color: #EEE;
 }
 
 .post-section > hgroup {

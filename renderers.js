@@ -13,13 +13,18 @@ const metadata = {
   categories: [],
 }
 
-const post = ({ title, link }) => (`
+const post = ({ title, link }) => {
+  const timeStr = link.match(/\d+-\d+-\d+/)[0] || ''
+
+  return `
 <header class="post-header">
+  <h3 class="post-time">${timeStr}</h3>
   <h2>
     <a href="${link}">${ title }</a>
   </h2>
 </header>
-`);
+`
+};
 
 const index = posts => {
   const f = posts[0]
