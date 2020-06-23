@@ -113,10 +113,15 @@ ol, ul {
   margin-bottom: 1.5rem;
 }
 .post-section > hgroup > h2 {
-  text-align: center;
   font-weight: 400;
   font-size: 1.5rem;
   color: black;
+}
+.post-section > hgroup > h6 {
+  font-size: 1rem;
+  font-weight: lighter;
+  color: gray;
+  margin-top: .5rem;
 }
 
 .post-section > article {
