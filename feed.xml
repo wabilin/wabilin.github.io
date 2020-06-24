@@ -1,0 +1,991 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[title]]></title><description><![CDATA[description]]></description><link>https://wabilin.github.io/</link><generator>RSS for Node</generator><lastBuildDate>Wed, 24 Jun 2020 14:31:24 GMT</lastBuildDate><atom:link href="https://wabilin.github.io/feed.xml" rel="self" type="application/rss+xml"/><pubDate>Wed, 24 Jun 2020 14:31:23 GMT</pubDate><language><![CDATA[zh-tw]]></language><managingEditor><![CDATA[Wabilin]]></managingEditor><webMaster><![CDATA[Wabilin]]></webMaster><category><![CDATA[Software Development]]></category><category><![CDATA[Japanese Otaku]]></category><item><title><![CDATA[C++11 auto-typed variables]]></title><description><![CDATA[C++11 auto-typed variables]]></description><link>https://wabilin.github.io/2013-02-14-cpp11-auto-typed-variables.html</link><guid isPermaLink="true">https://wabilin.github.io/2013-02-14-cpp11-auto-typed-variables.html</guid><pubDate>Thu, 14 Feb 2013 00:00:00 GMT</pubDate><content type="html" xml:base="https://wabilin.github.io/2013-02-14-cpp11-auto-typed-variables.html">
+    &lt;p&gt;本篇搬移自舊部落格 (2013年4月)&lt;/p&gt;
+&lt;p&gt;型別推導在動態語言中是必然的，而傳統的靜態型別語言則多數要求事先宣告變數型別，
+但最近的靜態型別語言也越來越盛行型別推導 如 Go、C#、Haskell 等語言都支援靜態的型別推導。&lt;/p&gt;
+&lt;p&gt;現在C++ 也開始支援這個功能了。&lt;/p&gt;
+&lt;h2 id=&quot;overview&quot;&gt;overview&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;auto v = something;
+// 我們在宣告變數 v 時,可以不自己指定 v 的型別，
+// 而使用關鍵字auto，看 something 來決定的 v 型別&lt;/code&gt;&lt;/pre&gt;
+&lt;!-- more --&gt;
+
+&lt;h2 id=&quot;introduction&quot;&gt;introduction&lt;/h2&gt;
+&lt;p&gt;型別推導並不是什麼艱澀難懂的概念，以動態語言 Python 為例，一個整數的變數會這樣寫：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;a = 0&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;因為 &lt;code&gt;0&lt;/code&gt; 是整數，所以執行到這行的時候，&lt;code&gt;a&lt;/code&gt;就會是一個整數變數&lt;/p&gt;
+&lt;p&gt;而在靜態型別的 C 和以前的 C++ 中，所有變數都必須先宣告型別:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;int a = 0;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;然而在靜態型別的語言中使用型別推導並非不可行的，以前大部分不支援應該是為了編譯的速度。
+但隨著電腦效能越來越好，大家都想要程式寫得輕鬆，靜態型別的語言也開始支援了。&lt;/p&gt;
+&lt;p&gt;關於其他語言的做法，就留到文末來欣賞，現在直接來看看 C++11 怎麼玩:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;auto i = 1;
+double pi = 3.14;
+auto f = pi + 5;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;首先 &lt;code&gt;i&lt;/code&gt; 這個變數，因為等號右方的 &lt;code&gt;1&lt;/code&gt; 是 &lt;code&gt;int&lt;/code&gt;，所以 &lt;code&gt;i&lt;/code&gt; 會是一個 &lt;code&gt;int&lt;/code&gt; 變數，
+而變數 &lt;code&gt;f&lt;/code&gt; 因為是 &lt;code&gt;pi(double) + 5(int)&lt;/code&gt; 的結果，所以必然是一個 &lt;code&gt;double&lt;/code&gt;。
+這些都是在編譯階段就可以確定的，所以使用 &lt;code&gt;auto&lt;/code&gt; 變數並不會有像動態語言中，型別推導造成執行時其額外成本的問題。&lt;/p&gt;
+&lt;p&gt;另外一點不同的是，動態語言中變數的型別大多是可以改變的。
+但在靜態語言中，就算使用 &lt;code&gt;auto&lt;/code&gt; 這種方法，也是在宣告後就固定型別，
+而且一定要給定初始值（不然怎麼推導=.=）。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;auto a = 3.14f; // OK, float
+auto b(4);      // OK, int
+
+auto c; // error
+b = std::string(&quot;xd&quot;); // error, b must be a int&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;不過看到這裡，可能會認為這個功能沒有什麼必要性&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;auto a = 1;
+int  b = 0;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;在這裡實在沒有什麼理由懶得自己去判斷 &lt;code&gt;a&lt;/code&gt; 的型別，像 &lt;code&gt;b&lt;/code&gt; 這樣寫還可以少打一個字&lt;/p&gt;
+&lt;p&gt;然而在使用 STL 和各種 library 以及自訂型別的時候，這個功能就顯得十分有用了。
+因為這些型別名稱往往很長，有些甚至你要確認他是什麼型別也很麻煩。&lt;/p&gt;
+&lt;p&gt;舉一個很常見的例子：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;#include &amp;lt;vector&amp;gt;
+
+class LoveLive{
+ // somethings..
+ void foo() const;
+};
+
+int main() {
+  using std::vector;
+  vector&amp;lt;LoveLive&amp;gt; lives;
+  for (vector&amp;lt;LoveLive&amp;gt;::const_iterator it = lives.cbegin();
+       it &amp;lt; lives.cend() ;
+       ++it) {
+    it-&amp;gt;foo();
+  }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;這是我之前最痛恨 STL 的其中一點----常常只是做很簡單的事情，卻因為各種落落長的名稱，
+而寫成超長的一行，甚至得拆成醜醜的好幾行。&lt;/p&gt;
+&lt;p&gt;然而現在有了 &lt;code&gt;auto&lt;/code&gt; 我可以這樣寫：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;for (auto it = lives.cbegin(); it &amp;lt; lives.cend() ; ++it) {
+  it-&amp;gt;foo();
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;少打了許多字，也不用怕忘記 &lt;code&gt;iterator&lt;/code&gt; 怎麼拼 (當然這個常用應該不會忘，但有些比較少用的就要一直查了..)&lt;/p&gt;
+&lt;p&gt; (註：以 &lt;code&gt;for&lt;/code&gt; 迴圈來說，這個例子還有更簡潔的寫法，之後在他篇會介紹&lt;/p&gt;
+&lt;p&gt;就本例而言，可以感受到 &lt;code&gt;auto&lt;/code&gt; 帶來的一點小便利，讓我們再看看沒有它的話我們會很痛苦的例子：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;// Code from: http://en.wikipedia.org/wiki/C%2B%2B11
+#include &amp;lt;random&amp;gt;
+#include &amp;lt;functional&amp;gt;
+
+std::uniform_int_distribution&amp;lt;int&amp;gt; distribution(0, 99);
+std::mt19937 engine; // Mersenne twister MT19937
+auto generator = std::bind(distribution, engine);
+
+// Generate a uniform integral variate between 0 and 99.
+int random = generator();&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;這是在 C++11 中提供的一種產生亂數的新方式。
+我們看到 &lt;code&gt;generator&lt;/code&gt; 並未指定型別而使用了 &lt;code&gt;auto&lt;/code&gt; 來做型別推導，
+因為 &lt;code&gt;std::bind&lt;/code&gt; 會把 &lt;code&gt;distribution&lt;/code&gt; 和 &lt;code&gt;engine&lt;/code&gt; 打包成某種可以被存在 &lt;code&gt;std::function&lt;/code&gt; 的物件&lt;/p&gt;
+&lt;p&gt;雖然我們可以大概知道那是怎樣的形態，但絕對不會明確的想出來，
+就算我們以人腦推出來了，也不會想花力氣打進去..&lt;/p&gt;
+&lt;p&gt;如果沒有 &lt;code&gt;auto&lt;/code&gt; 可用，或是你很熱血的想把這玩意的型別打上去&lt;/p&gt;
+&lt;p&gt;好吧，嗯......
+你會寫成這樣：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;std::_Bind
+  &amp;lt;std::uniform_int_distribution&amp;lt;int&amp;gt;(
+     std::mersenne_twister_engine&amp;lt;
+       long unsigned int, 32ul, 624ul, 397ul,
+       31ul, 2567483615ul, 11ul, 4294967295ul,
+       7ul, 2636928640ul, 15ul, 4022730752ul,
+       18ul, 1812433253ul
+       &amp;gt;)&amp;gt; generator = std::bind(distribution, engine);&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;我相信沒有人可以這麼勤勞，無論是寫或看..&lt;/p&gt;
+&lt;p&gt;所以，&lt;code&gt;auto&lt;/code&gt; 的使用，不但可以減少打字時間，增近開發速度 (講難聽點就是偷懶)
+在某些場合更是必要之手段&lt;/p&gt;
+&lt;p&gt;另外 &lt;code&gt;auto&lt;/code&gt; 也可以配合關鍵 pointer 和 reference 使用：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;int a = 0; // int
+auto  b = a; // int
+auto&amp;amp; r = a; // int&amp;amp;
+
+auto  p1 = &amp;amp;a; // int*
+auto* p2 = &amp;amp;a; // int*
+
+auto c = a, *d = &amp;amp;a // OK
+auto e = a, f = &amp;amp;a  // error&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;comment&quot;&gt;comment&lt;/h2&gt;
+&lt;p&gt;除了有必須使用的地方，必須把這招學起來以外。
+也建議在其他適當場合使用 &lt;code&gt;auto&lt;/code&gt; ，省力又簡潔。&lt;/p&gt;
+&lt;p&gt;不過也不宜濫用( 把 &lt;code&gt;int&lt;/code&gt; 等基本型別也寫成 &lt;code&gt;auto&lt;/code&gt; )，會讓可讀性下降，
+如果推導出來地型別和你預期的不一樣而產生bug也只能說是自作自受..&lt;/p&gt;
+&lt;p&gt;這應該算是一個實用價值很高的新功能。&lt;/p&gt;
+&lt;p&gt;另外 &lt;code&gt;auto&lt;/code&gt; 這個關鍵字的其他使用場合，以及與他有點關係的 &lt;code&gt;decltype&lt;/code&gt; 會在其他篇介紹&lt;/p&gt;
+&lt;h2 id=&quot;chat&quot;&gt;chat&lt;/h2&gt;
+&lt;p&gt;在其他靜態語言中，也有型別推導，
+C# 可以有靜態和動態的型別推導，其中靜態型別推導的用法和本篇C++11的用法很相似，
+不過 C# 使用的關鍵字是 &lt;code&gt;var&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Go 語言有兩種寫法：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;var x, y, z int = 1, 2, 3
+var a, b, c = true, false, &quot;no!&quot;
+i := 0&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;其中 &lt;code&gt;x, y, z&lt;/code&gt; 是由 programmer 指定型別 &lt;code&gt;int&lt;/code&gt;，
+而 &lt;code&gt;a, b, c&lt;/code&gt; 則是藉由型別推導分別得到 &lt;code&gt;bool, bool, string&lt;/code&gt; 型別，
+變數 &lt;code&gt;i&lt;/code&gt; 則使用了 &lt;code&gt;:=&lt;/code&gt; 省略關鍵字 &lt;code&gt;var&lt;/code&gt;，並推導得到型別 &lt;code&gt;int&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;而 Haskell 的型別就更有趣了，不過在這裡講下去，篇幅大概就要比原本的主題還多了:P&lt;/p&gt;
+&lt;p&gt;有興趣的話請自行研究囉&lt;/p&gt;
+&lt;h2 id=&quot;reference&quot;&gt;Reference&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2006/n1984.pdf&quot;&gt;http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2006/n1984.pdf&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.cprogramming.com/c++11/c++11-auto-decltype-return-value-after-function.html&quot;&gt;http://www.cprogramming.com/c++11/c++11-auto-decltype-return-value-after-function.html&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://zh.wikipedia.org&quot;&gt;http://zh.wikipedia.org&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+  </content></item><item><title><![CDATA[C++11 Range-based for]]></title><description><![CDATA[C++11 Range-based for]]></description><link>https://wabilin.github.io/2013-04-13-cpp11-range-based-for.html</link><guid isPermaLink="true">https://wabilin.github.io/2013-04-13-cpp11-range-based-for.html</guid><pubDate>Sat, 13 Apr 2013 00:00:00 GMT</pubDate><content type="html" xml:base="https://wabilin.github.io/2013-04-13-cpp11-range-based-for.html">
+    &lt;p&gt;本篇搬移自舊部落格 (2013年4月)&lt;/p&gt;
+&lt;p&gt;使用過 Python, C# 等語言的 &lt;code&gt;for&lt;/code&gt; (&lt;code&gt;foreach&lt;/code&gt;) 之後，
+我就肖想這個功能很久了，現在 C++11 終於也有了這種形式的 &lt;code&gt;for&lt;/code&gt; 迴圈！&lt;/p&gt;
+&lt;h3 id=&quot;overview&quot;&gt;overview&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;int a[] = {4, 5, 6};
+for (int e : a)
+  printf(&quot;%d &quot;, e);
+
+/* output: 4 5 6 */&lt;/code&gt;&lt;/pre&gt;
+&lt;!-- more --&gt;
+&lt;h3 id=&quot;introduction&quot;&gt;introduction&lt;/h3&gt;
+&lt;p&gt;又是一個我一直想很要的功能XD&lt;/p&gt;
+&lt;p&gt;在 Ruby, Python, C# 等語言中 用這種 range-based iteration 是方便而安全的作法，
+而且這種概念其實並不算是新穎的奇招，至少在 Ada 和 Fortran 中也有相似的語法。&lt;/p&gt;
+&lt;p&gt;要說明它的好處，就先來批鬥一下 C/C++ 與其他 C-based Language 的 for 迴圈寫法有什麼缺點。
+(* 包含個人主觀意見)&lt;/p&gt;
+&lt;p&gt;以一個簡單的陣列複製為例，在 C 中如果不想用 &lt;code&gt;memcpy&lt;/code&gt; 之類的函式 通常會這樣做:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-c&quot;&gt;#define SIZE 10
+
+int a[SIZE] = {...};
+int b[SIZE];
+for (size_t i = 0; i &amp;lt; SIZE; ++i)
+  b[i] = a[i];&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;這種語法有以下缺點:&lt;/p&gt;
+&lt;h4 id=&quot;1-觀感問題-奇摸子問題&quot;&gt;1. 觀感問題 (奇摸子問題)&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;for&lt;/code&gt; 通常使用在和範圍相關的迴圈上，
+例如遍歷一個陣列，或是由最小值到最大值之類的的計算。&lt;/p&gt;
+&lt;p&gt;把 for 用在和範圍無關的迴圈上，通常不是件好事 例如:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-c&quot;&gt;for (; something ;) { ... }&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;用 &lt;code&gt;while&lt;/code&gt; 取代會有更清楚的語意。&lt;/p&gt;
+&lt;p&gt;但是用來做範圍相關迭代的 &lt;code&gt;for&lt;/code&gt;, 本身卻沒有提供和範圍相關的限制與迭代方法，
+而完全只是一個 &lt;code&gt;while&lt;/code&gt; 的語法糖。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-c&quot;&gt;for (a; b; c) { ... }&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;和&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-c&quot;&gt;a;
+while (b) { ...; c;}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;完全相等&lt;/p&gt;
+&lt;p&gt;也就是這個語言中就算完全沒有 &lt;code&gt;for&lt;/code&gt;，能做的事情也不會減少。
+雖然可讀性較佳，卻又有種多餘的感覺。&lt;/p&gt;
+&lt;h4 id=&quot;2-安全問題&quot;&gt;2. 安全問題&lt;/h4&gt;
+&lt;p&gt;因為語法本身沒有包含對範圍的限制 仰賴程式設計師自己的設計
+常成為蟲蟲的溫床 如常見的新手錯誤&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-c&quot;&gt;int a[10];
+for (int i = 0 ; i &amp;lt;= 10 ; ++i) {...}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;除了新手以外的人 也難免偶爾會老馬按錯鍵 浪費一堆時間 Debug (連bebug都沒有就更慘了)&lt;/p&gt;
+&lt;h4 id=&quot;3-麻煩問題&quot;&gt;3. 麻煩問題&lt;/h4&gt;
+&lt;p&gt;你可以說上面的問題，完全只是低級的錯誤，因為有經驗的人通常會這樣寫:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-c&quot;&gt;#define SIZE 10
+
+for (size_t i = 0; i &amp;lt; SIZE; ++i) { ... }&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;當然我又會挑剔 使用 &lt;code&gt;#define&lt;/code&gt; 所造成的問題, 所以改成:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;static const size_t SIZE = 10;
+for (size_t i = 0; i &amp;lt; SIZE; ++i) { ... }&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;這樣寫是以前的好寫法 大部分的問題都解決了，
+不過仍然存在一個問題: 第一行實在很長很麻煩！&lt;/p&gt;
+&lt;p&gt;程式設計師天性懶散。怕麻煩是天經地義的事情 :)&lt;/p&gt;
+&lt;p&gt;我們願意忍受麻煩A，通常是為了避免更嚴重的麻煩B。
+如果可以兩者都扔掉，絕對不會想承受其中任何一個。&lt;/p&gt;
+&lt;p&gt;一開始也看過大概的用法了，現在來看一下其定義[1]吧:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;for ( for-range-declaration : expression ) statement&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;等同於&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;{
+  auto &amp;amp;&amp;amp; __range = ( expression );
+  for (auto __begin = begin-expr, __end = end-expr;
+       __begin != __end; ++__begin ) {
+    for-range-declaration = *__begin;
+    statement
+  }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;其中 &lt;code&gt;expression&lt;/code&gt;, &lt;code&gt;begin-expr&lt;/code&gt; 和 &lt;code&gt;end-expr&lt;/code&gt; 的型態為 &lt;code&gt;_RangeT&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;如果 &lt;code&gt;_RangeT&lt;/code&gt; 是陣列的話,&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;begin-expr = __range, end-expr = __range + __bound&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;否則&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;begin-expr = begin(__range), end-expr = end(__range),&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;在尋找符合的 &lt;code&gt;begin()&lt;/code&gt;, &lt;code&gt;end()&lt;/code&gt;時
+也會看到 namespace std 中的 &lt;code&gt;std::begin()&lt;/code&gt; 和 &lt;code&gt;std::end()&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;(我翻譯的能力有限 要看明確的定義還是請翻一下原文&lt;/p&gt;
+&lt;p&gt;所以 range-based for 可以用的地方分為兩類:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;型態及長度明確之 C++ 陣列&lt;/li&gt;
+&lt;li&gt;其他有提供迭代方法的類別&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;以下分別解釋:&lt;/p&gt;
+&lt;p&gt;型態及長度明確之 C++ 陣列:&lt;/p&gt;
+&lt;p&gt;大部分的時候 會感覺C++ 的陣列和指標用起來完全一樣
+但實際上還是有差別的
+而能夠使用 range-based for 的 只有真正最標準的 C++ 陣列 例如:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;const char str[] = &quot;1234&quot;;
+int ary[10];
+MyType m_ary[] = {};
+
+for (char c : str) { }   // OK
+for (int e : ary) { }    // OK
+for (auto m : m_ary) { } // OK&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;而以下我們很習慣把指標當成陣列的用法 卻是不能用 range-based for 的:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;void foo(int a1[], int* a2) {
+  const char* str = &quot;A pointer to C string&quot;;
+
+  for (int a : a1) {}    // error
+  for (int a : a2) {}    // error
+  for (char c : str) {}  // error
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;因為指標型態並沒有記錄陣列大小，所以無法使用是理所當然的。
+不過這種「大部分時間用起來一樣，卻有時候不一樣」的東西真的有點惱人。
+而且 C++ 陣列因為相容 C 雖然有幫你記下大小，但並不確保相關的安全性。&lt;/p&gt;
+&lt;p&gt;因此我比較推薦在 C++ 中 盡量以 &lt;code&gt;std::vector&lt;/code&gt; 或 &lt;code&gt;std::array&lt;/code&gt; 取代傳統陣列，
+除非你的編譯器對 &lt;code&gt;vector&lt;/code&gt; 效能實作得非常差 (正常來說和陣列的效能差距應該是很小的)，
+或是你對效能極度計較，不然多數時候沒有使用傳統陣列之必要。&lt;/p&gt;
+&lt;p&gt;別忘了&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Premature optimization is the root of all evil.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;其他有提供迭代方法的類別:&lt;/p&gt;
+&lt;p&gt;依照上面提過的定義，如果要把 range-based for 用在某類別 T&lt;/p&gt;
+&lt;p&gt;最少要有: 產生 iterator 的 &lt;code&gt;begin(T)&lt;/code&gt;. &lt;code&gt;end(T)&lt;/code&gt; 以及該 iterator 的 &lt;code&gt;operator ++&lt;/code&gt;(prefix ver.)
+依照 C++ &lt;code&gt;&amp;lt;iterator&amp;gt;&lt;/code&gt; 中定義的 &lt;code&gt;std::begin()&lt;/code&gt; 和 &lt;code&gt;std:: end()&lt;/code&gt; [2]
+如果有定義 &lt;code&gt;T.begin()&lt;/code&gt; 和 &lt;code&gt;T.end()&lt;/code&gt; 的話也可行 (應該也是比較好的做法)&lt;/p&gt;
+&lt;p&gt;這包括了所有有實作 iteration 功能的 STL 類別, 如:&lt;/p&gt;
+&lt;p&gt;vector, array, string,  deque, list, forward_list,
+map, unordered_map, set, unordered_set...&lt;/p&gt;
+&lt;p&gt;一個敷衍用的範例 (反正每個用法都差不多) :&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;std::vector&amp;lt;int&amp;gt; v = {1, 2, 3, 4, 5};
+
+for (int e : v)
+  printf(&quot;%d&quot;, e);&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;相較於&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;for (std::vector&amp;lt;int&amp;gt;::iterator it = v.begin(); it != v.end(); ++it)
+  printf(&quot;%d&quot;, *it);&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;少打了很多字，真是開心 :)&lt;/p&gt;
+&lt;p&gt;此外你也可以自己設計相容的類別。
+( 本來我想順便寫怎麼做 不過怕這篇會變太長 而且又不知道要拖到什麼時候了&lt;/p&gt;
+&lt;p&gt;另外這種 &lt;code&gt;for&lt;/code&gt; 常常搭配 &lt;code&gt;auto&lt;/code&gt; 一起使用, 這個關鍵字之前也介紹過了
+結合兩者之後更朝懶人 C++ 邁進了一大步&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;const vector&amp;lt;MySuperCoolType&amp;gt; cv = {};
+vector&amp;lt;MySuperCoolType&amp;gt; vv = {};
+
+
+for (auto e : cv)
+  cout &amp;lt;&amp;lt; e;
+
+for (auto&amp;amp; e : vv)  // 如果要更改內容的話 可以用auto&amp;amp;
+  e = MySuperCoolType();&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&quot;comment&quot;&gt;comment&lt;/h3&gt;
+&lt;p&gt;我認為這是一個非常良好的改進。&lt;/p&gt;
+&lt;p&gt;多數該支援的標準函式庫也都支援了，用起來非常方便。&lt;/p&gt;
+&lt;p&gt;可以少打很多字 愉☆悅~&lt;/p&gt;
+&lt;h3 id=&quot;chat&quot;&gt;chat&lt;/h3&gt;
+&lt;p&gt;C++ 中本來也有一個叫 &lt;code&gt;for_each&lt;/code&gt; 的函式，
+不過做法比較接近 functional language 中常見的 map 函式。&lt;/p&gt;
+&lt;p&gt;用法大略如下:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;void foo(int&amp;amp; n) {
+  n = n * 2;
+}
+
+int main(){
+  vector&amp;lt;int&amp;gt; v = {0,1,2,3};
+  for_each (v.begin(), v.end(), foo);
+
+  for(int e : v)
+    printf(&quot; %d&quot;, e);
+  // output: 0 2 4 6
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;通常是本來就已經有適合的函式可以用 才會用 for_each
+不然的話要用它來取代 for 迴圈其實是件更麻煩的事情&lt;/p&gt;
+&lt;h3 id=&quot;reference&quot;&gt;Reference&lt;/h3&gt;
+&lt;p&gt;[1] &lt;a href=&quot;http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2009/n2930.html&quot;&gt;http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2009/n2930.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;[2] &lt;a href=&quot;http://en.cppreference.com/w/cpp/iterator&quot;&gt;http://en.cppreference.com/w/cpp/iterator&lt;/a&gt;&lt;/p&gt;
+
+  </content></item><item><title><![CDATA[如何讓 Python 使用 C 的函式庫]]></title><description><![CDATA[如何讓 Python 使用 C 的函式庫]]></description><link>https://wabilin.github.io/2013-07-18-python-c-lib.html</link><guid isPermaLink="true">https://wabilin.github.io/2013-07-18-python-c-lib.html</guid><pubDate>Thu, 18 Jul 2013 00:00:00 GMT</pubDate><content type="html" xml:base="https://wabilin.github.io/2013-07-18-python-c-lib.html">
+    &lt;p&gt;從開始寫 C 到現在三年了, Python 雖然比較晚碰但也寫了一些，
+不過倒是從最近才開始認真研究這個技術 : 在 Python 中呼叫 C 所寫的函式。&lt;/p&gt;
+&lt;p&gt;雖然知道這招很久了, 但之前一直沒有用的契機 (畢竟寫純 Python 輕鬆得多)&lt;/p&gt;
+&lt;p&gt;而最近因為有一個 Python Project 無法達到需要的速度，
+所以打算把這招拿出來用，也就順便筆記下來了。&lt;/p&gt;
+&lt;p&gt;( 其實方法有不少種, 本篇主要介紹的是使用 Python C API 的方法 )&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;h3 id=&quot;hello-world&quot;&gt;Hello World!&lt;/h3&gt;
+&lt;p&gt;不免俗的還是來個 Hello, 不過這個 Hello 的技術知識與成就感應該比很多語言的還得多&lt;/p&gt;
+&lt;p&gt;(Python 的 &lt;code&gt;print &quot;Hello World!&quot;&lt;/code&gt; // 這我會了又能幹啥 XD&lt;/p&gt;
+&lt;p&gt;因為要讓 Python 使用 C 寫的函式庫
+所以我們要先來寫一個 C File :&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-c&quot;&gt;#include &amp;lt;Python.h&amp;gt;
+
+static PyObject* hello(PyObject* self, PyObject* args) {
+    printf(&quot;Hello! A C function called!\n&quot;);
+    Py_RETURN_NONE;
+}
+
+static PyMethodDef HelloMethods[] = {
+    {&quot;hello&quot;, hello, METH_VARARGS, &quot;A hello function.&quot;},
+    {NULL, NULL, 0, NULL}
+};
+
+PyMODINIT_FUNC inithello(void) {
+     (void) Py_InitModule(&quot;hello&quot;, HelloMethods);
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;先簡單的看一下這段程式碼的意義&lt;/p&gt;
+&lt;p&gt;首先我們 include 了 &lt;code&gt;Python.h&lt;/code&gt;, 這是 Python C API 必要的標頭檔&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-c&quot;&gt;static PyObject* hello(PyObject* self, PyObject* args) {
+    printf(&quot;Hello! A C function called!\n&quot;);
+    Py_RETURN_NONE;
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;在這裡, 我們寫了一個叫做 hello 的函式
+他接受兩個 &lt;code&gt;PyObject*&lt;/code&gt; 作為參數, 並且回傳一個 &lt;code&gt;PyObject*&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;他非常接近這樣的 Python method:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-py&quot;&gt;def hello(self, arg1, arg2...) {
+  print (&quot;Hello!&quot;)
+  return None
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;不過在 Python 中, 我們不必宣告出變數型別,
+而在 C 裡面需要, 而他的型別則是 PyObject*
+另外我們用一個 args 來存放零到多個參數&lt;/p&gt;
+&lt;p&gt;這就是在 C 中寫一個 Python method 的簡單樣貌&lt;/p&gt;
+&lt;p&gt;接著下一段:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-c&quot;&gt;static PyMethodDef HelloMethods[] = {
+    {&quot;hello&quot;, hello, METH_VARARGS, &quot;A hello function.&quot;},
+    {NULL, NULL, 0, NULL}
+};&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;我們必須告訴 pyhton, 在這個 module 中, 有那些 methods 可以用
+而這個資訊被存放在 HelloMethods 這個陣列中, 陣列的每一個元素都是一個 method 的宣告,
+這個宣告在 C 中的型別是一個 &lt;code&gt;struct (PyMethodDef)&lt;/code&gt; , 以本例來說:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;{&quot;hello&quot;, hello, METH_VARARGS, &quot;A hello function.&quot;}&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;第一項的 &lt;code&gt;&quot;hello&quot;&lt;/code&gt; 是方法名稱 (method name)
+第二項 &lt;code&gt;hello&lt;/code&gt; 則是這個 method 的 C 實作函式
+第三項的 &lt;code&gt;METH_VARARGS&lt;/code&gt; 則是指示該如何解讀這個 method 的 flag, 不過我們先不管他
+最後一項則是關於這個 method 的說明, 如同我們會寫在 python 中的 Documentation Strings&lt;/p&gt;
+&lt;p&gt;而 &lt;code&gt;{NULL, NULL, 0, NULL}&lt;/code&gt; 則用以作為這個陣列的結尾標示&lt;/p&gt;
+&lt;p&gt;所以到這個部分我們已經完成了一個 method 在 C 中的實作,
+並在一個變數中存入關於這個 module 的 methods 資訊&lt;/p&gt;
+&lt;p&gt;最後的部分則是這個 module 的初始化, 會把上面的東西放進來
+不過先暫時不說明這部分&lt;/p&gt;
+&lt;p&gt;OK, 這個簡單的 C 檔案就這樣完成了&lt;/p&gt;
+&lt;p&gt;以下講解如何編譯並使用這個檔案, 每個作業系統方法小有差異, 此處以 Windows 為主。
+理由是在 Linux 和 Mac OS 下本來就比較簡單, 而且這兩家的使用者平均來說自學能力比較強 不需要我贅言XD&lt;/p&gt;
+&lt;p&gt;如果你使用 Ubuntu :&lt;code&gt;sudo apt-get install python-dev&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Mac OS: 因為我還買不起所以不知道, 但相信一定不難&lt;/p&gt;
+&lt;p&gt;Windows:
+首先你必須安裝 Python,&lt;/p&gt;
+&lt;p&gt;當然你也必須要有 C 的編譯器 (VC++ 或 MinGW)&lt;/p&gt;
+&lt;p&gt;而本篇會以 MinGW 為主&lt;/p&gt;
+&lt;p&gt;當這些必要的準備都好了之後, 就可以來產生我們要的函式庫。
+在這裡還是有兩種方法:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;寫一個 setup.py 腳本來 build&lt;/li&gt;
+&lt;li&gt;自己使用 C 編譯器來 build&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;先說第一種方法:&lt;/p&gt;
+&lt;p&gt;我們先寫一個 &lt;code&gt;setup.py&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-py&quot;&gt;from distutils.core import setup, Extension
+
+module1 = Extension(&apos;hello&apos;, sources = [&apos;hello.c&apos;])
+
+setup (name = &apos;PackageName&apos;,
+       version = &apos;1.0&apos;,
+       description = &apos;This is a demo package&apos;,
+       ext_modules = [module1])&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;接著利用這個檔案來 build:&lt;/p&gt;
+&lt;p&gt;Linux: &lt;code&gt;python setup.py build&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Windows + MinGW: &lt;code&gt;python setup.py build -cmingw32&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;在這裡你可能會遇到的錯誤:&lt;/p&gt;
+&lt;p&gt;1)&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;‘python’ is not recognized as an internal or external command, operable program or batch file.&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;這代表你還沒有安裝好 Pyhton, 或是沒有將 Python 加入到 PATH 中, 請將 python 所在目錄加到 PATH&lt;/p&gt;
+&lt;p&gt;2)&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;error: unrecognized command line option ‘-mno-cygwin’&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;請參考 &lt;a href=&quot;http://stackoverflow.com/questions/6034390/compiling-with-cython-and-mingw-produces-gcc-error-unrecognized-command-line-o/6035864#6035864&quot;&gt;stackoverflow&lt;/a&gt; 上的解法, 間單的說就是去修改 &lt;code&gt;YourPythonDir\Lib\distutils&lt;/code&gt; 中的 &lt;code&gt;cygwinccompiler.py&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;而第二種方法也很簡單:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;gcc -c hello.c -I/Python27/include
+gcc -shared hello.o -L/Python27/libs -lpython27 -o hello.pyd&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;因為我安裝的 python 版本是2.7版, 所以在此是 Python27, 如果你裝的是2.5版 那就是 Python25
+另外如果有更改安裝路徑的話也請自行修改指令, 假設你 python 裝在 &lt;code&gt;D:/Python27&lt;/code&gt;
+那第一行就改成 &lt;code&gt;gcc -c hello.c -ID:/Python27/include&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;無論你用上面哪一種方法 你都可以得到一個 hello.pyd 的檔案&lt;/p&gt;
+&lt;p&gt;這時我們再來寫一個 python 程式來使用他, 請將這個 Python 程式放在和 &lt;code&gt;hello.pyd&lt;/code&gt; 同一個資料夾&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-py&quot;&gt;import hello
+
+hello.hello()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;現在 hello 被我們作為一個 module 使用了!
+我們呼叫 hello module 中的 hello method
+他會輸出:
+&lt;code&gt;Hello! A C function called!&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;成功!&lt;/p&gt;
+&lt;h3 id=&quot;reference&quot;&gt;Reference&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://docs.python.org/2/c-api/&quot;&gt;Python C API&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://en.wikibooks.org/wiki/Python_Programming&quot;&gt;wikibook: python programming&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/&quot;&gt;stackoverflow&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+  </content></item><item><title><![CDATA[如何讓 Python 使用 C 的函式庫(Part 2)]]></title><description><![CDATA[如何讓 Python 使用 C 的函式庫(Part 2)]]></description><link>https://wabilin.github.io/2013-07-20-python-c-lib-part-2.html</link><guid isPermaLink="true">https://wabilin.github.io/2013-07-20-python-c-lib-part-2.html</guid><pubDate>Sat, 20 Jul 2013 00:00:00 GMT</pubDate><content type="html" xml:base="https://wabilin.github.io/2013-07-20-python-c-lib-part-2.html">
+    &lt;p&gt;在 Part1 中我們已經成功的寫一個 C 的函式 並讓 Python 程式去使用他&lt;/p&gt;
+&lt;p&gt;不過其中並沒有參數的傳遞和回傳 也就是我們最需要的部分還沒有完成 現在就來看看該怎麼做~&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;p&gt;在這裡我們來寫一個費氏數列的函式做示範&lt;/p&gt;
+&lt;div&gt;
+$ f(0) = 0 $ &lt;br&gt;
+$ f(1) = 1 $ &lt;br&gt;
+$ f(n) = f(n-1) + f(n-2) $ &lt;br&gt;
+&lt;/div&gt;
+
+&lt;p&gt;在 wikibooks 的教學中, 這也是第二個例子 我自己也習慣在 Hello World 之後測試費式數列, 感覺好像可以寫出費氏數列函式, 就可以做到很多事情&lt;/p&gt;
+&lt;p&gt;首先我們再寫一個 C 程式如下:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-c&quot;&gt;// fib.c
+#include &amp;lt;Python.h&amp;gt;
+
+int _fib(int n) {
+    if (n &amp;lt; 2)
+        return n;
+    else
+        return _fib(n-1) + _fib(n-2);
+}
+
+static PyObject* fib(PyObject* self, PyObject* args) {
+    int n;
+    if (!PyArg_ParseTuple(args, &quot;i&quot;, &amp;amp;n))
+        return NULL;
+    return Py_BuildValue(&quot;i&quot;, _fib(n));
+}
+
+static PyMethodDef FibMethods[] = {
+    {&quot;fib&quot;, fib, METH_VARARGS, &quot;Calculate the Fibonacci numbers.&quot;},
+    {NULL, NULL, 0, NULL}
+};
+
+PyMODINIT_FUNC initfib(void) {
+    (void) Py_InitModule(&quot;fib&quot;, FibMethods);
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;首先看 &lt;code&gt;int _fib(int n)&lt;/code&gt;, 這是求費氏數列的函式, 負責實際的求解運算。非常簡單的遞迴演算法, 就不多做說明了。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-c&quot;&gt;static PyObject* fib(PyObject* self, PyObject* args) {
+    int n;
+    if (!PyArg_ParseTuple(args, &quot;i&quot;, &amp;amp;n))
+        return NULL;
+    return Py_BuildValue(&quot;i&quot;, _fib(n));
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;這部分是本篇的重點, 他作為和 Python 的接口, 接受參數並回傳結果 這函式長得和之前的 hello 很像, 不同的地方是 我們不再忽略 &lt;code&gt;args&lt;/code&gt;, 也不直接回傳 &lt;code&gt;None&lt;/code&gt; 了&lt;/p&gt;
+&lt;p&gt;來看看如何獲得傳進來的參數: 關鍵就在於 &lt;code&gt;PyArg_ParseTuple()&lt;/code&gt; 這個函式&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;args&lt;/code&gt; =&amp;gt; 存放參數的變數&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&quot;i&quot;&lt;/code&gt; =&amp;gt; 讀入一個 integer&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;amp;n&lt;/code&gt; =&amp;gt; 把讀進來的那個整數, 存到 n 的位置 就這麼簡單!&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如果我們要讀入一個字串呢?&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-c&quot;&gt;char str[128];
+PyArg_ParseTuple(args, &quot;s&quot;, str);&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;第一個參數是字串, 第二個參數是整數的話:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-c&quot;&gt;char str[128];
+int n;
+PyArg_ParseTuple(args, &quot;si&quot;, str, &amp;amp;n);&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;詳細的使用可以參考這份文件: &lt;a href=&quot;http://docs.python.org/dev/c-api/arg.html&quot;&gt;http://docs.python.org/dev/c-api/arg.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;回傳結果呢?&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-c&quot;&gt;return Py_BuildValue(&quot;i&quot;, _fib(n));&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;因為我們必須回傳的是一個 &lt;code&gt;pythonObject*&lt;/code&gt;, 而不能直接把一個 &lt;code&gt;int&lt;/code&gt; 回傳 所以要先把 C 的整數轉換成包成 &lt;code&gt;pythonObject&lt;/code&gt; 的整數, 而使用的就是 &lt;code&gt;Py_BuildValue&lt;/code&gt; 這個函式 至於詳細的使用方法可以參考上面提過的那份文件, 在此我就只就範例來說明&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;return Py_BuildValue(“i”, _fib(n));&lt;/code&gt; 這行的意義就是: 我們把 &lt;code&gt;_fib(n)&lt;/code&gt;的結果轉換為 &lt;code&gt;pythonObject&lt;/code&gt; 之後回傳&lt;/p&gt;
+&lt;p&gt;現在完成了這份 fib.c, 請把他按照上一篇的說明編譯 然後就可以在 Python 中使用他了!&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;# test_fib.py
+import fib, time
+
+def c_fib(n):
+    return fib.fib(n)
+
+def py_fib(n):
+    if n &amp;lt; 2:
+        return n
+    return py_fib(n-1) + py_fib(n-2)
+
+def test_fib():
+    n = int(input(&apos;N: &apos;))
+    ts = time.clock()
+    print &apos;computing with C: &apos;
+    print c_fib(n)
+    print &quot;%.2gs&quot; % (time.clock() - ts)
+
+    ts = time.clock()
+    print &apos;computing with Python: &apos;
+    print py_fib(n)
+    print &quot;%.2gs&quot; %(time.clock() - ts)
+
+
+if __name__ == &apos;__main__&apos;:
+    test_fib()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;在這份測試中, 我另外寫了一個 python 版本的求費氏數列的函式 用以比較速度&lt;/p&gt;
+&lt;p&gt;在我的電腦上測試的結果, 使用 C 的版本約比 Python 的版本快了 100 倍左右 可見這個做法對於解決效能瓶頸的障礙是會有幫助的!&lt;/p&gt;
+&lt;h3 id=&quot;reference&quot;&gt;Reference&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;http://en.wikibooks.org/wiki/Python_Programming&quot;&gt;Python C API wikibook: python programming stackoverflow&lt;/a&gt;&lt;/p&gt;
+
+  </content></item><item><title><![CDATA[Dart 語言設計上的問題: Boolean Type]]></title><description><![CDATA[Dart 語言設計上的問題: Boolean Type]]></description><link>https://wabilin.github.io/2013-12-29-dart-boolean-type.html</link><guid isPermaLink="true">https://wabilin.github.io/2013-12-29-dart-boolean-type.html</guid><pubDate>Sun, 29 Dec 2013 00:00:00 GMT</pubDate><content type="html" xml:base="https://wabilin.github.io/2013-12-29-dart-boolean-type.html">
+    &lt;p&gt;&lt;a href=&quot;https://www.dartlang.org/&quot;&gt;Dart&lt;/a&gt; 是一個由 Google 開發，用來寫 web app 的程式語言。 做的基本上是現在通常用 JavaScript 來做的事情。 JavaScript 本身有很多設計上的缺陷，所以我也期待有一個這樣的新語言，能夠替代原本的 JavaScript，但是稍微看了一下，卻發現 Dart 本身也有些詭異的地方。&lt;/p&gt;
+&lt;!-- more --&gt;
+
+&lt;p&gt;這篇來談一下 Dart 對於 Boolean 的設計問題。&lt;/p&gt;
+&lt;p&gt;我認為 Dart 對於布林值的型別轉換是很詭異的：&lt;/p&gt;
+&lt;p&gt;引自&lt;a href=&quot;https://www.dartlang.org/docs/dart-up-and-running/&quot;&gt;Dart: Up and Running&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;When Dart expects a boolean value, only the value true is treated as true. All other values are treated as false. Unlike in JavaScript, values such as 1, “aString”, and someObject are all treated as false.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;這對於來自 JavaScript 的 programmer 來說真的是非常詭異(不幸的是，Dart語言的對象應該大多是原本的JS使用者) 舉例來說：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-js&quot;&gt;var name = &apos;Bob&apos;;
+if (name) {
+  print(&apos;You have a name!&apos;); // Prints in JavaScript, not in Dart.
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;在 JavaScript 中，會被當成 &lt;code&gt;false&lt;/code&gt; 看待的值有： &lt;code&gt;false&lt;/code&gt;, &lt;code&gt;0&lt;/code&gt;, &lt;code&gt;null&lt;/code&gt;, &lt;code&gt;NaN&lt;/code&gt;, &lt;code&gt;undefined&lt;/code&gt;, &lt;code&gt;&quot;&quot;&lt;/code&gt;(空字串) 這樣的設計雖然不能說很完美，但至少有一定的邏輯可以理解。 但是 Dart 的邏輯，至少我就無法理解了： &lt;strong&gt;為什麼一個不是空字串的字串會被轉換成 false?&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;他們的說法是 &lt;strong&gt;“所有 true 以外的東西都是 false”&lt;/strong&gt; ，看起來簡單明瞭，但是合理嗎?&lt;/p&gt;
+&lt;p&gt;比如說一個字串 &lt;code&gt;&quot;true&quot;&lt;/code&gt;, 一個陣列&lt;code&gt;[&quot;Array&quot;]&lt;/code&gt;, 都是 false，我覺得很難說得通。 尤其是對於有大量接觸其他語言經驗的人，這看起來實在很詭異。&lt;/p&gt;
+&lt;p&gt;就列一下一些其他語言對 true/false 的看法(大多是從王垠的G+抄過來的:P)：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Smalltalk: True is an object which contains a method named ‘ifTrue’.
+Lisp: True is everything except nil.
+Scheme: True is everything except #f .
+Python: True is everything except 0, empty list, None, or …
+Ruby: True is everything except nil and false.
+Lua: True is everything except false and nil.
+Icon: True is executed successfully.
+sh: Exit status 0 is true, and every other exit status is false.&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;C/C++: True is everything except 0.
+Haskell: True is True.
+ML: True is true.
+Java: True is true.
+C#: True is true.
+Go: True is true.&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;敏銳的人應該已經知道這個表分隔的意義了。 很顯然的，Dart的作法是和下半部的大多語言一樣: &lt;strong&gt;True is true.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;那問題在哪裡? 問題可大著了：表下半部列的都是 &lt;strong&gt;static typing&lt;/strong&gt; 的語言 而且除了 C/C++ 以外，都是 &lt;strong&gt;strong typing&lt;/strong&gt; 的&lt;/p&gt;
+&lt;p&gt;這些語言可以在 &lt;strong&gt;編譯時期&lt;/strong&gt; 就檢查出所有變數的類型，而且其他型別 &lt;strong&gt;不會&lt;/strong&gt; 被隱式轉換成布林型別&lt;/p&gt;
+&lt;p&gt;以 Java 為例:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;int i = 0;
+if (i) {
+  DoSomeThing();
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;這段程式就不會通過編譯，因為你不可以把一個整數當做布林值來用，你必須這樣寫:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;int i = 0;
+if (i != 0) {
+  DoSomeThing();
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;也就是說當你要把某些東西當作布林來用(放在 if/while.. 的條件裡)，你必須自己把他轉換成布林值。&lt;/p&gt;
+&lt;p&gt;這個想法我是贊同的，但 Dart 也想用這個概念的時候就很尷尬了，因為 Dart 本身不是一個純的靜態型別語言。 在 Dart 可以宣告靜態型別的變數，也可以(甚至是官方建議) 使用動態型別。&lt;/p&gt;
+&lt;p&gt;像這樣:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-js&quot;&gt;int i = 0;
+var b = true;
+b = &quot;A String&quot;;
+
+if (i) { DoSomething(); }
+if (b) { DoSomething(); }&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;第一個 &lt;code&gt;if(i)&lt;/code&gt; 可以在執行前就被檢查出錯誤，就像 Java 那樣 但第二個 &lt;code&gt;if(b)&lt;/code&gt; 只有在執行到的時候才能確定 &lt;code&gt;b&lt;/code&gt; 的型別 (注意 Dart 的 &lt;code&gt;var&lt;/code&gt; 意義和 JavaScript 的 &lt;code&gt;var&lt;/code&gt; 比較接近，是宣告一個動態型別的變數， 而不是像 C#. Golang 的 &lt;code&gt;var&lt;/code&gt; 或 C++11 的 &lt;code&gt;auto&lt;/code&gt; 在編譯時期推導並綁定型別)&lt;/p&gt;
+&lt;p&gt;這讓 Dart 的作法非常尷尬，回到上面的例子：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-js&quot;&gt;var name = &apos;Bob&apos;;
+if (name) {
+  print(&apos;You have a name!&apos;); // Prints in JavaScript, not in Dart.
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;in Dart running in production mode, the above doesn’t print at all because name is converted to false (because name != true). In Dart running in checked mode, the above code throws an exception because the name variable is not a bool.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;意即，Dart 在 &lt;strong&gt;checked mode&lt;/strong&gt; ， &lt;strong&gt;執行到&lt;/strong&gt; 這段程式時會丟出例外，而在 production mode 則是把所有 &lt;code&gt;true&lt;/code&gt; 以外的值都當成 &lt;code&gt;false&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;我的解釋是這樣：Dart 認為只有 Boolean 應該被當成 Boolean 來用(就像 Java 那樣)， &lt;strong&gt;但是依賴的卻是非常不可靠的檢查機制。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;為什麼不可靠?&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;這行程式很可能在測試時跑 100 回都不會被跑到&lt;/li&gt;
+&lt;li&gt;許多 wep app 的開發者，不會做很嚴謹的測試&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;所以說，這玩意與其說是檢查機制，不如說是放個牌子在那裏，讓 Programmer 在學習語言的時候稍微記憶下， &lt;strong&gt;盡量&lt;/strong&gt; 提醒自己在寫程式的時候，不要把 boolean 以外的東西拿去當 boolean 用&lt;/p&gt;
+&lt;p&gt;但又回來這個問題了：多數 Dart 使用者可能是從 JavaScript 那裡來的 (笑&lt;/p&gt;
+&lt;p&gt;回到根本，有三個問題：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;Dart 提供的檢查機制太薄弱。現在有些工具甚至可以分析動態語言(如 Python. Ruby) 程式碼中的型別問題，但由於這些語言還有其他複雜的問題，很難 100% 的檢查出來。 但 Dart 作為一個 2011 年誕生的語言，如果在設計上多用點心思，其實很有可能做到同時使用動態型別和高強度的執行前型別檢查，而 Dart 至少目前沒有做到。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Dart 不是靜態型別語言。雖然我不是靜態型別的擁護者，但 Dart 語言裡許多機制，讓靜態型別顯得更適合他。靜態型別雖然還是有許多不如動態型別方便的地方，但多數人最討厭的麻煩: 冗長的型別宣告，其實根本不是靜態型別的問題。Dart 可以選擇成為一個輕巧靈活的靜態型別語言，但是 Google 把他設計成了一個混和了靜態型別和動態型別的四不像。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;既然無法拋下動態型別了，那請向其他成熟的動態型別語言借鑑 : Scheme. Python. Ruby...。當知道其他類型被當作布林使用是很難避免的時候，應該給予 &lt;strong&gt;合理&lt;/strong&gt; 的轉換，至少我不認為非空非零的字串/數字/陣列被當成 false 是合理的。最少最少，應該考慮一下使用者(原JS programmers)的心情和習慣。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+
+  </content></item><item><title><![CDATA[在 Windows 使用 PS4 搖桿進行遊戲]]></title><description><![CDATA[在 Windows 使用 PS4 搖桿進行遊戲]]></description><link>https://wabilin.github.io/2016-03-01-windows-ps4-controller.html</link><guid isPermaLink="true">https://wabilin.github.io/2016-03-01-windows-ps4-controller.html</guid><pubDate>Tue, 01 Mar 2016 00:00:00 GMT</pubDate><content type="html" xml:base="https://wabilin.github.io/2016-03-01-windows-ps4-controller.html">
+    &lt;p&gt;在 Windows 最理想的遊戲手把應該還是 xBox One 的手把，
+但是實在沒錢多買一個啊XD&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;p&gt;好在 PC 上其實也可以用 PS 搖桿，而 PS4 相較於 PS3 的設定又簡單許多了&lt;/p&gt;
+&lt;p&gt;好像 DS4 原本就有部分對 Windows 支援, 插上電腦會抓到。
+但是要完美模擬 XBox 搖桿還是要裝一下軟體。&lt;/p&gt;
+&lt;p&gt;只要兩步驟輕鬆完成 :&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;把 PS4 搖桿用 USB 線接上電腦&lt;/li&gt;
+&lt;li&gt;下載執行 &lt;strong&gt;DS4Windows&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;完工&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;DS4Windows 官網 : &lt;a href=&quot;http://ds4windows.com/&quot;&gt;http://ds4windows.com/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Github : &lt;a href=&quot;https://github.com/Jays2Kings/DS4Windows&quot;&gt;https://github.com/Jays2Kings/DS4Windows&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;測試環境: Windows 10 64bit&lt;/p&gt;
+&lt;p&gt;遊戲:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Middle-earth™: Shadow of Mordor™&lt;/li&gt;
+&lt;li&gt;Grim Dawn&lt;/li&gt;
+&lt;/ol&gt;
+
+  </content></item><item><title><![CDATA[[Ruby] Yield 筆記]]></title><description><![CDATA[[Ruby] Yield 筆記]]></description><link>https://wabilin.github.io/2017-09-05-ruby-yield.html</link><guid isPermaLink="true">https://wabilin.github.io/2017-09-05-ruby-yield.html</guid><pubDate>Tue, 05 Sep 2017 00:00:00 GMT</pubDate><content type="html" xml:base="https://wabilin.github.io/2017-09-05-ruby-yield.html">
+    &lt;p&gt;關於 &lt;code&gt;yield&lt;/code&gt; 這個關鍵字，我剛學 Ruby 的時候逃避了。&lt;/p&gt;
+&lt;p&gt;現在重看一次，發現其實不是什麼太困難的東西。&lt;/p&gt;
+&lt;p&gt;簡單說， 就是一個執行之後使用者自訂 block 的語法。&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;p&gt;用一個例子把做法記起來最快：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-rb&quot;&gt;def foo
+  val = 1
+  yield val
+end
+
+foo { |x| puts x }
+# =&amp;gt; 1&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;可以發現在 &lt;code&gt;yield&lt;/code&gt; 的部分把 block 掛進去了。
+事實上這兩種寫法意義是差不多的：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-rb&quot;&gt;def foo
+  val = 1
+  yield val
+end
+
+def foo2(&amp;amp;block)
+  val = 2
+  block.call(val)
+end
+
+foo { |x| puts x }
+foo2 { |x| puts x }
+
+# =&amp;gt; 1
+# =&amp;gt; 2&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;我個人更喜歡 &lt;code&gt;foo2&lt;/code&gt; 那樣明確的寫法，一目瞭然，新手老手都看得懂。&lt;/p&gt;
+&lt;p&gt;然而參與 Ruby 相關專案，一定還是得了解 &lt;code&gt;yield&lt;/code&gt; 該如何使用，畢竟很多 Ruby 人偏好看起來簡短的做法。&lt;/p&gt;
+&lt;p&gt;了解怎麼用 &lt;code&gt;yield&lt;/code&gt; 和 block 以後，也就可以了解一些 Ruby 慣用做法的製造方式了。&lt;/p&gt;
+&lt;p&gt;例如最常用的 &lt;code&gt;each&lt;/code&gt; 方法，現在也可以試著自己寫一個：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-rb&quot;&gt;class MyArray
+  def initialize(src_ary)
+    @ary = src_ary.clone
+  end
+
+  def each
+    @ary.each do |x|
+      yield x
+    end
+  end
+end
+
+my_array = MyArray.new([1, 2, 3])
+my_array.each { |ele| puts 2 * ele }
+
+# =&amp;gt; 2
+# =&amp;gt; 4
+# =&amp;gt; 6&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;簡單吧 :)&lt;/p&gt;
+
+  </content></item><item><title><![CDATA[幫 Jekyll Blog 加上 Tags 功能 (GitHub Pages 可用)]]></title><description><![CDATA[幫 Jekyll Blog 加上 Tags 功能 (GitHub Pages 可用)]]></description><link>https://wabilin.github.io/2017-09-15-jekyll-tags.html</link><guid isPermaLink="true">https://wabilin.github.io/2017-09-15-jekyll-tags.html</guid><pubDate>Fri, 15 Sep 2017 00:00:00 GMT</pubDate><content type="html" xml:base="https://wabilin.github.io/2017-09-15-jekyll-tags.html">
+    &lt;p&gt;為了在 Jekyll Blog 上使用 tags 的功能，我花了些力氣研究。
+雖然有現成的 plugin 可以用，但為了能讓 GitHub Pages 跑，那些 plugin 就不太可用了。&lt;/p&gt;
+&lt;p&gt;這篇是我目前找出來最為方便的方法。&lt;/p&gt;
+&lt;!-- more --&gt;
+
+&lt;p&gt;首先在每個 post 的檔案上方，要用像這樣的方式加入 tag&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-yaml&quot;&gt;---
+layout: post
+title: 幫 Jekyll Blog 加上 Tags 功能
+tags: jekyll
+license: cc0
+---&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;我在首頁加入這一段程式：&lt;/p&gt;
+&lt;script src=&quot;https://gist.github.com/wabilin/99589a0e71f15fd17a5699de97387ba4.js&quot;&gt;&lt;/script&gt;
+
+&lt;p&gt;這段程式會找出所有網站中使用過的 tag，並幫他做出一個到 &lt;code&gt;/tag_indices/tag-name&lt;/code&gt;的連結。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;tag_indices&lt;/code&gt; 是一個我自定資料夾路徑。我希望每個裡面 tag name 路徑都能列出與該 tag 相關的文章。&lt;/p&gt;
+&lt;p&gt;所以我先幫他們製作了應有的 layout&lt;/p&gt;
+&lt;script src=&quot;https://gist.github.com/wabilin/de1b5ab47d12e29c650ff12b8a870c40.js&quot;&gt;&lt;/script&gt;
+
+&lt;p&gt;這個 layout 會認該頁面的標題(&lt;code&gt;page.title&lt;/code&gt;)，然後從全站的文章中找出文章 tag 名稱與本頁標題相同的文章。變成一串列表顯示出來。&lt;/p&gt;
+&lt;p&gt;但是 Jekyll 沒有聰明到自動幫我們從每篇文章的 tag 去產生出相應的 tag 目錄。&lt;/p&gt;
+&lt;p&gt;我查到某些資料做法是：手動新增。&lt;/p&gt;
+&lt;p&gt;也就是說，如果新增了一個含有 &lt;code&gt;example&lt;/code&gt; tag 的文章，就要新增一個 &lt;code&gt;/tag_indices/example/index.md&lt;/code&gt; 檔案，並加入內容：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-yaml&quot;&gt;---
+layout: tag_index
+title: example
+---&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;在 Jeklly 讀到這個檔案的時候，就會去找所有含有 &lt;code&gt;example&lt;/code&gt; tag 的文章，生成目錄。&lt;/p&gt;
+&lt;p&gt;懶惰如我當然不可能每次加新標籤都去手動創一個檔案。所以我寫了下面這個很隨便的 ruby script 來幫我自動產生這些 tag 目錄：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-rb&quot;&gt;# DO make sure ur post have tags attr, split tag names by space
+require &apos;set&apos;
+
+def main()
+  tag_set = collect_tags(&apos;./_posts/&apos;)
+  puts &quot;Your tags are: #{tag_set.to_a.to_s}&quot;
+
+  tag_root_path = &apos;./tag_indices/&apos;
+  create_tag_files(tag_set, tag_root_path)
+end
+
+def collect_tags(post_dir_path)
+  tag_set = Set.new
+
+  Dir.foreach(post_dir_path) do |post|
+    next if post == &apos;.&apos; || post == &apos;..&apos; || post == &apos;.gitkeep&apos;
+    file_path = post_dir_path + post
+    puts file_path
+    File.open(file_path, &apos;r&apos;) do |infile|
+      while (line = infile.gets)
+        if line.start_with?(&apos;tags:&apos;)
+          puts line
+          _, *tags = line.split(/\s/)
+          tag_set.merge(tags)
+        end
+      end
+    end
+  end
+
+  return tag_set
+end
+
+def create_tag_files(tags, tag_root_path)
+  tags.each do |tag|
+    tag_path = tag_root_path + tag
+    if Dir.exist?(tag_path)
+      puts &quot;#{tag_path} exist. skip.&quot;
+    else
+      mkdir_ok = system(&apos;mkdir&apos;, &apos;-p&apos;, tag_path)
+      unless mkdir_ok
+        puts &quot;Failed when creating dir #{tag_path}&quot;
+        exit(1)
+      end
+      create_md_file(tag, &quot;#{tag_path}/index.md&quot;)
+    end
+  end
+end
+
+def create_md_file(tag, path)
+  File.open(path, &apos;w&apos;) do |file|
+    file.puts(&apos;---&apos;)
+    file.puts(&apos;layout: tag_index&apos;)
+    file.puts(&quot;title: #{tag}&quot;)
+    file.puts(&apos;---&apos;)
+  end
+end
+
+main()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;有需要的話可以直接拿去用，不過注意我這裡假定 tags 屬性都是些用空白分隔的單字。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;參考資料: &lt;a href=&quot;http://vvv.tobiassjosten.net/jekyll/jekyll-tag-cloud/&quot;&gt;http://vvv.tobiassjosten.net/jekyll/jekyll-tag-cloud/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+  </content></item><item><title><![CDATA[C++ 掃雷記：字串加上整數?]]></title><description><![CDATA[C++ 掃雷記：字串加上整數?]]></description><link>https://wabilin.github.io/2017-09-16-cpp-string-plus.html</link><guid isPermaLink="true">https://wabilin.github.io/2017-09-16-cpp-string-plus.html</guid><pubDate>Sat, 16 Sep 2017 00:00:00 GMT</pubDate><content type="html" xml:base="https://wabilin.github.io/2017-09-16-cpp-string-plus.html">
+    &lt;p&gt;本篇來自一年多前維護專案時看到的一段程式碼：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;for (int i = 0; i &amp;lt; count; i++) {
+  MyObject obj;
+  obj.set_unique_name(name + i);
+  objs.push_back(obj);
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;!-- more --&gt;
+
+&lt;p&gt;假如 &lt;code&gt;name&lt;/code&gt; 是 &lt;code&gt;&quot;John&quot;&lt;/code&gt;，我們預期這會產生名稱分別為 &lt;code&gt;John1&lt;/code&gt;, &lt;code&gt;John2&lt;/code&gt;, &lt;code&gt;John3&lt;/code&gt;...的物件。&lt;/p&gt;
+&lt;p&gt;做為同時會寫 JavaScript 等語言的人，在 trace 這段程式的時候，第一時間真的不覺得有什麼不對。&lt;/p&gt;
+&lt;p&gt;畢竟他看起來很自然。就語法來說， &lt;code&gt;std::string&lt;/code&gt; 定義了 &lt;code&gt;operator+(int)&lt;/code&gt; 也不是什麼太奇怪的事。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;事實上並沒有。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;如果你這麼做是會噴 error 的：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;string s = &quot;string&quot;;
+s + 1;
+
+// error: invalid operands to binary expression (&apos;string&apos; (aka &apos;basic_string&amp;lt;char,
+//      char_traits&amp;lt;char&amp;gt;, allocator&amp;lt;char&amp;gt; &amp;gt;&apos;) and &apos;int&apos;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;很奇妙的，原例中的那段程式碼卻沒有 error，甚至沒有 warning。&lt;/p&gt;
+&lt;p&gt;於是我又跑回去看。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;char* name = &quot;John&quot;;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;哇！沒想到在這個情境還有人使用 &lt;code&gt;char*&lt;/code&gt; 而非 &lt;code&gt;std::string&lt;/code&gt;呀！&lt;/p&gt;
+&lt;p&gt;於是程式的行為也會變得很有趣，對 C 語言指標有所了解的應該會知道，程式跑起來大概會變這樣：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;name + 0; //=&amp;gt; John
+name + 1; //=&amp;gt; ohn
+name + 2; //=&amp;gt; hn&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;這無疑是個可笑的 bug。當這段程式出現在一個考題中，相信大部分的人都可以發現其錯誤之處。
+但當他是一段專案中的程式碼，卻很可能不被注意到。&lt;/p&gt;
+&lt;p&gt;所以我特別當成一段趣事記錄下來。下次再看到有人對字串做加法請多加注意。然後拜託非必要別在 C++ 中使用 &lt;code&gt;char*&lt;/code&gt; 哇。&lt;/p&gt;
+
+  </content></item><item><title><![CDATA[Spacemacs - 人生最佳的編輯器體驗]]></title><description><![CDATA[Spacemacs - 人生最佳的編輯器體驗]]></description><link>https://wabilin.github.io/2018-01-20-spacemacs-2-weeks.html</link><guid isPermaLink="true">https://wabilin.github.io/2018-01-20-spacemacs-2-weeks.html</guid><pubDate>Sat, 20 Jan 2018 00:00:00 GMT</pubDate><content type="html" xml:base="https://wabilin.github.io/2018-01-20-spacemacs-2-weeks.html">
+    &lt;p&gt;&lt;em&gt;這不是一篇信仰文，這是篇在編輯器的深淵中終於拉到一條繩子文。&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;開始使用 &lt;a href=&quot;http://spacemacs.org&quot;&gt;Spacemacs&lt;/a&gt; 兩個星期，我可以說這是我用過最喜歡的文字編輯器。
+他結合了編輯器大戰的兩巨頭 vim 與 emacs 的操作方式，在入門上卻「&lt;strong&gt;親民&lt;/strong&gt;」許多。&lt;/p&gt;
+&lt;p&gt;如果曾經(或正在** vim 或 emacs 上遭受挫折，卻又嚮往他們的某些優點，不妨一試 Spacemacs 。&lt;/p&gt;
+&lt;p&gt;簡單說，他是一個：&lt;strong&gt;裝了 vim 又裝了一堆超實用功能又全部設定得又完整又有邏輯的 emacs&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;使用 Spacemacs 你只需要會一些 vim 或 emacs 的基本操作，其他較進階的功能則無須特別記憶或設定。&lt;/strong&gt;&lt;/p&gt;
+&lt;!-- more --&gt;
+
+&lt;p&gt;vim 和 emacs 我都有過些許的使用經驗。
+「親民」實在很難當作二者的標榜，大多時候勸誘新手的說法是：「嘿，這個你熟悉了就會超強超快啦～」
+（然後老手開始表演各種魔術般的飛快操作）&lt;/p&gt;
+&lt;p&gt;我可以理解熟悉了 vim (或 emacs) 之後那種愉快的操作感，讓老手們說出這樣的話是很合理的。
+但跨不過門檻（大量快速鍵記憶、設定檔調教...）而中途放棄者還是大有人在。&lt;/p&gt;
+&lt;p&gt;身為一個 vim &amp;amp; emacs 菜鳥，我認為作為編輯器的效率是真的很棒，但還是有一些缺點（尤其是對新手）：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;設定調教略為麻煩&lt;/li&gt;
+&lt;li&gt;太多快速鍵(特別在裝了大插件後)，又缺乏能系統性記憶的方式&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;我在用 vim 的第一天就有了一整頁的 &lt;code&gt;.vimrc&lt;/code&gt; ，在三個月後又長了五倍大。雖然試圖努力精簡整理，但後來也是越長越肥。
+而在裝了一些插件之後，把功能設到一些「自己覺得好按」的位置上之後，再下一個插件又要想該給哪些位置。&lt;/p&gt;
+&lt;p&gt;然而這些自己不斷長出來的設定，當初並沒有審慎的規劃設計，只是個人養成的(或抄來的)習慣而已。
+到後來一些使用頻率次要的功能就容易忘記要按啥了。&lt;/p&gt;
+&lt;p&gt;至於 Spacemacs 呢? 很不可思議的，我使用到現在 &lt;strong&gt;加過的設定不到10行。真正重要的只有兩行&lt;/strong&gt; 用起來已經比我調了許久的 vim 還要順手了。&lt;/p&gt;
+&lt;h3 id=&quot;小優點：混合式的操作模式&quot;&gt;小優點：混合式的操作模式&lt;/h3&gt;
+&lt;p&gt;Spacemacs 對外掛功能的整合和富邏輯性的按鍵配置，本篇後面會詳細說明。&lt;/p&gt;
+&lt;p&gt;先提一個我覺得很棒的小優勢： &lt;strong&gt;在 Spacemacs 可以混和 vim 和 emacs 的操作方式！&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;雖然雙方陣營可能都認為己方才是真理，但我自己是覺得各有好用的地方，能混著用除了 &lt;em&gt;信仰不夠純正&lt;/em&gt; 之外實在沒什麼壞處。
+我從大部分的操作方式偏好 vim ，但有時候就會懷念起 emacs 的按法。&lt;/p&gt;
+&lt;p&gt;舉個最常見的操作：在 &lt;code&gt;insert mode&lt;/code&gt; 中存檔，再回到 &lt;code&gt;insert mode&lt;/code&gt; 繼續編輯。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;vim: &lt;code&gt;C-[ : w Enter i&lt;/code&gt; (別忘了 &lt;code&gt;:&lt;/code&gt; 實際上是 &lt;code&gt;Shift-;&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;emacs: &lt;code&gt;C-x C-s&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;emacs 的按法明顯輕鬆許多，所以我存檔的時候都會使用 emacs 的按法。另外常見的好處還有想在 &lt;code&gt;insert mode&lt;/code&gt; 中移動游標又懶得回 &lt;code&gt;normal mode&lt;/code&gt; ，我也是直接按 emacs 的快速鍵。&lt;/p&gt;
+&lt;h3 id=&quot;腦袋清楚了：這個按鍵配置真的很神&quot;&gt;腦袋清楚了：這個按鍵配置真的很神&lt;/h3&gt;
+&lt;p&gt;在 Spacemacs 中，所有次要（上下左右等等以外）的功能，都是由 &lt;code&gt;空白鍵&lt;/code&gt; 這個 leader key 作為起點。（所以叫 spacemacs）&lt;/p&gt;
+&lt;p&gt;當然 leader key 不是 spacemacs 的發明，但把他把這之後的按鍵路徑配得非常有系統。絕大多數的按鍵操作會是這樣：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Space&lt;/code&gt; (開始) -&amp;gt; 分類 -&amp;gt; 功能&lt;/p&gt;
+&lt;p&gt;舉例來說&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;如果我要打開專案(Project)中的檔案(File)，我就會按 &lt;code&gt;Space p f&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;如果我要打開專案(Project)的樹狀結構(Tree)，就會按 &lt;code&gt;Space p t&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;如果要查看 Git 的 Status，就是 &lt;code&gt;Space g s&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;如果要開啟 Git Blame 功能，就是 &lt;code&gt;Space g b&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;這樣的按鍵規劃，讓人非常快速就可以上手，而且不容易忘記。&lt;/p&gt;
+&lt;p&gt;如果真的想不起來... 其實在按每個按鍵的時候下面都有提示可以偷看：
+&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2018/01/emacs_2_weeks/1.webp&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2018/01/emacs_2_weeks/1.jpg&quot;&gt;&lt;img src=&quot;./img/2018/01/emacs_2_weeks/1.jpg&quot; alt=&quot;SPC-p hint&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;如果這樣還找不到功能，也可以用 &lt;code&gt;Space ?&lt;/code&gt; 或 &lt;code&gt;Space Space&lt;/code&gt; 來搜尋&lt;/p&gt;
+&lt;p&gt;例如想要找 replace 功能:
+&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2018/01/emacs_2_weeks/2.webp&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2018/01/emacs_2_weeks/2.jpg&quot;&gt;&lt;img src=&quot;./img/2018/01/emacs_2_weeks/2.jpg&quot; alt=&quot;SPC-? hint&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;最糟狀況這樣都還找不到的話，也很容易 Google 得到。Spacemacs 的社群已經蠻大的了。&lt;/p&gt;
+&lt;h3 id=&quot;怕：會不會習慣的-vim-功能在-spacemacs-沒有&quot;&gt;怕：會不會習慣的 vim 功能在 Spacemacs 沒有?&lt;/h3&gt;
+&lt;p&gt;基本操作(hjkl / visual mode ...) 幾乎感覺不出來和 vim 的差別。&lt;/p&gt;
+&lt;p&gt;至於 vim 上面最實用最受歡迎的插件，大部分也都有對應的功能了。&lt;/p&gt;
+&lt;p&gt;舉我個人在 vim 上常使用的： FZF 、NERD Tree、YouCompleteMe、easymotion、fugitive 等等，
+在 Spacemacs 上都有內建相似的功能，有些甚至更好用。&lt;/p&gt;
+&lt;p&gt;我目前在公司開發 Rails &amp;amp; React.js 就是使用 Spacemacs，基本上沒有什麼不便。
+應該是花錢(RubyMine) 以外試過做棒的環境了。(其他編輯器的 vim mode 還是不夠順手)&lt;/p&gt;
+&lt;p&gt;想知道對程式語言的支援或其他功能也可以查看 &lt;a href=&quot;https://github.com/syl20bnr/spacemacs/tree/master/layers&quot;&gt;Layers&lt;/a&gt;，如果想要用 Emacs 收 Email 和 Slack 的話也行 :)&lt;/p&gt;
+&lt;p&gt;順帶一提，我以前最常用 Emacs 做的事情是玩貪食蛇XD&lt;/p&gt;
+&lt;h3 id=&quot;一些，真的只有一些設定和提醒&quot;&gt;一些，真的只有一些設定和提醒&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;Spacemacs 可以在 console 中正常使用，不過視窗版本體驗又更棒更豐富。&lt;/li&gt;
+&lt;li&gt;vim 在按 w 時，一個 word 是包含底線的，這點和 emacs 的預設不同，可以加一行設定: &lt;code&gt;(add-hook &apos;prog-mode-hook #&apos;(lambda () (modify-syntax-entry ?_ &quot;w&quot;)))&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;如果系統沒有裝其他搜尋工具的話，會使用 &lt;code&gt;grep&lt;/code&gt; 搜尋，速度有點慢，建議安裝一下 &lt;a href=&quot;https://github.com/ggreer/the_silver_searcher&quot;&gt;ag&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;絕大部分的設定和套件安裝都是編輯 dotfile ，請按 &lt;code&gt;Space f e d&lt;/code&gt; 打開設定。&lt;/li&gt;
+&lt;li&gt;字型、配色也都可以按個人喜好設定，關於主題設定可以參考&lt;a href=&quot;https://emacs.stackexchange.com/questions/24958/how-install-a-custom-theme-to-spacemacs&quot;&gt;這裡&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;可以在首頁更新所有 Package，別怕更新後壞掉，因為也可以直接在首頁還原(Rollback)上次的更新。&lt;/li&gt;
+&lt;li&gt;如果是 VIM 使用者想上軌道，可以參考官方對 VIM USER 的入門文件 &lt;a href=&quot;http://spacemacs.org/doc/VIMUSERS.html&quot;&gt;http://spacemacs.org/doc/VIMUSERS.html&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;當你按錯鍵想取消，按 &lt;code&gt;Ctrl-g&lt;/code&gt; 就對了&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&quot;推薦的實用功能&quot;&gt;推薦的實用功能&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/magit/magit&quot;&gt;magit&lt;/a&gt;: 在安裝 git layer 後， &lt;code&gt;Space g&lt;/code&gt; 開啟。我曾經試過許多 git 工具，這是少數真的可以讓人幾乎不用回到 console 下 git command 的。&lt;/li&gt;
+&lt;li&gt;類似 easymotion: 按下 &lt;code&gt;Space j j&lt;/code&gt; 搜尋字母快速跳躍、&lt;code&gt;Space j l&lt;/code&gt; 快速跳行。&lt;/li&gt;
+&lt;li&gt;分割視窗、在視窗間移動 &lt;code&gt;Space w&lt;/code&gt;。 在 buffer(可以想成tab) 間移動 &lt;code&gt;Space b b&lt;/code&gt;，快速切到上個 buffer &lt;code&gt;Space TAB&lt;/code&gt; 。&lt;/li&gt;
+&lt;li&gt;想要裝什麼功能，按 &lt;code&gt;Space f e d&lt;/code&gt; 找 &lt;code&gt;dotspacemacs-configuration-layers&lt;/code&gt; 就可以了。&lt;/li&gt;
+&lt;/ol&gt;
+
+  </content></item><item><title><![CDATA[Hello World 聖地巡禮 Part 2]]></title><description><![CDATA[Hello World 聖地巡禮 Part 2]]></description><link>https://wabilin.github.io/2020-05-31-hello-world-2.html</link><guid isPermaLink="true">https://wabilin.github.io/2020-05-31-hello-world-2.html</guid><pubDate>Sun, 31 May 2020 00:00:00 GMT</pubDate><content type="html" xml:base="https://wabilin.github.io/2020-05-31-hello-world-2.html">
+    &lt;p&gt;本來以為 HELLO WORLD 的聖地巡禮幾乎完成了。&lt;/p&gt;
+&lt;p&gt;BD 到貨之後重新整理了一下，發現點比原本想的還多。&lt;br&gt;
+這次就先從劇情中重要的點開始吧！&lt;/p&gt;
+&lt;p&gt;本篇包含：上賀茂神社（續）、伏見稲荷大社、雙ヶ岡、朝霧橋、堀川高校&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;p&gt;由於 BD 播放禁止截圖，動畫截圖是用手機拍電視... 品質請包涵&lt;br&gt;
+另外由於大多是重看 BD 前就去的，拍照的構圖會和電影中的不太一樣&lt;/p&gt;
+&lt;h2 id=&quot;上賀茂神社（續）&quot;&gt;上賀茂神社（續）&lt;/h2&gt;
+&lt;p&gt;前篇請見: &lt;a href=&quot;https://www.ptt.cc/bbs/C_Chat/M.1575812107.A.32C.html&quot;&gt;https://www.ptt.cc/bbs/C_Chat/M.1575812107.A.32C.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;最近有京都朋友問我上賀茂神社和 HELLO WORLD 有什麼關係...&lt;/p&gt;
+&lt;p&gt;本來以為很好認的，看來還是要上個對照圖XD
+&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2020/05/movie/IMG_9118.webp&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2020/05/movie/IMG_9118.jpg&quot;&gt;&lt;img src=&quot;./img/2020/05/movie/IMG_9118.jpg&quot; alt=&quot;kamikamo-movieshot&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2020/05/hello-real-world/IMG_2425.webp&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2020/05/hello-real-world/IMG_2425.jpg&quot;&gt;&lt;img src=&quot;./img/2020/05/hello-real-world/IMG_2425.jpg&quot; alt=&quot;kamikamo-real&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;造型確實做了一些改動，可能要比較迷神社的人才會一眼發現吧w&lt;/p&gt;
+&lt;p&gt;再去一次發現了崛口由紀子老師手繪的繪馬
+&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2020/05/hello-real-world/IMG_7180.webp&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2020/05/hello-real-world/IMG_7180.jpg&quot;&gt;&lt;img src=&quot;./img/2020/05/hello-real-world/IMG_7180.jpg&quot; alt=&quot;kamikamo-ema&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;春季非常推薦順便去附近的櫻花隧道走一走
+&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2020/05/hello-real-world/DSC03705.JPG&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2020/05/hello-real-world/DSC03705.JPG&quot;&gt;&lt;img src=&quot;./img/2020/05/hello-real-world/DSC03705.JPG&quot; alt=&quot;kamikamo-sakura&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;h2 id=&quot;伏見稲荷大社&quot;&gt;伏見稲荷大社&lt;/h2&gt;
+&lt;p&gt;交通方式: JR 伏見稲荷 / 京阪 伏見稲荷&lt;/p&gt;
+&lt;p&gt;電影中大小堅書第一次相遇的地點。&lt;br&gt;
+全日本稲荷神社的總本神，以千本鳥居聞名於世...&lt;/p&gt;
+&lt;p&gt;所以平常擠滿了觀光客，但這次疫情的關係難得可以悠閒地參拜。&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;直実追著烏鴉來到大社的正門&lt;/em&gt;
+&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2020/05/movie/IMG_9075.webp&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2020/05/movie/IMG_9075.jpg&quot;&gt;&lt;img src=&quot;./img/2020/05/movie/IMG_9075.jpg&quot; alt=&quot;fusimi-movieshot-1&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2020/05/hello-real-world/DSC03926.JPG&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2020/05/hello-real-world/DSC03926.JPG&quot;&gt;&lt;img src=&quot;./img/2020/05/hello-real-world/DSC03926.JPG&quot; alt=&quot;fusimi-real&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;站在千本鳥居的入口&lt;/em&gt;
+&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2020/05/movie/IMG_9077.webp&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2020/05/movie/IMG_9077.jpg&quot;&gt;&lt;img src=&quot;./img/2020/05/movie/IMG_9077.jpg&quot; alt=&quot;fusimi-movieshot-2&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2020/05/hello-real-world/DSC03966.JPG&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2020/05/hello-real-world/DSC03966.JPG&quot;&gt;&lt;img src=&quot;./img/2020/05/hello-real-world/DSC03966.JPG&quot; alt=&quot;fusimi-real-2&quot;&gt;&lt;/picture&gt;
+(外拍的人一直站在那邊，只好讓他們入鏡了)&lt;/p&gt;
+&lt;p&gt;千本鳥居真的很壯觀，雖然平常滿滿的人潮，很難看到這個景就是了（笑）
+&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2020/05/hello-real-world/DSC03971.JPG&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2020/05/hello-real-world/DSC03971.JPG&quot;&gt;&lt;img src=&quot;./img/2020/05/hello-real-world/DSC03971.JPG&quot; alt=&quot;fusimi-real-3&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;在千本鳥居（大）看到剛進入成功的老師&lt;/em&gt;
+&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2020/05/movie/IMG_9082.webp&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2020/05/movie/IMG_9082.jpg&quot;&gt;&lt;img src=&quot;./img/2020/05/movie/IMG_9082.jpg&quot; alt=&quot;fusimi-movieshot-3&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2020/05/hello-real-world/DSC04007.JPG&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2020/05/hello-real-world/DSC04007.JPG&quot;&gt;&lt;img src=&quot;./img/2020/05/hello-real-world/DSC04007.JPG&quot; alt=&quot;fusimi-real-3&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;從外部看是翠綠山林中綿延的鳥居
+&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2020/05/hello-real-world/DSC04016.JPG&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2020/05/hello-real-world/DSC04016.JPG&quot;&gt;&lt;img src=&quot;./img/2020/05/hello-real-world/DSC04016.JPG&quot; alt=&quot;fusimi-real-4&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;h2 id=&quot;雙ヶ岡&quot;&gt;雙ヶ岡&lt;/h2&gt;
+&lt;p&gt;交通方式: JR 花園&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;直実和老師每天朝練的地方&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;雖然寫「名勝」但是基本上幾乎沒有人會來的偏僻地方。&lt;br&gt;
+山路幾乎沒有在維護的感覺，一個人來的時候很擔心出事會回不去，果然是個適合練功的地方w
+&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2020/05/movie/IMG_9095.webp&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2020/05/movie/IMG_9095.jpg&quot;&gt;&lt;img src=&quot;./img/2020/05/movie/IMG_9095.jpg&quot; alt=&quot;fusimi-movieshot-4&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2020/05/hello-real-world/IMG_6567.webp&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2020/05/hello-real-world/IMG_6567.jpg&quot;&gt;&lt;img src=&quot;./img/2020/05/hello-real-world/IMG_6567.jpg&quot; alt=&quot;fusimi-real-5&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;原本有階梯的地方幾乎都破損殆盡了，少數地方還能看到階梯的殘骸
+&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2020/05/movie/IMG_9096.webp&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2020/05/movie/IMG_9096.jpg&quot;&gt;&lt;img src=&quot;./img/2020/05/movie/IMG_9096.jpg&quot; alt=&quot;fusimi-movieshot-4&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2020/05/hello-real-world/IMG_6588.webp&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2020/05/hello-real-world/IMG_6588.jpg&quot;&gt;&lt;img src=&quot;./img/2020/05/hello-real-world/IMG_6588.jpg&quot; alt=&quot;fusimi-real-5&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2020/05/hello-real-world/IMG_6612.webp&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2020/05/hello-real-world/IMG_6612.jpg&quot;&gt;&lt;img src=&quot;./img/2020/05/hello-real-world/IMG_6612.jpg&quot; alt=&quot;fusimi-real-6&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;電影中的練功場真的不好找，這次應該是沒找對，但氣氛蠻接近的。
+&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2020/05/movie/IMG_9097.webp&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2020/05/movie/IMG_9097.jpg&quot;&gt;&lt;img src=&quot;./img/2020/05/movie/IMG_9097.jpg&quot; alt=&quot;fusimi-movieshot-5&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2020/05/hello-real-world/IMG_6634.webp&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2020/05/hello-real-world/IMG_6634.jpg&quot;&gt;&lt;img src=&quot;./img/2020/05/hello-real-world/IMG_6634.jpg&quot; alt=&quot;fusimi-real-7&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;鼓起勇氣攻頂了，景色一般般XD
+&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2020/05/hello-real-world/IMG_6596.webp&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2020/05/hello-real-world/IMG_6596.jpg&quot;&gt;&lt;img src=&quot;./img/2020/05/hello-real-world/IMG_6596.jpg&quot; alt=&quot;fusimi-real-8&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;h2 id=&quot;宇治朝霧橋&quot;&gt;宇治朝霧橋&lt;/h2&gt;
+&lt;p&gt;交通方式: JR 宇治 / 京阪 宇治&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;夏季煙火大會，全片中最關鍵的劇情轉折處&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;從遠方看朝霧橋。
+&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2020/05/hello-real-world/DSC00496.webp&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2020/05/hello-real-world/DSC00496.jpg&quot;&gt;&lt;img src=&quot;./img/2020/05/hello-real-world/DSC00496.jpg&quot; alt=&quot;fusimi-real-9_1&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;京粉應該發現了，這裡也是《吹響吧！上低音號》的名場景所在 XD&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2020/05/hello-real-world/DSC00480.webp&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2020/05/hello-real-world/DSC00480.jpg&quot;&gt;&lt;img src=&quot;./img/2020/05/hello-real-world/DSC00480.jpg&quot; alt=&quot;fusimi-real-9_1&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2020/05/hello-real-world/DSC00482.webp&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2020/05/hello-real-world/DSC00482.jpg&quot;&gt;&lt;img src=&quot;./img/2020/05/hello-real-world/DSC00482.jpg&quot; alt=&quot;fusimi-real-9_1&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;由於這裡是京阿尼的地盤，附近也可以看到不少京都動畫人物的『飛び出し注意』立牌。&lt;/p&gt;
+&lt;p&gt;觀光中心也有擺出 HELLO WORLD 的立牌！ &lt;br&gt;
+背後有上低音號的海報，兩個願望一次滿足！
+&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2020/05/hello-real-world/IMG_6907.webp&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2020/05/hello-real-world/IMG_6907.jpg&quot;&gt;&lt;img src=&quot;./img/2020/05/hello-real-world/IMG_6907.jpg&quot; alt=&quot;fusimi-real-9_1&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;亂晃了一會，終於來到朝霧橋，真的好美。 &lt;br&gt;
+動畫中的夏季煙火大會，現實中已經因為安全因素停辦了。希望有一天會再開QQ
+&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2020/05/movie/IMG_9112.webp&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2020/05/movie/IMG_9112.jpg&quot;&gt;&lt;img src=&quot;./img/2020/05/movie/IMG_9112.jpg&quot; alt=&quot;fusimi-movieshot-6&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2020/05/movie/IMG_9113.webp&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2020/05/movie/IMG_9113.jpg&quot;&gt;&lt;img src=&quot;./img/2020/05/movie/IMG_9113.jpg&quot; alt=&quot;fusimi-movieshot-7&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2020/05/hello-real-world/DSC00520.webp&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2020/05/hello-real-world/DSC00520.jpg&quot;&gt;&lt;img src=&quot;./img/2020/05/hello-real-world/DSC00520.jpg&quot; alt=&quot;fusimi-real-9&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;直実跌落樓梯QQ&lt;/em&gt;
+&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2020/05/movie/IMG_9116.webp&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2020/05/movie/IMG_9116.jpg&quot;&gt;&lt;img src=&quot;./img/2020/05/movie/IMG_9116.jpg&quot; alt=&quot;fusimi-movieshot-7&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2020/05/hello-real-world/DSC00531.webp&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2020/05/hello-real-world/DSC00531.jpg&quot;&gt;&lt;img src=&quot;./img/2020/05/hello-real-world/DSC00531.jpg&quot; alt=&quot;fusimi-real-10&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;雖然影片中場景在朝霧橋，但是作為電影海報場景的應該是旁邊的喜撰橋 [1]
+&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2020/05/movie/ogp_img2.webp&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2020/05/movie/ogp_img2.jpg&quot;&gt;&lt;img src=&quot;./img/2020/05/movie/ogp_img2.jpg&quot; alt=&quot;fusimi-movieshot-poster&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2020/05/hello-real-world/DSC00566.webp&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2020/05/hello-real-world/DSC00566.jpg&quot;&gt;&lt;img src=&quot;./img/2020/05/hello-real-world/DSC00566.jpg&quot; alt=&quot;fusimi-real-8&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2020/05/hello-real-world/DSC00568.webp&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2020/05/hello-real-world/DSC00568.jpg&quot;&gt;&lt;img src=&quot;./img/2020/05/hello-real-world/DSC00568.jpg&quot; alt=&quot;fusimi-real-8&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;又順便逛到了隔壁棚的名場景: 久美子的椅子
+&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2020/05/hello-real-world/IMG_6910.webp&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2020/05/hello-real-world/IMG_6910.jpg&quot;&gt;&lt;img src=&quot;./img/2020/05/hello-real-world/IMG_6910.jpg&quot; alt=&quot;fusimi-real-8&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;稍微爬了一下山，又一個久美子和麗奈的名場景
+&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2020/05/hello-real-world/DSC00649.webp&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2020/05/hello-real-world/DSC00649.jpg&quot;&gt;&lt;img src=&quot;./img/2020/05/hello-real-world/DSC00649.jpg&quot; alt=&quot;fusimi-real-8&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;宇治一帶雖然也是觀光地，相較於京都內的觀光勝地比較沒這麼擁擠。&lt;/p&gt;
+&lt;p&gt;同時也是由於同時也是京阿尼的總本山，非常推薦來一逛！&lt;/p&gt;
+&lt;h2 id=&quot;堀川高校&quot;&gt;堀川高校&lt;/h2&gt;
+&lt;p&gt;動畫中錦高校，實際取材自堀川高校。&lt;/p&gt;
+&lt;p&gt;附近也是本能寺之亂的本能寺遺跡 &lt;em&gt;（真是火事頻發的地方啊...）&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;喜歡戰國史的人必來... 話雖如此，實際上真的只剩下一個碑。
+&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2020/05/hello-real-world/IMG_6645.webp&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2020/05/hello-real-world/IMG_6645.jpg&quot;&gt;&lt;img src=&quot;./img/2020/05/hello-real-world/IMG_6645.jpg&quot; alt=&quot;fusimi-real-8&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2020/05/movie/IMG_9100.webp&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2020/05/movie/IMG_9100.jpg&quot;&gt;&lt;img src=&quot;./img/2020/05/movie/IMG_9100.jpg&quot; alt=&quot;fusimi-movieshot-7&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2020/05/hello-real-world/IMG_6643.webp&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2020/05/hello-real-world/IMG_6643.jpg&quot;&gt;&lt;img src=&quot;./img/2020/05/hello-real-world/IMG_6643.jpg&quot; alt=&quot;fusimi-real-8&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;這裡放置了大家收集來的二手書
+&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2020/05/movie/IMG_9106.webp&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2020/05/movie/IMG_9106.jpg&quot;&gt;&lt;img src=&quot;./img/2020/05/movie/IMG_9106.jpg&quot; alt=&quot;fusimi-movieshot-7&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2020/05/movie/IMG_9107.webp&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2020/05/movie/IMG_9107.jpg&quot;&gt;&lt;img src=&quot;./img/2020/05/movie/IMG_9107.jpg&quot; alt=&quot;fusimi-movieshot-7&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;./img/2020/05/hello-real-world/IMG_6654.webp&quot;&gt;&lt;source type=&quot;image/jpeg&quot; srcset=&quot;./img/2020/05/hello-real-world/IMG_6654.jpg&quot;&gt;&lt;img src=&quot;./img/2020/05/hello-real-world/IMG_6654.jpg&quot; alt=&quot;fusimi-real-8&quot;&gt;&lt;/picture&gt;
+巡禮到這個點心中一陣QQ...&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Part 2 就先到這裡。&lt;/p&gt;
+&lt;p&gt;目前還剩下的點:&lt;br&gt;
+京都車站、南圖書館、北圖書館、京阪伏見稲荷站、地下鉄二条駅、京都府廳、出町柳、出町柳駅前、北園公車站、堀川蛸薬師公車站、東寺、JR宇治駅、京都大学、四条烏丸、五条堀川大橋、本願寺、中央郵便局、京都塔&lt;/p&gt;
+&lt;p&gt;真是可怕的多啊XD，期待自己能在兩個月之內完成。&lt;/p&gt;
+&lt;p&gt;預計跑完一次之後會再製作地圖和參觀建議，畢竟以海外觀光來說這麼多點，不做取捨的話很難規劃行程吧。&lt;br&gt;
+也希望疫情早日平定，讓大家都能來巡禮一回。&lt;/p&gt;
+&lt;p&gt;[1]: 圖片來源: 官方網站 &lt;a href=&quot;https://hello-world-movie.com/&quot;&gt;https://hello-world-movie.com/&lt;/a&gt;&lt;/p&gt;
+
+  </content></item></channel></rss>

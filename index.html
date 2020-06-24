@@ -1,52 +1,99 @@
----
-layout: default
----
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<div class="home">
+  <link rel="stylesheet" type="text/css" href="./style.css">
+<title>Explosion!</title></head>
 
-  <h2 class="page-heading">Topics:</h2>
-  <div id="tag_cloud">
-    {% for tag in site.tags %}
-      <a href="/tag_indices/{{ tag | first | slugize }}/">
-        {{ tag | first }}
-      </a>
-    {% endfor %}
-  </div>
-  <br>
+<body>
+  <header class="blog-title">
+    <h1>(∩ ◕_▩ )⊃━☆ Explosion!!</h1>
+  </header>
+  <main id="main" class="all-posts">
+<header class="post-header">
+  <h3 class="post-time">2020-05-31</h3>
+  <h2>
+    <a href="2020-05-31-hello-world-2.html">Hello World 聖地巡禮 Part 2</a>
+  </h2>
+</header>
 
-  <h1 class="page-heading">Posts</h1>
-  <ul class="post-list">
-    {% for post in paginator.posts %}
-      <li>
-        <h2>
-          <a class="post-link" href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
-        </h2>
-        {% assign date_format = site.tactile.date_format | default: "%b %-d, %Y" %}
-        <span class="post-meta">{{ post.date | date: date_format }}</span>
+<header class="post-header">
+  <h3 class="post-time">2018-01-20</h3>
+  <h2>
+    <a href="2018-01-20-spacemacs-2-weeks.html">Spacemacs - 人生最佳的編輯器體驗</a>
+  </h2>
+</header>
 
-        <div class="post-content">
-        {{ post.excerpt }}
-        </div>
-      </li>
-    {% endfor %}
-  </ul>
+<header class="post-header">
+  <h3 class="post-time">2017-09-16</h3>
+  <h2>
+    <a href="2017-09-16-cpp-string-plus.html">C++ 掃雷記：字串加上整數?</a>
+  </h2>
+</header>
 
-  <p class="rss-subscribe">subscribe
-    <a href="http://feeds.feedburner.com/0w0">via RSS</a>
-    <!-- <a href="{{ "/feed.xml" | relative_url }}">via RSS</a> -->
-  </p>
+<header class="post-header">
+  <h3 class="post-time">2017-09-15</h3>
+  <h2>
+    <a href="2017-09-15-jekyll-tags.html">幫 Jekyll Blog 加上 Tags 功能 (GitHub Pages 可用)</a>
+  </h2>
+</header>
 
-  <div class="pagination">
-    {% if paginator.previous_page %}
-      <a href="{{ paginator.previous_page_path }}" class="previous">Previous</a>
-    {% else %}
-      <span class="previous">Previous</span>
-    {% endif %}
-    <span class="page_number ">Page: {{ paginator.page }} of {{ paginator.total_pages }}</span>
-    {% if paginator.next_page %}
-      <a href="{{ paginator.next_page_path }}" class="next">Next</a>
-    {% else %}
-      <span class="next ">Next</span>
-    {% endif %}
-  </div>
-</div>
+<header class="post-header">
+  <h3 class="post-time">2017-09-05</h3>
+  <h2>
+    <a href="2017-09-05-ruby-yield.html">[Ruby] Yield 筆記</a>
+  </h2>
+</header>
+
+<header class="post-header">
+  <h3 class="post-time">2016-03-01</h3>
+  <h2>
+    <a href="2016-03-01-windows-ps4-controller.html">在 Windows 使用 PS4 搖桿進行遊戲</a>
+  </h2>
+</header>
+
+<header class="post-header">
+  <h3 class="post-time">2013-12-29</h3>
+  <h2>
+    <a href="2013-12-29-dart-boolean-type.html">Dart 語言設計上的問題: Boolean Type</a>
+  </h2>
+</header>
+
+<header class="post-header">
+  <h3 class="post-time">2013-07-20</h3>
+  <h2>
+    <a href="2013-07-20-python-c-lib-part-2.html">如何讓 Python 使用 C 的函式庫(Part 2)</a>
+  </h2>
+</header>
+
+<header class="post-header">
+  <h3 class="post-time">2013-07-18</h3>
+  <h2>
+    <a href="2013-07-18-python-c-lib.html">如何讓 Python 使用 C 的函式庫</a>
+  </h2>
+</header>
+
+<header class="post-header">
+  <h3 class="post-time">2013-04-13</h3>
+  <h2>
+    <a href="2013-04-13-cpp11-range-based-for.html">C++11 Range-based for</a>
+  </h2>
+</header>
+
+<header class="post-header">
+  <h3 class="post-time">2013-02-14</h3>
+  <h2>
+    <a href="2013-02-14-cpp11-auto-typed-variables.html">C++11 auto-typed variables</a>
+  </h2>
+</header>
+</main>
+  <footer class="page-footer">
+    Subscribe via
+    <a href="https://wabilin.github.io/blog/feed.xml">
+      RSS
+    </a>.
+  </footer>
+
+
+</body></html>

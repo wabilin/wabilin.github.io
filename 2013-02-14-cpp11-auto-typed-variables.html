@@ -1,0 +1,189 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta name="author" content="wabilin">
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Explosion! | C++11 auto-typed variables</title>
+
+    <link rel="stylesheet" type="text/css" href="./style.css">
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+    <link rel="alternate" type="application/rss+xml" href="./feed.xml">
+
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.0.0/build/styles/github.min.css">
+    <script>
+      function onHighlightLoad() {
+        hljs.initHighlightingOnLoad();
+      }
+    </script>
+    <script defer="" onload="onHighlightLoad()" src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.0.0/build/highlight.min.js">
+    </script>
+  <meta property="og:type" content="article"><meta property="og:title" content="C++11 auto-typed variables"><meta property="article:published_time" content="2013-02-14T00:00:00.000Z"><meta property="article:tag" content="cpp"><meta property="article:license" content="cc0"></head>
+
+  <body>
+    <div class="post">
+      <header class="blog-title">
+        <h1>
+          <a href="./">(∩ ◕_▩ )⊃━☆ Explosion!!</a>
+        </h1>
+      </header>
+
+      <section id="main" class="post-section"><hgroup><h2>C++11 auto-typed variables</h2><h6>2013-02-14</h6></hgroup> <article>
+    <p>本篇搬移自舊部落格 (2013年4月)</p>
+<p>型別推導在動態語言中是必然的，而傳統的靜態型別語言則多數要求事先宣告變數型別，
+但最近的靜態型別語言也越來越盛行型別推導 如 Go、C#、Haskell 等語言都支援靜態的型別推導。</p>
+<p>現在C++ 也開始支援這個功能了。</p>
+<h2 id="overview">overview</h2>
+<pre><code class="language-cpp">auto v = something;
+// 我們在宣告變數 v 時,可以不自己指定 v 的型別，
+// 而使用關鍵字auto，看 something 來決定的 v 型別</code></pre>
+<!-- more -->
+
+<h2 id="introduction">introduction</h2>
+<p>型別推導並不是什麼艱澀難懂的概念，以動態語言 Python 為例，一個整數的變數會這樣寫：</p>
+<pre><code class="language-python">a = 0</code></pre>
+<p>因為 <code>0</code> 是整數，所以執行到這行的時候，<code>a</code>就會是一個整數變數</p>
+<p>而在靜態型別的 C 和以前的 C++ 中，所有變數都必須先宣告型別:</p>
+<pre><code class="language-cpp">int a = 0;</code></pre>
+<p>然而在靜態型別的語言中使用型別推導並非不可行的，以前大部分不支援應該是為了編譯的速度。
+但隨著電腦效能越來越好，大家都想要程式寫得輕鬆，靜態型別的語言也開始支援了。</p>
+<p>關於其他語言的做法，就留到文末來欣賞，現在直接來看看 C++11 怎麼玩:</p>
+<pre><code class="language-cpp">auto i = 1;
+double pi = 3.14;
+auto f = pi + 5;</code></pre>
+<p>首先 <code>i</code> 這個變數，因為等號右方的 <code>1</code> 是 <code>int</code>，所以 <code>i</code> 會是一個 <code>int</code> 變數，
+而變數 <code>f</code> 因為是 <code>pi(double) + 5(int)</code> 的結果，所以必然是一個 <code>double</code>。
+這些都是在編譯階段就可以確定的，所以使用 <code>auto</code> 變數並不會有像動態語言中，型別推導造成執行時其額外成本的問題。</p>
+<p>另外一點不同的是，動態語言中變數的型別大多是可以改變的。
+但在靜態語言中，就算使用 <code>auto</code> 這種方法，也是在宣告後就固定型別，
+而且一定要給定初始值（不然怎麼推導=.=）。</p>
+<pre><code class="language-cpp">auto a = 3.14f; // OK, float
+auto b(4);      // OK, int
+
+auto c; // error
+b = std::string("xd"); // error, b must be a int</code></pre>
+<p>不過看到這裡，可能會認為這個功能沒有什麼必要性</p>
+<pre><code class="language-cpp">auto a = 1;
+int  b = 0;</code></pre>
+<p>在這裡實在沒有什麼理由懶得自己去判斷 <code>a</code> 的型別，像 <code>b</code> 這樣寫還可以少打一個字</p>
+<p>然而在使用 STL 和各種 library 以及自訂型別的時候，這個功能就顯得十分有用了。
+因為這些型別名稱往往很長，有些甚至你要確認他是什麼型別也很麻煩。</p>
+<p>舉一個很常見的例子：</p>
+<pre><code class="language-cpp">#include &lt;vector&gt;
+
+class LoveLive{
+ // somethings..
+ void foo() const;
+};
+
+int main() {
+  using std::vector;
+  vector&lt;LoveLive&gt; lives;
+  for (vector&lt;LoveLive&gt;::const_iterator it = lives.cbegin();
+       it &lt; lives.cend() ;
+       ++it) {
+    it-&gt;foo();
+  }
+}</code></pre>
+<p>這是我之前最痛恨 STL 的其中一點----常常只是做很簡單的事情，卻因為各種落落長的名稱，
+而寫成超長的一行，甚至得拆成醜醜的好幾行。</p>
+<p>然而現在有了 <code>auto</code> 我可以這樣寫：</p>
+<pre><code class="language-cpp">for (auto it = lives.cbegin(); it &lt; lives.cend() ; ++it) {
+  it-&gt;foo();
+}</code></pre>
+<p>少打了許多字，也不用怕忘記 <code>iterator</code> 怎麼拼 (當然這個常用應該不會忘，但有些比較少用的就要一直查了..)</p>
+<p> (註：以 <code>for</code> 迴圈來說，這個例子還有更簡潔的寫法，之後在他篇會介紹</p>
+<p>就本例而言，可以感受到 <code>auto</code> 帶來的一點小便利，讓我們再看看沒有它的話我們會很痛苦的例子：</p>
+<pre><code class="language-cpp">// Code from: http://en.wikipedia.org/wiki/C%2B%2B11
+#include &lt;random&gt;
+#include &lt;functional&gt;
+
+std::uniform_int_distribution&lt;int&gt; distribution(0, 99);
+std::mt19937 engine; // Mersenne twister MT19937
+auto generator = std::bind(distribution, engine);
+
+// Generate a uniform integral variate between 0 and 99.
+int random = generator();</code></pre>
+<p>這是在 C++11 中提供的一種產生亂數的新方式。
+我們看到 <code>generator</code> 並未指定型別而使用了 <code>auto</code> 來做型別推導，
+因為 <code>std::bind</code> 會把 <code>distribution</code> 和 <code>engine</code> 打包成某種可以被存在 <code>std::function</code> 的物件</p>
+<p>雖然我們可以大概知道那是怎樣的形態，但絕對不會明確的想出來，
+就算我們以人腦推出來了，也不會想花力氣打進去..</p>
+<p>如果沒有 <code>auto</code> 可用，或是你很熱血的想把這玩意的型別打上去</p>
+<p>好吧，嗯......
+你會寫成這樣：</p>
+<pre><code class="language-cpp">std::_Bind
+  &lt;std::uniform_int_distribution&lt;int&gt;(
+     std::mersenne_twister_engine&lt;
+       long unsigned int, 32ul, 624ul, 397ul,
+       31ul, 2567483615ul, 11ul, 4294967295ul,
+       7ul, 2636928640ul, 15ul, 4022730752ul,
+       18ul, 1812433253ul
+       &gt;)&gt; generator = std::bind(distribution, engine);</code></pre>
+<p>我相信沒有人可以這麼勤勞，無論是寫或看..</p>
+<p>所以，<code>auto</code> 的使用，不但可以減少打字時間，增近開發速度 (講難聽點就是偷懶)
+在某些場合更是必要之手段</p>
+<p>另外 <code>auto</code> 也可以配合關鍵 pointer 和 reference 使用：</p>
+<pre><code class="language-cpp">int a = 0; // int
+auto  b = a; // int
+auto&amp; r = a; // int&amp;
+
+auto  p1 = &amp;a; // int*
+auto* p2 = &amp;a; // int*
+
+auto c = a, *d = &amp;a // OK
+auto e = a, f = &amp;a  // error</code></pre>
+<h2 id="comment">comment</h2>
+<p>除了有必須使用的地方，必須把這招學起來以外。
+也建議在其他適當場合使用 <code>auto</code> ，省力又簡潔。</p>
+<p>不過也不宜濫用( 把 <code>int</code> 等基本型別也寫成 <code>auto</code> )，會讓可讀性下降，
+如果推導出來地型別和你預期的不一樣而產生bug也只能說是自作自受..</p>
+<p>這應該算是一個實用價值很高的新功能。</p>
+<p>另外 <code>auto</code> 這個關鍵字的其他使用場合，以及與他有點關係的 <code>decltype</code> 會在其他篇介紹</p>
+<h2 id="chat">chat</h2>
+<p>在其他靜態語言中，也有型別推導，
+C# 可以有靜態和動態的型別推導，其中靜態型別推導的用法和本篇C++11的用法很相似，
+不過 C# 使用的關鍵字是 <code>var</code></p>
+<p>Go 語言有兩種寫法：</p>
+<pre><code class="language-go">var x, y, z int = 1, 2, 3
+var a, b, c = true, false, "no!"
+i := 0</code></pre>
+<p>其中 <code>x, y, z</code> 是由 programmer 指定型別 <code>int</code>，
+而 <code>a, b, c</code> 則是藉由型別推導分別得到 <code>bool, bool, string</code> 型別，
+變數 <code>i</code> 則使用了 <code>:=</code> 省略關鍵字 <code>var</code>，並推導得到型別 <code>int</code></p>
+<p>而 Haskell 的型別就更有趣了，不過在這裡講下去，篇幅大概就要比原本的主題還多了:P</p>
+<p>有興趣的話請自行研究囉</p>
+<h2 id="reference">Reference</h2>
+<ul>
+<li><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2006/n1984.pdf">http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2006/n1984.pdf</a></li>
+<li><a href="http://www.cprogramming.com/c++11/c++11-auto-decltype-return-value-after-function.html">http://www.cprogramming.com/c++11/c++11-auto-decltype-return-value-after-function.html</a></li>
+<li><a href="http://zh.wikipedia.org">http://zh.wikipedia.org</a></li>
+</ul>
+
+  </article><div class="license-area">
+  <a rel="license" href="http://creativecommons.org/publicdomain/zero/1.0/">
+    <img src="http://i.creativecommons.org/p/zero/1.0/88x31.png" style="border-style: none;" alt="CC0">
+  </a>
+  <br>
+  To the extent possible under law,<br>
+  <a rel="dct:publisher" href="https://github.com/wabilin">
+    <span property="dct:title">wabilin</span></a>
+  has waived all copyright and related or neighboring rights to
+  this work.
+</div></section>
+
+      <footer class="footer-back">
+        <a href="./">← back</a>
+      </footer>
+    </div>
+
+    <footer class="page-footer">
+      Subscribe via
+      <a href="https://wabilin.github.io/blog/feed.xml">
+        RSS
+      </a>.
+    </footer>
+  
+
+</body></html>

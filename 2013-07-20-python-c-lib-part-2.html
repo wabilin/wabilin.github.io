@@ -1,0 +1,152 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta name="author" content="wabilin">
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Explosion! | 如何讓 Python 使用 C 的函式庫(Part 2)</title>
+
+    <link rel="stylesheet" type="text/css" href="./style.css">
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+    <link rel="alternate" type="application/rss+xml" href="./feed.xml">
+
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.0.0/build/styles/github.min.css">
+    <script>
+      function onHighlightLoad() {
+        hljs.initHighlightingOnLoad();
+      }
+    </script>
+    <script defer="" onload="onHighlightLoad()" src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.0.0/build/highlight.min.js">
+    </script>
+  <meta property="og:type" content="article"><meta property="og:title" content="如何讓 Python 使用 C 的函式庫(Part 2)"><meta property="article:published_time" content="2013-07-20T00:00:00.000Z"><meta property="article:tag" content="python"><meta property="article:license" content="cc-by-sa"></head>
+
+  <body>
+    <div class="post">
+      <header class="blog-title">
+        <h1>
+          <a href="./">(∩ ◕_▩ )⊃━☆ Explosion!!</a>
+        </h1>
+      </header>
+
+      <section id="main" class="post-section"><hgroup><h2>如何讓 Python 使用 C 的函式庫(Part 2)</h2><h6>2013-07-20</h6></hgroup> <article>
+    <p>在 Part1 中我們已經成功的寫一個 C 的函式 並讓 Python 程式去使用他</p>
+<p>不過其中並沒有參數的傳遞和回傳 也就是我們最需要的部分還沒有完成 現在就來看看該怎麼做~</p>
+<!-- more -->
+<p>在這裡我們來寫一個費氏數列的函式做示範</p>
+<div>
+$ f(0) = 0 $ <br>
+$ f(1) = 1 $ <br>
+$ f(n) = f(n-1) + f(n-2) $ <br>
+</div>
+
+<p>在 wikibooks 的教學中, 這也是第二個例子 我自己也習慣在 Hello World 之後測試費式數列, 感覺好像可以寫出費氏數列函式, 就可以做到很多事情</p>
+<p>首先我們再寫一個 C 程式如下:</p>
+<pre><code class="language-c">// fib.c
+#include &lt;Python.h&gt;
+
+int _fib(int n) {
+    if (n &lt; 2)
+        return n;
+    else
+        return _fib(n-1) + _fib(n-2);
+}
+
+static PyObject* fib(PyObject* self, PyObject* args) {
+    int n;
+    if (!PyArg_ParseTuple(args, "i", &amp;n))
+        return NULL;
+    return Py_BuildValue("i", _fib(n));
+}
+
+static PyMethodDef FibMethods[] = {
+    {"fib", fib, METH_VARARGS, "Calculate the Fibonacci numbers."},
+    {NULL, NULL, 0, NULL}
+};
+
+PyMODINIT_FUNC initfib(void) {
+    (void) Py_InitModule("fib", FibMethods);
+}</code></pre>
+<p>首先看 <code>int _fib(int n)</code>, 這是求費氏數列的函式, 負責實際的求解運算。非常簡單的遞迴演算法, 就不多做說明了。</p>
+<pre><code class="language-c">static PyObject* fib(PyObject* self, PyObject* args) {
+    int n;
+    if (!PyArg_ParseTuple(args, "i", &amp;n))
+        return NULL;
+    return Py_BuildValue("i", _fib(n));
+}</code></pre>
+<p>這部分是本篇的重點, 他作為和 Python 的接口, 接受參數並回傳結果 這函式長得和之前的 hello 很像, 不同的地方是 我們不再忽略 <code>args</code>, 也不直接回傳 <code>None</code> 了</p>
+<p>來看看如何獲得傳進來的參數: 關鍵就在於 <code>PyArg_ParseTuple()</code> 這個函式</p>
+<ul>
+<li><code>args</code> =&gt; 存放參數的變數</li>
+<li><code>"i"</code> =&gt; 讀入一個 integer</li>
+<li><code>&amp;n</code> =&gt; 把讀進來的那個整數, 存到 n 的位置 就這麼簡單!</li>
+</ul>
+<p>如果我們要讀入一個字串呢?</p>
+<pre><code class="language-c">char str[128];
+PyArg_ParseTuple(args, "s", str);</code></pre>
+<p>第一個參數是字串, 第二個參數是整數的話:</p>
+<pre><code class="language-c">char str[128];
+int n;
+PyArg_ParseTuple(args, "si", str, &amp;n);</code></pre>
+<p>詳細的使用可以參考這份文件: <a href="http://docs.python.org/dev/c-api/arg.html">http://docs.python.org/dev/c-api/arg.html</a></p>
+<p>回傳結果呢?</p>
+<pre><code class="language-c">return Py_BuildValue("i", _fib(n));</code></pre>
+<p>因為我們必須回傳的是一個 <code>pythonObject*</code>, 而不能直接把一個 <code>int</code> 回傳 所以要先把 C 的整數轉換成包成 <code>pythonObject</code> 的整數, 而使用的就是 <code>Py_BuildValue</code> 這個函式 至於詳細的使用方法可以參考上面提過的那份文件, 在此我就只就範例來說明</p>
+<p><code>return Py_BuildValue(“i”, _fib(n));</code> 這行的意義就是: 我們把 <code>_fib(n)</code>的結果轉換為 <code>pythonObject</code> 之後回傳</p>
+<p>現在完成了這份 fib.c, 請把他按照上一篇的說明編譯 然後就可以在 Python 中使用他了!</p>
+<pre><code class="language-python"># test_fib.py
+import fib, time
+
+def c_fib(n):
+    return fib.fib(n)
+
+def py_fib(n):
+    if n &lt; 2:
+        return n
+    return py_fib(n-1) + py_fib(n-2)
+
+def test_fib():
+    n = int(input('N: '))
+    ts = time.clock()
+    print 'computing with C: '
+    print c_fib(n)
+    print "%.2gs" % (time.clock() - ts)
+
+    ts = time.clock()
+    print 'computing with Python: '
+    print py_fib(n)
+    print "%.2gs" %(time.clock() - ts)
+
+
+if __name__ == '__main__':
+    test_fib()</code></pre>
+<p>在這份測試中, 我另外寫了一個 python 版本的求費氏數列的函式 用以比較速度</p>
+<p>在我的電腦上測試的結果, 使用 C 的版本約比 Python 的版本快了 100 倍左右 可見這個做法對於解決效能瓶頸的障礙是會有幫助的!</p>
+<h3 id="reference">Reference</h3>
+<p><a href="http://en.wikibooks.org/wiki/Python_Programming">Python C API wikibook: python programming stackoverflow</a></p>
+
+  </article><div class="license-area">
+  <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png">
+  </a>
+  <br>
+  This work is licensed under a
+  <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+    Creative Commons Attribution-ShareAlike 4.0 International License
+  </a>.
+</div></section>
+
+      <footer class="footer-back">
+        <a href="./">← back</a>
+      </footer>
+    </div>
+
+    <footer class="page-footer">
+      Subscribe via
+      <a href="https://wabilin.github.io/blog/feed.xml">
+        RSS
+      </a>.
+    </footer>
+  
+
+</body></html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta name="author" content="wabilin">
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Explosion! | C++ 掃雷記：字串加上整數?</title>
+
+    <link rel="stylesheet" type="text/css" href="./style.css">
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+    <link rel="alternate" type="application/rss+xml" href="./feed.xml">
+
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.0.0/build/styles/github.min.css">
+    <script>
+      function onHighlightLoad() {
+        hljs.initHighlightingOnLoad();
+      }
+    </script>
+    <script defer="" onload="onHighlightLoad()" src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.0.0/build/highlight.min.js">
+    </script>
+  <meta property="og:type" content="article"><meta property="og:title" content="C++ 掃雷記：字串加上整數?"><meta property="article:published_time" content="2017-09-16T00:00:00.000Z"><meta property="article:tag" content="cpp"><meta property="article:license" content="cc0"></head>
+
+  <body>
+    <div class="post">
+      <header class="blog-title">
+        <h1>
+          <a href="./">(∩ ◕_▩ )⊃━☆ Explosion!!</a>
+        </h1>
+      </header>
+
+      <section id="main" class="post-section"><hgroup><h2>C++ 掃雷記：字串加上整數?</h2><h6>2017-09-16</h6></hgroup> <article>
+    <p>本篇來自一年多前維護專案時看到的一段程式碼：</p>
+<pre><code class="language-cpp">for (int i = 0; i &lt; count; i++) {
+  MyObject obj;
+  obj.set_unique_name(name + i);
+  objs.push_back(obj);
+}</code></pre>
+<!-- more -->
+
+<p>假如 <code>name</code> 是 <code>"John"</code>，我們預期這會產生名稱分別為 <code>John1</code>, <code>John2</code>, <code>John3</code>...的物件。</p>
+<p>做為同時會寫 JavaScript 等語言的人，在 trace 這段程式的時候，第一時間真的不覺得有什麼不對。</p>
+<p>畢竟他看起來很自然。就語法來說， <code>std::string</code> 定義了 <code>operator+(int)</code> 也不是什麼太奇怪的事。</p>
+<p><strong>事實上並沒有。</strong></p>
+<p>如果你這麼做是會噴 error 的：</p>
+<pre><code class="language-cpp">string s = "string";
+s + 1;
+
+// error: invalid operands to binary expression ('string' (aka 'basic_string&lt;char,
+//      char_traits&lt;char&gt;, allocator&lt;char&gt; &gt;') and 'int')</code></pre>
+<p>很奇妙的，原例中的那段程式碼卻沒有 error，甚至沒有 warning。</p>
+<p>於是我又跑回去看。</p>
+<pre><code class="language-cpp">char* name = "John";</code></pre>
+<p>哇！沒想到在這個情境還有人使用 <code>char*</code> 而非 <code>std::string</code>呀！</p>
+<p>於是程式的行為也會變得很有趣，對 C 語言指標有所了解的應該會知道，程式跑起來大概會變這樣：</p>
+<pre><code class="language-cpp">name + 0; //=&gt; John
+name + 1; //=&gt; ohn
+name + 2; //=&gt; hn</code></pre>
+<p>這無疑是個可笑的 bug。當這段程式出現在一個考題中，相信大部分的人都可以發現其錯誤之處。
+但當他是一段專案中的程式碼，卻很可能不被注意到。</p>
+<p>所以我特別當成一段趣事記錄下來。下次再看到有人對字串做加法請多加注意。然後拜託非必要別在 C++ 中使用 <code>char*</code> 哇。</p>
+
+  </article><div class="license-area">
+  <a rel="license" href="http://creativecommons.org/publicdomain/zero/1.0/">
+    <img src="http://i.creativecommons.org/p/zero/1.0/88x31.png" style="border-style: none;" alt="CC0">
+  </a>
+  <br>
+  To the extent possible under law,<br>
+  <a rel="dct:publisher" href="https://github.com/wabilin">
+    <span property="dct:title">wabilin</span></a>
+  has waived all copyright and related or neighboring rights to
+  this work.
+</div></section>
+
+      <footer class="footer-back">
+        <a href="./">← back</a>
+      </footer>
+    </div>
+
+    <footer class="page-footer">
+      Subscribe via
+      <a href="https://wabilin.github.io/blog/feed.xml">
+        RSS
+      </a>.
+    </footer>
+  
+
+</body></html>
