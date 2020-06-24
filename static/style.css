@@ -449,6 +449,16 @@ body {
   border-bottom: 2px solid lightgray;
 }
 
+.top-nav {
+  text-align: center;
+}
+.top-nav a {
+  color: var(--minor-text);
+  padding: 1px 4px;
+  border: 1px solid #DDD;
+  border-radius: 4px;
+}
+
 .post {
   margin: auto;
   max-width: 800px;
