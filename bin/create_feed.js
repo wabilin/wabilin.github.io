@@ -1,18 +1,7 @@
 const path = require('path');
 const fs = require('fs');
-const jsdom = require("jsdom");
 const RSS = require('rss');
-
-const { JSDOM } = jsdom;
-
-const directoryPath = path.join(__dirname, '..', 'dist');
-
-/**
- * @param {string} filename
- */
-function isPost(filename) {
-  return filename.match(/^\d+-\d+-\d+-/) !== null;
-}
+const { POSTS_PATH, getPosts, fileToDomDocument } = require('./utils/readPosts')
 
 const SITE_URL = 'https://wabilin.github.io/'
 
@@ -31,17 +20,8 @@ const feed = new RSS({
 /**
  * @param {string} filename
  */
-function fileContent(file) {
-  const filePath = path.join(directoryPath, file)
-  return fs.readFileSync(filePath, { encoding: 'utf8' })
-}
-
-/**
- * @param {string} filename
- */
-function parseFile(file) {
-  const content = fileContent(file)
-  const { document } = new JSDOM(content).window
+async function parseFile(file) {
+  const document = await fileToDomDocument(file)
 
   const section = document.getElementById('main')
   const postTitle = section.querySelector('hgroup > h2').textContent;
@@ -65,17 +45,21 @@ function parseFile(file) {
   });
 }
 
-fs.readdir(directoryPath, function (err, files) {
-  if (err) {
-    return console.error('Unable to scan directory: ' + err);
+async function main() {
+  const posts = await getPosts()
+
+  for (let post of posts) {
+    await parseFile(post)
   }
 
-  files.filter(isPost).forEach(parseFile);
-
   const feedXml = feed.xml()
-  const distName = path.join(directoryPath, 'feed.xml')
+  const distName = path.join(POSTS_PATH, 'feed.xml')
 
   fs.writeFile(distName, feedXml, function (err) {
     if (err) return console.error(err);
   });
-});
+}
+
+main().catch(err => {
+  console.error(err)
+})
