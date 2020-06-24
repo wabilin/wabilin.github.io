@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const { JSDOM } = require('jsdom')
+const { read } = require('./file')
 
 const POSTS_PATH = path.join(__dirname, '..', '..', 'dist');
 
@@ -22,18 +23,9 @@ function postPath(file) {
  * @param {string} filename
  * @returns {Promise<string>}
  */
-async function fileContent(file) {
+function fileContent(file) {
   const filePath = postPath(file)
-
-  return new Promise((resolve, reject) => {
-    fs.readFile(filePath, { encoding: "utf-8" }, (err, data) => {
-      if (err) {
-        reject(err)
-      } else {
-        resolve(data)
-      }
-    })
-  })
+  return read(filePath)
 }
 
 /**
