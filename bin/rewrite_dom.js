@@ -66,7 +66,7 @@ function rewriteImageToPicture(document) {
 
     const webpSource = document.createElement('source')
     webpSource.type = 'image/webp'
-    webpSource.srcset = image.src.replace('.jpg', '.webp')
+    webpSource.srcset = image.src.replace(/\.jpg/i, '.webp')
 
     const jpgSource = document.createElement('source')
     jpgSource.type = 'image/jpeg'
