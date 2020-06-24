@@ -65,6 +65,10 @@ const head = (document, data) => {
   if ('tags' in data) {
     meta('article:tag', data.tags)
   }
+
+  if ('license' in data) {
+    meta('article:license', data.license)
+  }
 }
 
 module.exports = { metadata, index, head }
