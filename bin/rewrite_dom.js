@@ -16,6 +16,26 @@ function modifyDocument(document) {
     h6.textContent = dateStr.split('T')[0]
     hg.appendChild(h6)
   }
+
+  const images = document.querySelectorAll('img')
+  images.forEach(image => {
+    const clone = image.cloneNode(false)
+
+    const picture = document.createElement('picture')
+    const webpSource = document.createElement('source')
+    webpSource.type = 'image/webp'
+    webpSource.srcset = image.src.replace('.jpg', '.webp')
+    const jpgSource = document.createElement('source')
+    jpgSource.type = 'image/jpeg'
+    jpgSource.srcset = image.src
+    picture.appendChild(webpSource)
+    picture.appendChild(jpgSource)
+    picture.appendChild(clone)
+
+    const parent = image.parentNode
+    parent.insertBefore(picture, image)
+    parent.removeChild(image)
+  })
 }
 
 /**
