@@ -1,7 +1,6 @@
 // @ts-check
 
 const { JSDOM } = require('jsdom')
-const fs = require('fs')
 const path = require('path')
 const { getPosts, fileContent, postPath } = require('./utils/readPosts')
 const { read, write } = require('./utils/file')
@@ -14,6 +13,22 @@ function getPartialContent(name) {
   return read(filepath)
 }
 
+const LICENSE_FILES = {
+  'cc0': 'license_cc0',
+  'cc-by-sa': 'license_cc4_bysa',
+}
+/**
+ * @param {string} license
+ */
+async function getLicenseHtml(license) {
+  const name = LICENSE_FILES[license]
+  if (!name) {
+    throw new Error('Unknown license')
+  }
+
+  return getPartialContent(name)
+}
+
 /**
  * @param {Document} document
  * @param {string} key
@@ -24,7 +39,7 @@ function getMeta(document, key) {
     return undefined
   }
 
-  return  dateMeta.getAttribute('content')
+  return dateMeta.getAttribute('content')
 }
 
 /**
@@ -70,6 +85,17 @@ function rewriteImageToPicture(document) {
   })
 }
 
+
+/**
+ * @param {Document} document
+ * @param {string} html
+ */
+function htmlToNode(document, html) {
+  const template = document.createElement('template')
+  template.innerHTML = html.trim();
+  return template.content.firstChild;
+}
+
 /**
  * @param {Document} document
  */
@@ -77,21 +103,11 @@ async function appendLicenseArea(document) {
   const license = getMeta(document, 'article:license')
   if (!license) { return }
 
-  if (license === 'cc0') {
-    const html = await getPartialContent('license_cc0')
-    const main = document.getElementById('main')
-    const template = document.createElement('template')
-    template.innerHTML = html.trim();
-    const area = template.content.firstChild;
-    main.appendChild(area)
-  }
+  const html = await getLicenseHtml(license)
 
-  return
   const main = document.getElementById('main')
-  const hg = main.querySelector('hgroup')
-  const h6 = document.createElement('h6')
-  h6.textContent = license.split('T')[0]
-  hg.appendChild(h6)
+  const area = htmlToNode(document, html);
+  main.appendChild(area)
 }
 
 /**
