@@ -20,6 +20,8 @@
     "escape-html": "^1.0.3",
     "gh-pages": "^2.2.0",
     "html-minifier-terser": "^5.1.1",
+    "imagemin": "^7.0.1",
+    "imagemin-webp": "^6.0.0",
     "jsdom": "^16.2.2",
     "postcss-cli": "^7.1.1",
     "rss": "^1.2.2"
