@@ -30,18 +30,10 @@ async function parseFile(file) {
 
   feed.item({
     title: postTitle,
-    description: postTitle,
+    description: article,
     url: fileUrl,
     categories: [],
     date: file.match(/^\d+-\d+-\d+/)[0],
-    custom_elements: [
-      {
-        content: [
-          { _attr: { type: "html", "xml:base": fileUrl } },
-          article,
-        ]
-      },
-    ]
   });
 }
 
