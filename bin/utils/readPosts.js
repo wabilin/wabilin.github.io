@@ -12,11 +12,18 @@ function isPost(filename) {
 }
 
 /**
+ * @param {string} file
+ */
+function postPath(file) {
+  return path.join(POSTS_PATH, file)
+}
+
+/**
  * @param {string} filename
  * @returns {Promise<string>}
  */
 async function fileContent(file) {
-  const filePath = path.join(POSTS_PATH, file)
+  const filePath = postPath(file)
 
   return new Promise((resolve, reject) => {
     fs.readFile(filePath, { encoding: "utf-8" }, (err, data) => {
@@ -30,7 +37,7 @@ async function fileContent(file) {
 }
 
 /**
- * @param {string} filename
+ * @param {string} file
  */
 async function fileToDomDocument(file) {
   const content = await fileContent(file)
@@ -55,6 +62,7 @@ function getPosts() {
 
 module.exports = {
   POSTS_PATH,
+  postPath,
   fileContent,
   fileToDomDocument,
   getPosts,
