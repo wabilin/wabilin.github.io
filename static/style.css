@@ -46,7 +46,7 @@ p > code {
 
 img {
   max-width: 100%;
-  margin: .25rem;
+  margin: .25rem 0;
   box-shadow: 1px 1px 5px gray;
 }
 
@@ -95,6 +95,12 @@ ol, ul {
 .post-header {
   margin: 1.5rem auto 1rem auto ;
   width: 400px;
+  padding: 0 .5rem;
+}
+@media only screen and (max-width: 400px) {
+  .post-header {
+    width: 100%;
+  }
 }
 
 .post-time {
