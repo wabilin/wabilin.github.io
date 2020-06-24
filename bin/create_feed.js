@@ -6,8 +6,8 @@ const { POSTS_PATH, getPosts, fileToDomDocument } = require('./utils/readPosts')
 const SITE_URL = 'https://wabilin.github.io/'
 
 const feed = new RSS({
-  title: 'title',
-  description: 'description',
+  title: "Wabilin's Blog",
+  description: '(∩ ◕_▩ )⊃━☆ Explosion!!',
   feed_url: `${SITE_URL}feed.xml`,
   site_url: SITE_URL,
   managingEditor: 'Wabilin',
