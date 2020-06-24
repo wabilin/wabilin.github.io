@@ -27,8 +27,6 @@ const post = ({ title, link }) => {
 };
 
 const index = posts => {
-  const f = posts[0]
-  console.log(JSON.stringify(f))
   const sorted = posts
     .sort((a, b) => a.link.localeCompare(b.link) * -1)
     .map(post)
