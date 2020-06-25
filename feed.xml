@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
-    <channel>
-        <title>Wabilin's Blog</title>
-        <link>https://wabilin.github.io/</link>
-        <description>(∩ ◕_▩ )⊃━☆ Explosion!!</description>
-        <lastBuildDate>Thu, 25 Jun 2020 09:43:30 GMT</lastBuildDate>
-        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
-        <generator>https://github.com/jpmonette/feed</generator>
-        <language>zh</language>
-        <image>
-            <title>Wabilin's Blog</title>
-            <url>https://wabilin.github.io/img/2020/05/hello-real-world/DSC03705.JPG</url>
-            <link>https://wabilin.github.io/</link>
-        </image>
-        <copyright>All rights reserved 2020, Wabilin</copyright>
-        <category>Software Development</category>
-        <category>Japanese Otaku</category>
-        <item>
-            <title><![CDATA[Hello World 聖地巡禮 Part 2]]></title>
-            <link>https://wabilin.github.io/2020-05-31-hello-world-2.html</link>
-            <guid>https://wabilin.github.io/2020-05-31-hello-world-2.html</guid>
-            <pubDate>Sun, 31 May 2020 00:00:00 GMT</pubDate>
-            <description><![CDATA[Hello World 聖地巡禮 Part 2]]></description>
-            <content:encoded><![CDATA[
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://wabilin.github.io/</id>
+    <title>Wabilin's Blog</title>
+    <updated>2020-06-25T09:48:10.986Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <author>
+        <name>Wabilin</name>
+        <email/>
+        <uri>https://github.com/wabilin</uri>
+    </author>
+    <link rel="alternate" href="https://wabilin.github.io/"/>
+    <link rel="self" href="https://wabilin.github.io/feed.xml"/>
+    <subtitle>(∩ ◕_▩ )⊃━☆ Explosion!!</subtitle>
+    <logo>https://wabilin.github.io/img/2020/05/hello-real-world/DSC03705.JPG</logo>
+    <icon>https://wabilin.github.io/favicon.ico</icon>
+    <rights>All rights reserved 2020, Wabilin</rights>
+    <category term="Software Development"/>
+    <category term="Japanese Otaku"/>
+    <entry>
+        <title type="html"><![CDATA[Hello World 聖地巡禮 Part 2]]></title>
+        <id>https://wabilin.github.io/2020-05-31-hello-world-2.html</id>
+        <link href="https://wabilin.github.io/2020-05-31-hello-world-2.html"/>
+        <updated>2020-05-31T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Hello World 聖地巡禮 Part 2]]></summary>
+        <content type="html"><![CDATA[
     <p>本來以為 HELLO WORLD 的聖地巡禮幾乎完成了。</p>
 <p>BD 到貨之後重新整理了一下，發現點比原本想的還多。<br>
 這次就先從劇情中重要的點開始吧！</p>
@@ -127,15 +128,15 @@
 也希望疫情早日平定，讓大家都能來巡禮一回。</p>
 <p>[1]: 圖片來源: 官方網站 <a href="https://hello-world-movie.com/">https://hello-world-movie.com/</a></p>
 
-  ]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[Spacemacs - 人生最佳的編輯器體驗]]></title>
-            <link>https://wabilin.github.io/2018-01-20-spacemacs-2-weeks.html</link>
-            <guid>https://wabilin.github.io/2018-01-20-spacemacs-2-weeks.html</guid>
-            <pubDate>Sat, 20 Jan 2018 00:00:00 GMT</pubDate>
-            <description><![CDATA[Spacemacs - 人生最佳的編輯器體驗]]></description>
-            <content:encoded><![CDATA[
+  ]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Spacemacs - 人生最佳的編輯器體驗]]></title>
+        <id>https://wabilin.github.io/2018-01-20-spacemacs-2-weeks.html</id>
+        <link href="https://wabilin.github.io/2018-01-20-spacemacs-2-weeks.html"/>
+        <updated>2018-01-20T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Spacemacs - 人生最佳的編輯器體驗]]></summary>
+        <content type="html"><![CDATA[
     <p><em>這不是一篇信仰文，這是篇在編輯器的深淵中終於拉到一條繩子文。</em></p>
 <p>開始使用 <a href="http://spacemacs.org/">Spacemacs</a> 兩個星期，我可以說這是我用過最喜歡的文字編輯器。
 他結合了編輯器大戰的兩巨頭 vim 與 emacs 的操作方式，在入門上卻「<strong>親民</strong>」許多。</p>
@@ -216,15 +217,15 @@
 <li>想要裝什麼功能，按 <code>Space f e d</code> 找 <code>dotspacemacs-configuration-layers</code> 就可以了。</li>
 </ol>
 
-  ]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[C++ 掃雷記：字串加上整數?]]></title>
-            <link>https://wabilin.github.io/2017-09-16-cpp-string-plus.html</link>
-            <guid>https://wabilin.github.io/2017-09-16-cpp-string-plus.html</guid>
-            <pubDate>Sat, 16 Sep 2017 00:00:00 GMT</pubDate>
-            <description><![CDATA[C++ 掃雷記：字串加上整數?]]></description>
-            <content:encoded><![CDATA[
+  ]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[C++ 掃雷記：字串加上整數?]]></title>
+        <id>https://wabilin.github.io/2017-09-16-cpp-string-plus.html</id>
+        <link href="https://wabilin.github.io/2017-09-16-cpp-string-plus.html"/>
+        <updated>2017-09-16T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[C++ 掃雷記：字串加上整數?]]></summary>
+        <content type="html"><![CDATA[
     <p>本篇來自一年多前維護專案時看到的一段程式碼：</p>
 <pre><code class="language-cpp">for (int i = 0; i &lt; count; i++) {
   MyObject obj;
@@ -255,15 +256,15 @@ name + 2; //=&gt; hn</code></pre>
 但當他是一段專案中的程式碼，卻很可能不被注意到。</p>
 <p>所以我特別當成一段趣事記錄下來。下次再看到有人對字串做加法請多加注意。然後拜託非必要別在 C++ 中使用 <code>char*</code> 哇。</p>
 
-  ]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[幫 Jekyll Blog 加上 Tags 功能 (GitHub Pages 可用)]]></title>
-            <link>https://wabilin.github.io/2017-09-15-jekyll-tags.html</link>
-            <guid>https://wabilin.github.io/2017-09-15-jekyll-tags.html</guid>
-            <pubDate>Fri, 15 Sep 2017 00:00:00 GMT</pubDate>
-            <description><![CDATA[幫 Jekyll Blog 加上 Tags 功能 (GitHub Pages 可用)]]></description>
-            <content:encoded><![CDATA[
+  ]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[幫 Jekyll Blog 加上 Tags 功能 (GitHub Pages 可用)]]></title>
+        <id>https://wabilin.github.io/2017-09-15-jekyll-tags.html</id>
+        <link href="https://wabilin.github.io/2017-09-15-jekyll-tags.html"/>
+        <updated>2017-09-15T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[幫 Jekyll Blog 加上 Tags 功能 (GitHub Pages 可用)]]></summary>
+        <content type="html"><![CDATA[
     <p>為了在 Jekyll Blog 上使用 tags 的功能，我花了些力氣研究。
 雖然有現成的 plugin 可以用，但為了能讓 GitHub Pages 跑，那些 plugin 就不太可用了。</p>
 <p>這篇是我目前找出來最為方便的方法。</p>
@@ -357,15 +358,15 @@ main()</code></pre>
 <li>參考資料: <a href="http://vvv.tobiassjosten.net/jekyll/jekyll-tag-cloud/">http://vvv.tobiassjosten.net/jekyll/jekyll-tag-cloud/</a></li>
 </ul>
 
-  ]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[[Ruby] Yield 筆記]]></title>
-            <link>https://wabilin.github.io/2017-09-05-ruby-yield.html</link>
-            <guid>https://wabilin.github.io/2017-09-05-ruby-yield.html</guid>
-            <pubDate>Tue, 05 Sep 2017 00:00:00 GMT</pubDate>
-            <description><![CDATA[[Ruby] Yield 筆記]]></description>
-            <content:encoded><![CDATA[
+  ]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[[Ruby] Yield 筆記]]></title>
+        <id>https://wabilin.github.io/2017-09-05-ruby-yield.html</id>
+        <link href="https://wabilin.github.io/2017-09-05-ruby-yield.html"/>
+        <updated>2017-09-05T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[[Ruby] Yield 筆記]]></summary>
+        <content type="html"><![CDATA[
     <p>關於 <code>yield</code> 這個關鍵字，我剛學 Ruby 的時候逃避了。</p>
 <p>現在重看一次，發現其實不是什麼太困難的東西。</p>
 <p>簡單說， 就是一個執行之後使用者自訂 block 的語法。</p>
@@ -419,15 +420,15 @@ my_array.each { |ele| puts 2 * ele }
 # =&gt; 6</code></pre>
 <p>簡單吧 :)</p>
 
-  ]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[在 Windows 使用 PS4 搖桿進行遊戲]]></title>
-            <link>https://wabilin.github.io/2016-03-01-windows-ps4-controller.html</link>
-            <guid>https://wabilin.github.io/2016-03-01-windows-ps4-controller.html</guid>
-            <pubDate>Tue, 01 Mar 2016 00:00:00 GMT</pubDate>
-            <description><![CDATA[在 Windows 使用 PS4 搖桿進行遊戲]]></description>
-            <content:encoded><![CDATA[
+  ]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[在 Windows 使用 PS4 搖桿進行遊戲]]></title>
+        <id>https://wabilin.github.io/2016-03-01-windows-ps4-controller.html</id>
+        <link href="https://wabilin.github.io/2016-03-01-windows-ps4-controller.html"/>
+        <updated>2016-03-01T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[在 Windows 使用 PS4 搖桿進行遊戲]]></summary>
+        <content type="html"><![CDATA[
     <p>在 Windows 最理想的遊戲手把應該還是 xBox One 的手把，
 但是實在沒錢多買一個啊XD</p>
 <!-- more -->
@@ -451,15 +452,15 @@ my_array.each { |ele| puts 2 * ele }
 <li>Grim Dawn</li>
 </ol>
 
-  ]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[Dart 語言設計上的問題: Boolean Type]]></title>
-            <link>https://wabilin.github.io/2013-12-29-dart-boolean-type.html</link>
-            <guid>https://wabilin.github.io/2013-12-29-dart-boolean-type.html</guid>
-            <pubDate>Sun, 29 Dec 2013 00:00:00 GMT</pubDate>
-            <description><![CDATA[Dart 語言設計上的問題: Boolean Type]]></description>
-            <content:encoded><![CDATA[
+  ]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Dart 語言設計上的問題: Boolean Type]]></title>
+        <id>https://wabilin.github.io/2013-12-29-dart-boolean-type.html</id>
+        <link href="https://wabilin.github.io/2013-12-29-dart-boolean-type.html"/>
+        <updated>2013-12-29T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Dart 語言設計上的問題: Boolean Type]]></summary>
+        <content type="html"><![CDATA[
     <p><a href="https://www.dartlang.org/">Dart</a> 是一個由 Google 開發，用來寫 web app 的程式語言。 做的基本上是現在通常用 JavaScript 來做的事情。 JavaScript 本身有很多設計上的缺陷，所以我也期待有一個這樣的新語言，能夠替代原本的 JavaScript，但是稍微看了一下，卻發現 Dart 本身也有些詭異的地方。</p>
 <!-- more -->
 
@@ -542,15 +543,15 @@ if (name) {
 </li>
 </ol>
 
-  ]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[如何讓 Python 使用 C 的函式庫(Part 2)]]></title>
-            <link>https://wabilin.github.io/2013-07-20-python-c-lib-part-2.html</link>
-            <guid>https://wabilin.github.io/2013-07-20-python-c-lib-part-2.html</guid>
-            <pubDate>Sat, 20 Jul 2013 00:00:00 GMT</pubDate>
-            <description><![CDATA[如何讓 Python 使用 C 的函式庫(Part 2)]]></description>
-            <content:encoded><![CDATA[
+  ]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[如何讓 Python 使用 C 的函式庫(Part 2)]]></title>
+        <id>https://wabilin.github.io/2013-07-20-python-c-lib-part-2.html</id>
+        <link href="https://wabilin.github.io/2013-07-20-python-c-lib-part-2.html"/>
+        <updated>2013-07-20T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[如何讓 Python 使用 C 的函式庫(Part 2)]]></summary>
+        <content type="html"><![CDATA[
     <p>在 Part1 中我們已經成功的寫一個 C 的函式 並讓 Python 程式去使用他</p>
 <p>不過其中並沒有參數的傳遞和回傳 也就是我們最需要的部分還沒有完成 現在就來看看該怎麼做~</p>
 <!-- more -->
@@ -646,15 +647,15 @@ if __name__ == '__main__':
 <h3 id="reference">Reference</h3>
 <p><a href="http://en.wikibooks.org/wiki/Python_Programming">Python C API wikibook: python programming stackoverflow</a></p>
 
-  ]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[如何讓 Python 使用 C 的函式庫]]></title>
-            <link>https://wabilin.github.io/2013-07-18-python-c-lib.html</link>
-            <guid>https://wabilin.github.io/2013-07-18-python-c-lib.html</guid>
-            <pubDate>Thu, 18 Jul 2013 00:00:00 GMT</pubDate>
-            <description><![CDATA[如何讓 Python 使用 C 的函式庫]]></description>
-            <content:encoded><![CDATA[
+  ]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[如何讓 Python 使用 C 的函式庫]]></title>
+        <id>https://wabilin.github.io/2013-07-18-python-c-lib.html</id>
+        <link href="https://wabilin.github.io/2013-07-18-python-c-lib.html"/>
+        <updated>2013-07-18T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[如何讓 Python 使用 C 的函式庫]]></summary>
+        <content type="html"><![CDATA[
     <p>從開始寫 C 到現在三年了, Python 雖然比較晚碰但也寫了一些，
 不過倒是從最近才開始認真研究這個技術 : 在 Python 中呼叫 C 所寫的函式。</p>
 <p>雖然知道這招很久了, 但之前一直沒有用的契機 (畢竟寫純 Python 輕鬆得多)</p>
@@ -775,15 +776,15 @@ hello.hello()</code></pre>
 <li><a href="http://stackoverflow.com/">stackoverflow</a></li>
 </ul>
 
-  ]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[C++11 Range-based for]]></title>
-            <link>https://wabilin.github.io/2013-04-13-cpp11-range-based-for.html</link>
-            <guid>https://wabilin.github.io/2013-04-13-cpp11-range-based-for.html</guid>
-            <pubDate>Sat, 13 Apr 2013 00:00:00 GMT</pubDate>
-            <description><![CDATA[C++11 Range-based for]]></description>
-            <content:encoded><![CDATA[
+  ]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[C++11 Range-based for]]></title>
+        <id>https://wabilin.github.io/2013-04-13-cpp11-range-based-for.html</id>
+        <link href="https://wabilin.github.io/2013-04-13-cpp11-range-based-for.html"/>
+        <updated>2013-04-13T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[C++11 Range-based for]]></summary>
+        <content type="html"><![CDATA[
     <p>本篇搬移自舊部落格 (2013年4月)</p>
 <p>使用過 Python, C# 等語言的 <code>for</code> (<code>foreach</code>) 之後，
 我就肖想這個功能很久了，現在 C++11 終於也有了這種形式的 <code>for</code> 迴圈！</p>
@@ -952,15 +953,15 @@ int main(){
 <p>[1] <a href="http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2009/n2930.html">http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2009/n2930.html</a></p>
 <p>[2] <a href="http://en.cppreference.com/w/cpp/iterator">http://en.cppreference.com/w/cpp/iterator</a></p>
 
-  ]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[C++11 auto-typed variables]]></title>
-            <link>https://wabilin.github.io/2013-02-14-cpp11-auto-typed-variables.html</link>
-            <guid>https://wabilin.github.io/2013-02-14-cpp11-auto-typed-variables.html</guid>
-            <pubDate>Thu, 14 Feb 2013 00:00:00 GMT</pubDate>
-            <description><![CDATA[C++11 auto-typed variables]]></description>
-            <content:encoded><![CDATA[
+  ]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[C++11 auto-typed variables]]></title>
+        <id>https://wabilin.github.io/2013-02-14-cpp11-auto-typed-variables.html</id>
+        <link href="https://wabilin.github.io/2013-02-14-cpp11-auto-typed-variables.html"/>
+        <updated>2013-02-14T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[C++11 auto-typed variables]]></summary>
+        <content type="html"><![CDATA[
     <p>本篇搬移自舊部落格 (2013年4月)</p>
 <p>型別推導在動態語言中是必然的，而傳統的靜態型別語言則多數要求事先宣告變數型別，
 但最近的靜態型別語言也越來越盛行型別推導 如 Go、C#、Haskell 等語言都支援靜態的型別推導。</p>
@@ -1092,7 +1093,6 @@ i := 0</code></pre>
 <li><a href="http://zh.wikipedia.org/">http://zh.wikipedia.org</a></li>
 </ul>
 
-  ]]></content:encoded>
-        </item>
-    </channel>
-</rss>
+  ]]></content>
+    </entry>
+</feed>
