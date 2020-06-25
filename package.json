@@ -6,13 +6,8 @@
   "scripts": {
     "start": "draft renderers.js",
     "build": "write renderers.js",
-    "postbuild": "yarn rewrite_html && yarn minify:html && yarn minify:css && yarn add_feed",
     "minify:html": "for f in ./dist/**/*.html; do html-minifier-terser -c ./hmt.config.json -o $f $f; done",
-    "minify:css": "postcss ./dist/*.css -r",
-    "add_feed": "node bin/create_feed.js",
-    "rewrite_html": "node bin/rewrite_dom.js",
-    "predeploy": "yarn build",
-    "deploy": "gh-pages -d ./dist"
+    "minify:css": "postcss ./dist/*.css -r"
   },
   "keywords": [],
   "dependencies": {
