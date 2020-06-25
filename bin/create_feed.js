@@ -10,7 +10,7 @@ const feed = new Feed({
   id: SITE_URL,
   link: SITE_URL,
   language: "zh",
-  image: `${SITE_URL}img/2020/05/hello-real-world/DSC03705.JPG`,
+  image: `${SITE_URL}logo.png`,
   favicon: `${SITE_URL}favicon.ico`,
   copyright: "All rights reserved 2020, Wabilin",
   feedLinks: {
