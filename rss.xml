@@ -4,13 +4,13 @@
         <title>Wabilin's Blog</title>
         <link>https://wabilin.github.io/</link>
         <description>(∩ ◕_▩ )⊃━☆ Explosion!!</description>
-        <lastBuildDate>Thu, 25 Jun 2020 10:06:43 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 25 Jun 2020 10:10:16 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <language>zh</language>
         <image>
             <title>Wabilin's Blog</title>
-            <url>https://wabilin.github.io/img/2020/05/hello-real-world/DSC03705.JPG</url>
+            <url>https://wabilin.github.io/logo.png</url>
             <link>https://wabilin.github.io/</link>
         </image>
         <copyright>All rights reserved 2020, Wabilin</copyright>

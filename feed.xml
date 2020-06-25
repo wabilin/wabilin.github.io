@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://wabilin.github.io/</id>
     <title>Wabilin's Blog</title>
-    <updated>2020-06-25T10:06:43.785Z</updated>
+    <updated>2020-06-25T10:10:16.650Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <author>
         <name>Wabilin</name>
@@ -12,7 +12,7 @@
     <link rel="alternate" href="https://wabilin.github.io/"/>
     <link rel="self" href="https://wabilin.github.io/feed.xml"/>
     <subtitle>(∩ ◕_▩ )⊃━☆ Explosion!!</subtitle>
-    <logo>https://wabilin.github.io/img/2020/05/hello-real-world/DSC03705.JPG</logo>
+    <logo>https://wabilin.github.io/logo.png</logo>
     <icon>https://wabilin.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Wabilin</rights>
     <category term="Software Development"/>
