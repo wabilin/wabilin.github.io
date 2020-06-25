@@ -14,7 +14,8 @@ const feed = new Feed({
   favicon: `${SITE_URL}favicon.ico`,
   copyright: "All rights reserved 2020, Wabilin",
   feedLinks: {
-    atom: `${SITE_URL}atom`
+    atom: `${SITE_URL}feed.xml`,
+    rss: `${SITE_URL}rss.xml`,
   },
   author: {
     name: "Wabilin",
@@ -74,14 +75,14 @@ async function main() {
   }
 
   const feedAtom = feed.atom1()
-  const atomName = path.join(POSTS_PATH, 'atom')
+  const atomName = path.join(POSTS_PATH, 'feed.xml')
 
   fs.writeFile(atomName, feedAtom, function (err) {
     if (err) return console.error(err);
   });
 
   const feedRss = feed.rss2()
-  const rssName = path.join(POSTS_PATH, 'feed.xml')
+  const rssName = path.join(POSTS_PATH, 'rss.xml')
   fs.writeFile(rssName, feedRss, function (err) {
     if (err) return console.error(err);
   });
