@@ -1,22 +1,29 @@
 const path = require('path');
 const fs = require('fs');
-const RSS = require('rss');
+const { Feed } = require('feed')
 const { POSTS_PATH, getPosts, fileToDomDocument } = require('./utils/readPosts')
 
 const SITE_URL = 'https://wabilin.github.io/'
-
-const feed = new RSS({
+const feed = new Feed({
   title: "Wabilin's Blog",
   description: '(∩ ◕_▩ )⊃━☆ Explosion!!',
-  feed_url: `${SITE_URL}feed.xml`,
-  site_url: SITE_URL,
-  managingEditor: 'Wabilin',
-  webMaster: 'Wabilin',
-  language: 'zh-tw',
-  categories: ['Software Development', 'Japanese Otaku'],
-  pubDate: new Date().toUTCString(),
+  id: SITE_URL,
+  link: SITE_URL,
+  language: "zh",
+  image: `${SITE_URL}img/2020/05/hello-real-world/DSC03705.JPG`,
+  favicon: `${SITE_URL}favicon.ico`,
+  copyright: "All rights reserved 2020, Wabilin",
+  feedLinks: {
+    atom: `${SITE_URL}atom`
+  },
+  author: {
+    name: "Wabilin",
+    link: "https://github.com/wabilin"
+  }
 });
 
+feed.addCategory("Software Development");
+feed.addCategory("Japanese Otaku");
 
 /**
  * @param {HTMLElement} article
@@ -49,12 +56,13 @@ async function parseFile(file) {
   const description = transformArticle(article.cloneNode(true))
   const fileUrl = `${SITE_URL}${file}`
 
-  feed.item({
+  feed.addItem({
     title: postTitle,
-    description: description,
-    url: fileUrl,
-    categories: [],
-    date: file.match(/^\d+-\d+-\d+/)[0],
+    id: fileUrl,
+    link: fileUrl,
+    description: postTitle,
+    content: description,
+    date: new Date(file.match(/^\d+-\d+-\d+/)[0]),
   });
 }
 
@@ -65,10 +73,16 @@ async function main() {
     await parseFile(post)
   }
 
-  const feedXml = feed.xml()
-  const distName = path.join(POSTS_PATH, 'feed.xml')
+  const feedAtom = feed.atom1()
+  const atomName = path.join(POSTS_PATH, 'atom')
 
-  fs.writeFile(distName, feedXml, function (err) {
+  fs.writeFile(atomName, feedAtom, function (err) {
+    if (err) return console.error(err);
+  });
+
+  const feedRss = feed.rss2()
+  const rssName = path.join(POSTS_PATH, 'feed.xml')
+  fs.writeFile(rssName, feedRss, function (err) {
     if (err) return console.error(err);
   });
 }
