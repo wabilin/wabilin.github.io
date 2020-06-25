@@ -6,6 +6,7 @@
   "scripts": {
     "start": "draft renderers.js",
     "build": "write renderers.js",
+    "mumimal": "mumimal",
     "minify:html": "for f in ./dist/**/*.html; do html-minifier-terser -c ./hmt.config.json -o $f $f; done",
     "minify:css": "postcss ./dist/*.css -r"
   },
