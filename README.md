@@ -10,6 +10,12 @@
 
 開 Dev tool 看流量時感到莫名舒服。
 
+## Tool
+目前使用朋友做的工具 [encre](https://github.com/y-nk/encre) ，但可擴充性好像有點不足。
+
+有些功能自己暴力加上。覺得之後有空再來自幹一套好像也不錯。
+
+
 ## TODO
 - [ ] Tag Cloud
 - [ ] Pagination
