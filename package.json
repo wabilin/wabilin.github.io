@@ -4,7 +4,7 @@
   "author": "Wabilin",
   "license": "MIT",
   "scripts": {
-    "start": "draft renderers.js",
+    "start": "mumimal && static-server dist",
     "build": "write renderers.js",
     "mumimal": "mumimal",
     "minify:html": "for f in ./dist/**/*.html; do html-minifier-terser -c ./hmt.config.json -o $f $f; done",
@@ -25,5 +25,9 @@
     "jsdom": "^16.2.2",
     "marked": "^1.1.0",
     "postcss-cli": "^7.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4",
+    "static-server": "^2.2.1"
   }
 }
