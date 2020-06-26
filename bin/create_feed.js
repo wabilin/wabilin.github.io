@@ -80,12 +80,6 @@ async function main() {
   fs.writeFile(atomName, feedAtom, function (err) {
     if (err) return console.error(err);
   });
-
-  const feedRss = feed.rss2()
-  const rssName = path.join(POSTS_PATH, 'rss.xml')
-  fs.writeFile(rssName, feedRss, function (err) {
-    if (err) return console.error(err);
-  });
 }
 
 main().catch(err => {
