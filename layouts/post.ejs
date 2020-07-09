@@ -39,6 +39,33 @@
         <article>
           <%- content %>
         </article>
+        <% if (meta.license === 'cc0') { %>
+          <div class='license-area'>
+            <a rel="license"
+               href="http://creativecommons.org/publicdomain/zero/1.0/">
+              <img src="http://i.creativecommons.org/p/zero/1.0/88x31.png" style="border-style: none;" alt="CC0" />
+            </a>
+            <br>
+            To the extent possible under law,<br>
+            <a rel="dct:publisher"
+               href="https://github.com/wabilin">
+              <span property="dct:title">wabilin</span></a>
+            has waived all copyright and related or neighboring rights to
+            this work.
+          </div>
+        <% } else if (meta.license === 'cc-by-sa') { %>
+          <div class='license-area'>
+            <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+              <img alt="Creative Commons License" style="border-width:0"
+                src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" />
+            </a>
+            <br />
+            This work is licensed under a
+            <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+              Creative Commons Attribution-ShareAlike 4.0 International License
+            </a>.
+          </div>
+        <% } %>
       </section>
 
       <footer class="footer-back">
