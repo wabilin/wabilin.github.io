@@ -2594,10 +2594,10 @@ ms@^2.1.1:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
   integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
 
-mumimal@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/mumimal/-/mumimal-0.0.1.tgz#f204f48575f7f89614ac6e650720c8c1fbfb2f8f"
-  integrity sha512-McPycRXqCbY6l8QbO7wMKQsdHcuauTJ36yIFrgEWKqQ6yiYo0l4JVA2aiRRVo8cwLcOQQ9fFdHEJqBchB3Vz3A==
+mumimal@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/mumimal/-/mumimal-0.0.2.tgz#01c62327d1b259be4f498105e315755464d35a41"
+  integrity sha512-WEZzJm7kUji0LKLlfM23EtODjy48/m6b5IX79nPXoAIEEyfOgioPBWNBbrAuvzIGf3hP31cw7fNYSDig6zSGWg==
   dependencies:
     ejs "^3.1.3"
     feed "^4.2.0"
