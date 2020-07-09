@@ -1,176 +1,34 @@
-<!DOCTYPE html><html lang="zh-hant"><head>
-    <meta name="author" content="wabilin">
-
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>Explosion! | 如何讓 Python 使用 C 的函式庫</title>
-
-    <link rel="stylesheet" type="text/css" href="./style.css">
-    <link rel="alternate" type="application/rss+xml" href="./feed.xml">
-
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.0.0/build/styles/github.min.css">
-    <script>
-      function onHighlightLoad() {
-        hljs.initHighlightingOnLoad();
-      }
-    </script>
-    <script defer="" onload="onHighlightLoad()" src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.0.0/build/highlight.min.js">
-    </script>
-  <meta property="og:type" content="article"><meta property="og:title" content="如何讓 Python 使用 C 的函式庫"><meta property="article:published_time" content="2013-07-18T00:00:00.000Z"><meta property="article:tag" content="python"><meta property="article:license" content="cc-by-sa"></head>
-
-  <body>
-    <div class="post">
-      <header class="blog-title">
-        <h1>
-          <a href="./">(∩ ◕_▩ )⊃━☆ Explosion!!</a>
-        </h1>
-      </header>
-
-      <section id="main" class="post-section"><hgroup><h2>如何讓 Python 使用 C 的函式庫</h2><h6>2013-07-18</h6></hgroup> <article>
-    <p>從開始寫 C 到現在三年了, Python 雖然比較晚碰但也寫了一些，
-不過倒是從最近才開始認真研究這個技術 : 在 Python 中呼叫 C 所寫的函式。</p>
-<p>雖然知道這招很久了, 但之前一直沒有用的契機 (畢竟寫純 Python 輕鬆得多)</p>
-<p>而最近因為有一個 Python Project 無法達到需要的速度，
-所以打算把這招拿出來用，也就順便筆記下來了。</p>
-<p>( 其實方法有不少種, 本篇主要介紹的是使用 Python C API 的方法 )</p>
-<!-- more -->
-<h3 id="hello-world">Hello World!</h3>
-<p>不免俗的還是來個 Hello, 不過這個 Hello 的技術知識與成就感應該比很多語言的還得多</p>
-<p>(Python 的 <code>print "Hello World!"</code> // 這我會了又能幹啥 XD</p>
-<p>因為要讓 Python 使用 C 寫的函式庫
-所以我們要先來寫一個 C File :</p>
-<pre><code class="language-c">#include &lt;Python.h&gt;
+<!DOCTYPE html><html lang=zh-hant><head><meta name=author content=wabilin><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta property=og:type content=article><meta property=og:title content="如何讓 Python 使用 C 的函式庫"><title>Explosion! | 如何讓 Python 使用 C 的函式庫</title><link rel=stylesheet type=text/css href=./style.css><link rel=alternate type=application/rss+xml href=./feed.xml><link rel=stylesheet href=//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.0.0/build/styles/github.min.css><script>function onHighlightLoad(){hljs.initHighlightingOnLoad()}</script><script defer=defer onload=onHighlightLoad() src=//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.0.0/build/highlight.min.js></script></head><body><div class=post><header class=blog-title><h1><a href=./ >(∩ ◕_▩ )⊃━☆ Explosion!!</a></h1></header><section id=main class=post-section><article><p>從開始寫 C 到現在三年了, Python 雖然比較晚碰但也寫了一些， 不過倒是從最近才開始認真研究這個技術 : 在 Python 中呼叫 C 所寫的函式。</p><p>雖然知道這招很久了, 但之前一直沒有用的契機 (畢竟寫純 Python 輕鬆得多)</p><p>而最近因為有一個 Python Project 無法達到需要的速度， 所以打算把這招拿出來用，也就順便筆記下來了。</p><p>( 其實方法有不少種, 本篇主要介紹的是使用 Python C API 的方法 )</p><!-- more --><h3 id=hello-world>Hello World!</h3><p>不免俗的還是來個 Hello, 不過這個 Hello 的技術知識與成就感應該比很多語言的還得多</p><p>(Python 的 <code>print &quot;Hello World!&quot;</code> // 這我會了又能幹啥 XD</p><p>因為要讓 Python 使用 C 寫的函式庫 所以我們要先來寫一個 C File :</p><pre><code class=language-c>#include &lt;Python.h&gt;
 
 static PyObject* hello(PyObject* self, PyObject* args) {
-    printf("Hello! A C function called!\n");
+    printf(&quot;Hello! A C function called!\n&quot;);
     Py_RETURN_NONE;
 }
 
 static PyMethodDef HelloMethods[] = {
-    {"hello", hello, METH_VARARGS, "A hello function."},
+    {&quot;hello&quot;, hello, METH_VARARGS, &quot;A hello function.&quot;},
     {NULL, NULL, 0, NULL}
 };
 
 PyMODINIT_FUNC inithello(void) {
-     (void) Py_InitModule("hello", HelloMethods);
-}</code></pre>
-<p>先簡單的看一下這段程式碼的意義</p>
-<p>首先我們 include 了 <code>Python.h</code>, 這是 Python C API 必要的標頭檔</p>
-<pre><code class="language-c">static PyObject* hello(PyObject* self, PyObject* args) {
-    printf("Hello! A C function called!\n");
+     (void) Py_InitModule(&quot;hello&quot;, HelloMethods);
+}</code></pre><p>先簡單的看一下這段程式碼的意義</p><p>首先我們 include 了 <code>Python.h</code>, 這是 Python C API 必要的標頭檔</p><pre><code class=language-c>static PyObject* hello(PyObject* self, PyObject* args) {
+    printf(&quot;Hello! A C function called!\n&quot;);
     Py_RETURN_NONE;
-}</code></pre>
-<p>在這裡, 我們寫了一個叫做 hello 的函式
-他接受兩個 <code>PyObject*</code> 作為參數, 並且回傳一個 <code>PyObject*</code></p>
-<p>他非常接近這樣的 Python method:</p>
-<pre><code class="language-py">def hello(self, arg1, arg2...) {
-  print ("Hello!")
+}</code></pre><p>在這裡, 我們寫了一個叫做 hello 的函式 他接受兩個 <code>PyObject*</code> 作為參數, 並且回傳一個 <code>PyObject*</code></p><p>他非常接近這樣的 Python method:</p><pre><code class=language-py>def hello(self, arg1, arg2...) {
+  print (&quot;Hello!&quot;)
   return None
-}</code></pre>
-<p>不過在 Python 中, 我們不必宣告出變數型別,
-而在 C 裡面需要, 而他的型別則是 PyObject*
-另外我們用一個 args 來存放零到多個參數</p>
-<p>這就是在 C 中寫一個 Python method 的簡單樣貌</p>
-<p>接著下一段:</p>
-<pre><code class="language-c">static PyMethodDef HelloMethods[] = {
-    {"hello", hello, METH_VARARGS, "A hello function."},
+}</code></pre><p>不過在 Python 中, 我們不必宣告出變數型別, 而在 C 裡面需要, 而他的型別則是 PyObject* 另外我們用一個 args 來存放零到多個參數</p><p>這就是在 C 中寫一個 Python method 的簡單樣貌</p><p>接著下一段:</p><pre><code class=language-c>static PyMethodDef HelloMethods[] = {
+    {&quot;hello&quot;, hello, METH_VARARGS, &quot;A hello function.&quot;},
     {NULL, NULL, 0, NULL}
-};</code></pre>
-<p>我們必須告訴 pyhton, 在這個 module 中, 有那些 methods 可以用
-而這個資訊被存放在 HelloMethods 這個陣列中, 陣列的每一個元素都是一個 method 的宣告,
-這個宣告在 C 中的型別是一個 <code>struct (PyMethodDef)</code> , 以本例來說:</p>
-<p><code>{"hello", hello, METH_VARARGS, "A hello function."}</code></p>
-<p>第一項的 <code>"hello"</code> 是方法名稱 (method name)
-第二項 <code>hello</code> 則是這個 method 的 C 實作函式
-第三項的 <code>METH_VARARGS</code> 則是指示該如何解讀這個 method 的 flag, 不過我們先不管他
-最後一項則是關於這個 method 的說明, 如同我們會寫在 python 中的 Documentation Strings</p>
-<p>而 <code>{NULL, NULL, 0, NULL}</code> 則用以作為這個陣列的結尾標示</p>
-<p>所以到這個部分我們已經完成了一個 method 在 C 中的實作,
-並在一個變數中存入關於這個 module 的 methods 資訊</p>
-<p>最後的部分則是這個 module 的初始化, 會把上面的東西放進來
-不過先暫時不說明這部分</p>
-<p>OK, 這個簡單的 C 檔案就這樣完成了</p>
-<p>以下講解如何編譯並使用這個檔案, 每個作業系統方法小有差異, 此處以 Windows 為主。
-理由是在 Linux 和 Mac OS 下本來就比較簡單, 而且這兩家的使用者平均來說自學能力比較強 不需要我贅言XD</p>
-<p>如果你使用 Ubuntu :<code>sudo apt-get install python-dev</code></p>
-<p>Mac OS: 因為我還買不起所以不知道, 但相信一定不難</p>
-<p>Windows:
-首先你必須安裝 Python,</p>
-<p>當然你也必須要有 C 的編譯器 (VC++ 或 MinGW)</p>
-<p>而本篇會以 MinGW 為主</p>
-<p>當這些必要的準備都好了之後, 就可以來產生我們要的函式庫。
-在這裡還是有兩種方法:</p>
-<ol>
-<li>寫一個 setup.py 腳本來 build</li>
-<li>自己使用 C 編譯器來 build</li>
-</ol>
-<p>先說第一種方法:</p>
-<p>我們先寫一個 <code>setup.py</code>:</p>
-<pre><code class="language-py">from distutils.core import setup, Extension
+};</code></pre><p>我們必須告訴 pyhton, 在這個 module 中, 有那些 methods 可以用 而這個資訊被存放在 HelloMethods 這個陣列中, 陣列的每一個元素都是一個 method 的宣告, 這個宣告在 C 中的型別是一個 <code>struct (PyMethodDef)</code> , 以本例來說:</p><p><code>{&quot;hello&quot;, hello, METH_VARARGS, &quot;A hello function.&quot;}</code></p><p>第一項的 <code>&quot;hello&quot;</code> 是方法名稱 (method name) 第二項 <code>hello</code> 則是這個 method 的 C 實作函式 第三項的 <code>METH_VARARGS</code> 則是指示該如何解讀這個 method 的 flag, 不過我們先不管他 最後一項則是關於這個 method 的說明, 如同我們會寫在 python 中的 Documentation Strings</p><p>而 <code>{NULL, NULL, 0, NULL}</code> 則用以作為這個陣列的結尾標示</p><p>所以到這個部分我們已經完成了一個 method 在 C 中的實作, 並在一個變數中存入關於這個 module 的 methods 資訊</p><p>最後的部分則是這個 module 的初始化, 會把上面的東西放進來 不過先暫時不說明這部分</p><p>OK, 這個簡單的 C 檔案就這樣完成了</p><p>以下講解如何編譯並使用這個檔案, 每個作業系統方法小有差異, 此處以 Windows 為主。 理由是在 Linux 和 Mac OS 下本來就比較簡單, 而且這兩家的使用者平均來說自學能力比較強 不需要我贅言XD</p><p>如果你使用 Ubuntu :<code>sudo apt-get install python-dev</code></p><p>Mac OS: 因為我還買不起所以不知道, 但相信一定不難</p><p>Windows: 首先你必須安裝 Python,</p><p>當然你也必須要有 C 的編譯器 (VC++ 或 MinGW)</p><p>而本篇會以 MinGW 為主</p><p>當這些必要的準備都好了之後, 就可以來產生我們要的函式庫。 在這裡還是有兩種方法:</p><ol><li>寫一個 setup.py 腳本來 build</li><li>自己使用 C 編譯器來 build</li></ol><p>先說第一種方法:</p><p>我們先寫一個 <code>setup.py</code>:</p><pre><code class=language-py>from distutils.core import setup, Extension
 
-module1 = Extension('hello', sources = ['hello.c'])
+module1 = Extension(&#39;hello&#39;, sources = [&#39;hello.c&#39;])
 
-setup (name = 'PackageName',
-       version = '1.0',
-       description = 'This is a demo package',
-       ext_modules = [module1])</code></pre>
-<p>接著利用這個檔案來 build:</p>
-<p>Linux: <code>python setup.py build</code></p>
-<p>Windows + MinGW: <code>python setup.py build -cmingw32</code></p>
-<p>在這裡你可能會遇到的錯誤:</p>
-<p>1)</p>
-<pre><code>‘python’ is not recognized as an internal or external command, operable program or batch file.</code></pre>
-<p>這代表你還沒有安裝好 Pyhton, 或是沒有將 Python 加入到 PATH 中, 請將 python 所在目錄加到 PATH</p>
-<p>2)</p>
-<pre><code>error: unrecognized command line option ‘-mno-cygwin’</code></pre>
-<p>請參考 <a href="http://stackoverflow.com/questions/6034390/compiling-with-cython-and-mingw-produces-gcc-error-unrecognized-command-line-o/6035864#6035864">stackoverflow</a> 上的解法, 間單的說就是去修改 <code>YourPythonDir\Lib\distutils</code> 中的 <code>cygwinccompiler.py</code></p>
-<p>而第二種方法也很簡單:</p>
-<pre><code>gcc -c hello.c -I/Python27/include
-gcc -shared hello.o -L/Python27/libs -lpython27 -o hello.pyd</code></pre>
-<p>因為我安裝的 python 版本是2.7版, 所以在此是 Python27, 如果你裝的是2.5版 那就是 Python25
-另外如果有更改安裝路徑的話也請自行修改指令, 假設你 python 裝在 <code>D:/Python27</code>
-那第一行就改成 <code>gcc -c hello.c -ID:/Python27/include</code></p>
-<p>無論你用上面哪一種方法 你都可以得到一個 hello.pyd 的檔案</p>
-<p>這時我們再來寫一個 python 程式來使用他, 請將這個 Python 程式放在和 <code>hello.pyd</code> 同一個資料夾</p>
-<pre><code class="language-py">import hello
+setup (name = &#39;PackageName&#39;,
+       version = &#39;1.0&#39;,
+       description = &#39;This is a demo package&#39;,
+       ext_modules = [module1])</code></pre><p>接著利用這個檔案來 build:</p><p>Linux: <code>python setup.py build</code></p><p>Windows + MinGW: <code>python setup.py build -cmingw32</code></p><p>在這裡你可能會遇到的錯誤:</p><p>1)</p><pre><code>‘python’ is not recognized as an internal or external command, operable program or batch file.</code></pre><p>這代表你還沒有安裝好 Pyhton, 或是沒有將 Python 加入到 PATH 中, 請將 python 所在目錄加到 PATH</p><p>2)</p><pre><code>error: unrecognized command line option ‘-mno-cygwin’</code></pre><p>請參考 <a href=http://stackoverflow.com/questions/6034390/compiling-with-cython-and-mingw-produces-gcc-error-unrecognized-command-line-o/6035864#6035864>stackoverflow</a> 上的解法, 間單的說就是去修改 <code>YourPythonDir\Lib\distutils</code> 中的 <code>cygwinccompiler.py</code></p><p>而第二種方法也很簡單:</p><pre><code>gcc -c hello.c -I/Python27/include
+gcc -shared hello.o -L/Python27/libs -lpython27 -o hello.pyd</code></pre><p>因為我安裝的 python 版本是2.7版, 所以在此是 Python27, 如果你裝的是2.5版 那就是 Python25 另外如果有更改安裝路徑的話也請自行修改指令, 假設你 python 裝在 <code>D:/Python27</code> 那第一行就改成 <code>gcc -c hello.c -ID:/Python27/include</code></p><p>無論你用上面哪一種方法 你都可以得到一個 hello.pyd 的檔案</p><p>這時我們再來寫一個 python 程式來使用他, 請將這個 Python 程式放在和 <code>hello.pyd</code> 同一個資料夾</p><pre><code class=language-py>import hello
 
-hello.hello()</code></pre>
-<p>現在 hello 被我們作為一個 module 使用了!
-我們呼叫 hello module 中的 hello method
-他會輸出:
-<code>Hello! A C function called!</code></p>
-<p>成功!</p>
-<h3 id="reference">Reference</h3>
-<ul>
-<li><a href="http://docs.python.org/2/c-api/">Python C API</a></li>
-<li><a href="http://en.wikibooks.org/wiki/Python_Programming">wikibook: python programming</a></li>
-<li><a href="http://stackoverflow.com/">stackoverflow</a></li>
-</ul>
-
-  </article><div class="license-area">
-  <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
-    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png">
-  </a>
-  <br>
-  This work is licensed under a
-  <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
-    Creative Commons Attribution-ShareAlike 4.0 International License
-  </a>.
-</div></section>
-
-      <footer class="footer-back">
-        <a href="./">← back</a>
-      </footer>
-    </div>
-
-    <footer class="page-footer">
-      Subscribe via
-      <a href="https://wabilin.github.io/feed.xml">
-        RSS
-      </a>.
-    </footer>
-  
-
-</body></html>
+hello.hello()</code></pre><p>現在 hello 被我們作為一個 module 使用了! 我們呼叫 hello module 中的 hello method 他會輸出: <code>Hello! A C function called!</code></p><p>成功!</p><h3 id=reference>Reference</h3><ul><li><a href=http://docs.python.org/2/c-api/ >Python C API</a></li><li><a href=http://en.wikibooks.org/wiki/Python_Programming>wikibook: python programming</a></li><li><a href=http://stackoverflow.com/ >stackoverflow</a></li></ul></article><div class=license-area><a rel=license href=http://creativecommons.org/licenses/by-sa/4.0/ ><img alt="Creative Commons License" style=border-width:0 src=https://i.creativecommons.org/l/by-sa/4.0/88x31.png></a><br>This work is licensed under a <a rel=license href=http://creativecommons.org/licenses/by-sa/4.0/ >Creative Commons Attribution-ShareAlike 4.0 International License </a>.</div></section><footer class=footer-back><a href=./ >← back</a></footer></div><footer class=page-footer>Subscribe via <a href=https://wabilin.github.io/feed.xml>RSS </a>.</footer></body></html>

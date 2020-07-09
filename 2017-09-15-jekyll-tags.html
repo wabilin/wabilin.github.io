@@ -1,72 +1,19 @@
-<!DOCTYPE html><html lang="zh-hant"><head>
-    <meta name="author" content="wabilin">
-
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>Explosion! | 幫 Jekyll Blog 加上 Tags 功能 (GitHub Pages 可用)</title>
-
-    <link rel="stylesheet" type="text/css" href="./style.css">
-    <link rel="alternate" type="application/rss+xml" href="./feed.xml">
-
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.0.0/build/styles/github.min.css">
-    <script>
-      function onHighlightLoad() {
-        hljs.initHighlightingOnLoad();
-      }
-    </script>
-    <script defer="" onload="onHighlightLoad()" src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.0.0/build/highlight.min.js">
-    </script>
-  <meta property="og:type" content="article"><meta property="og:title" content="幫 Jekyll Blog 加上 Tags 功能 (GitHub Pages 可用)"><meta property="article:published_time" content="2017-09-15T00:00:00.000Z"><meta property="article:tag" content="jekyll"></head>
-
-  <body>
-    <div class="post">
-      <header class="blog-title">
-        <h1>
-          <a href="./">(∩ ◕_▩ )⊃━☆ Explosion!!</a>
-        </h1>
-      </header>
-
-      <section id="main" class="post-section"><hgroup><h2>幫 Jekyll Blog 加上 Tags 功能 (GitHub Pages 可用)</h2><h6>2017-09-15</h6></hgroup> <article>
-    <p>為了在 Jekyll Blog 上使用 tags 的功能，我花了些力氣研究。
-雖然有現成的 plugin 可以用，但為了能讓 GitHub Pages 跑，那些 plugin 就不太可用了。</p>
-<p>這篇是我目前找出來最為方便的方法。</p>
-<!-- more -->
-
-<p>首先在每個 post 的檔案上方，要用像這樣的方式加入 tag</p>
-<pre><code class="language-yaml">---
+<!DOCTYPE html><html lang=zh-hant><head><meta name=author content=wabilin><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta property=og:type content=article><meta property=og:title content="幫 Jekyll Blog 加上 Tags 功能 (GitHub Pages 可用)"><title>Explosion! | 幫 Jekyll Blog 加上 Tags 功能 (GitHub Pages 可用)</title><link rel=stylesheet type=text/css href=./style.css><link rel=alternate type=application/rss+xml href=./feed.xml><link rel=stylesheet href=//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.0.0/build/styles/github.min.css><script>function onHighlightLoad(){hljs.initHighlightingOnLoad()}</script><script defer=defer onload=onHighlightLoad() src=//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.0.0/build/highlight.min.js></script></head><body><div class=post><header class=blog-title><h1><a href=./ >(∩ ◕_▩ )⊃━☆ Explosion!!</a></h1></header><section id=main class=post-section><article><p>為了在 Jekyll Blog 上使用 tags 的功能，我花了些力氣研究。 雖然有現成的 plugin 可以用，但為了能讓 GitHub Pages 跑，那些 plugin 就不太可用了。</p><p>這篇是我目前找出來最為方便的方法。</p><!-- more --><p>首先在每個 post 的檔案上方，要用像這樣的方式加入 tag</p><pre><code class=language-yaml>---
 layout: post
 title: 幫 Jekyll Blog 加上 Tags 功能
 tags: jekyll
 license: cc0
----</code></pre>
-<p>我在首頁加入這一段程式：</p>
-<script src="https://gist.github.com/wabilin/99589a0e71f15fd17a5699de97387ba4.js"></script>
-
-<p>這段程式會找出所有網站中使用過的 tag，並幫他做出一個到 <code>/tag_indices/tag-name</code>的連結。</p>
-<p><code>tag_indices</code> 是一個我自定資料夾路徑。我希望每個裡面 tag name 路徑都能列出與該 tag 相關的文章。</p>
-<p>所以我先幫他們製作了應有的 layout</p>
-<script src="https://gist.github.com/wabilin/de1b5ab47d12e29c650ff12b8a870c40.js"></script>
-
-<p>這個 layout 會認該頁面的標題(<code>page.title</code>)，然後從全站的文章中找出文章 tag 名稱與本頁標題相同的文章。變成一串列表顯示出來。</p>
-<p>但是 Jekyll 沒有聰明到自動幫我們從每篇文章的 tag 去產生出相應的 tag 目錄。</p>
-<p>我查到某些資料做法是：手動新增。</p>
-<p>也就是說，如果新增了一個含有 <code>example</code> tag 的文章，就要新增一個 <code>/tag_indices/example/index.md</code> 檔案，並加入內容：</p>
-<pre><code class="language-yaml">---
+---</code></pre><p>我在首頁加入這一段程式：</p><script src=https://gist.github.com/wabilin/99589a0e71f15fd17a5699de97387ba4.js></script><p>這段程式會找出所有網站中使用過的 tag，並幫他做出一個到 <code>/tag_indices/tag-name</code>的連結。</p><p><code>tag_indices</code> 是一個我自定資料夾路徑。我希望每個裡面 tag name 路徑都能列出與該 tag 相關的文章。</p><p>所以我先幫他們製作了應有的 layout</p><script src=https://gist.github.com/wabilin/de1b5ab47d12e29c650ff12b8a870c40.js></script><p>這個 layout 會認該頁面的標題(<code>page.title</code>)，然後從全站的文章中找出文章 tag 名稱與本頁標題相同的文章。變成一串列表顯示出來。</p><p>但是 Jekyll 沒有聰明到自動幫我們從每篇文章的 tag 去產生出相應的 tag 目錄。</p><p>我查到某些資料做法是：手動新增。</p><p>也就是說，如果新增了一個含有 <code>example</code> tag 的文章，就要新增一個 <code>/tag_indices/example/index.md</code> 檔案，並加入內容：</p><pre><code class=language-yaml>---
 layout: tag_index
 title: example
----</code></pre>
-<p>在 Jeklly 讀到這個檔案的時候，就會去找所有含有 <code>example</code> tag 的文章，生成目錄。</p>
-<p>懶惰如我當然不可能每次加新標籤都去手動創一個檔案。所以我寫了下面這個很隨便的 ruby script 來幫我自動產生這些 tag 目錄：</p>
-<pre><code class="language-rb"># DO make sure ur post have tags attr, split tag names by space
-require 'set'
+---</code></pre><p>在 Jeklly 讀到這個檔案的時候，就會去找所有含有 <code>example</code> tag 的文章，生成目錄。</p><p>懶惰如我當然不可能每次加新標籤都去手動創一個檔案。所以我寫了下面這個很隨便的 ruby script 來幫我自動產生這些 tag 目錄：</p><pre><code class=language-rb># DO make sure ur post have tags attr, split tag names by space
+require &#39;set&#39;
 
 def main()
-  tag_set = collect_tags('./_posts/')
-  puts "Your tags are: #{tag_set.to_a.to_s}"
+  tag_set = collect_tags(&#39;./_posts/&#39;)
+  puts &quot;Your tags are: #{tag_set.to_a.to_s}&quot;
 
-  tag_root_path = './tag_indices/'
+  tag_root_path = &#39;./tag_indices/&#39;
   create_tag_files(tag_set, tag_root_path)
 end
 
@@ -74,12 +21,12 @@ def collect_tags(post_dir_path)
   tag_set = Set.new
 
   Dir.foreach(post_dir_path) do |post|
-    next if post == '.' || post == '..' || post == '.gitkeep'
+    next if post == &#39;.&#39; || post == &#39;..&#39; || post == &#39;.gitkeep&#39;
     file_path = post_dir_path + post
     puts file_path
-    File.open(file_path, 'r') do |infile|
+    File.open(file_path, &#39;r&#39;) do |infile|
       while (line = infile.gets)
-        if line.start_with?('tags:')
+        if line.start_with?(&#39;tags:&#39;)
           puts line
           _, *tags = line.split(/\s/)
           tag_set.merge(tags)
@@ -95,46 +42,25 @@ def create_tag_files(tags, tag_root_path)
   tags.each do |tag|
     tag_path = tag_root_path + tag
     if Dir.exist?(tag_path)
-      puts "#{tag_path} exist. skip."
+      puts &quot;#{tag_path} exist. skip.&quot;
     else
-      mkdir_ok = system('mkdir', '-p', tag_path)
+      mkdir_ok = system(&#39;mkdir&#39;, &#39;-p&#39;, tag_path)
       unless mkdir_ok
-        puts "Failed when creating dir #{tag_path}"
+        puts &quot;Failed when creating dir #{tag_path}&quot;
         exit(1)
       end
-      create_md_file(tag, "#{tag_path}/index.md")
+      create_md_file(tag, &quot;#{tag_path}/index.md&quot;)
     end
   end
 end
 
 def create_md_file(tag, path)
-  File.open(path, 'w') do |file|
-    file.puts('---')
-    file.puts('layout: tag_index')
-    file.puts("title: #{tag}")
-    file.puts('---')
+  File.open(path, &#39;w&#39;) do |file|
+    file.puts(&#39;---&#39;)
+    file.puts(&#39;layout: tag_index&#39;)
+    file.puts(&quot;title: #{tag}&quot;)
+    file.puts(&#39;---&#39;)
   end
 end
 
-main()</code></pre>
-<p>有需要的話可以直接拿去用，不過注意我這裡假定 tags 屬性都是些用空白分隔的單字。</p>
-<ul>
-<li>參考資料: <a href="http://vvv.tobiassjosten.net/jekyll/jekyll-tag-cloud/">http://vvv.tobiassjosten.net/jekyll/jekyll-tag-cloud/</a></li>
-</ul>
-
-  </article></section>
-
-      <footer class="footer-back">
-        <a href="./">← back</a>
-      </footer>
-    </div>
-
-    <footer class="page-footer">
-      Subscribe via
-      <a href="https://wabilin.github.io/feed.xml">
-        RSS
-      </a>.
-    </footer>
-  
-
-</body></html>
+main()</code></pre><p>有需要的話可以直接拿去用，不過注意我這裡假定 tags 屬性都是些用空白分隔的單字。</p><ul><li>參考資料: <a href=http://vvv.tobiassjosten.net/jekyll/jekyll-tag-cloud/ >http://vvv.tobiassjosten.net/jekyll/jekyll-tag-cloud/</a></li></ul></article></section><footer class=footer-back><a href=./ >← back</a></footer></div><footer class=page-footer>Subscribe via <a href=https://wabilin.github.io/feed.xml>RSS </a>.</footer></body></html>
