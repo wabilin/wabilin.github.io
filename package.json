@@ -12,17 +12,8 @@
   "keywords": [],
   "dependencies": {
     "cssnano": "^4.1.10",
-    "ejs": "^3.1.3",
-    "encre": "^2.2.0",
-    "escape-html": "^1.0.3",
-    "feed": "^4.2.0",
-    "gh-pages": "^2.2.0",
-    "gray-matter": "^4.0.2",
-    "html-minifier-terser": "^5.1.1",
     "imagemin": "^7.0.1",
     "imagemin-webp": "^6.0.0",
-    "jsdom": "^16.2.2",
-    "marked": "^1.1.0",
     "mumimal": "^0.0.1",
     "postcss-cli": "^7.1.1"
   },
