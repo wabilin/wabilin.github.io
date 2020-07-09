@@ -5,9 +5,8 @@
   "license": "MIT",
   "scripts": {
     "start": "yarn mumimal && static-server dist",
-    "build": "yarn mumimal && yarn minify:css",
+    "build": "NODE_ENV=production yarn mumimal && yarn minify:css",
     "mumimal": "mumimal --config config.js",
-    "minify:html": "for f in ./dist/**/*.html; do html-minifier-terser -c ./hmt.config.json -o $f $f; done",
     "minify:css": "postcss ./dist/*.css -r"
   },
   "keywords": [],
