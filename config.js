@@ -7,7 +7,7 @@ const shared = {
 const config = {
   site: {
     ...shared,
-    url: 'https://github.com/wabilin/',
+    url: SITE_URL,
   },
   feed: {
     ...shared,
