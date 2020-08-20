@@ -375,6 +375,7 @@ textarea {
   --primary-color: black;
   --primary-contrast-color: white;
   --a-hover-bg: #EEE;
+  --code-bg: rgba(27,31,35,.05);
 }
 
 @media screen and (prefers-color-scheme: dark) {
@@ -386,6 +387,7 @@ textarea {
     --primary-color: white;
     --primary-contrast-color: black;
     --a-hover-bg: #333;
+    --code-bg: #333;
   }
 }
 
@@ -425,7 +427,7 @@ p > code {
   padding: .2em .4em;
   border-radius: 6px;
   font-size: 85%;
-  background-color: rgba(27,31,35,.05);
+  background-color: var(--code-bg);
   font-family: var(--code-ff);
 }
 
