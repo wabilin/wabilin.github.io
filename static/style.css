@@ -367,10 +367,30 @@ textarea {
 
 
 :root {
+  --bg-color: white;
   --normal-text: #555;
   --minor-text: #888;
   --code-ff: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
   --article-h-color: #333;
+  --primary-color: black;
+  --primary-contrast-color: white;
+  --a-hover-bg: #EEE;
+}
+
+@media screen and (prefers-color-scheme: dark) {
+  :root {
+    --bg-color: black;
+    --normal-text: #E0E0E0;
+    --minor-text: #AAA;
+    --article-h-color: #EEE;
+    --primary-color: white;
+    --primary-contrast-color: black;
+    --a-hover-bg: #333;
+  }
+}
+
+body {
+  background-color: var(--bg-color);
 }
 
 body, h1, h2, h3, h4, h5, h6 {
@@ -382,7 +402,7 @@ strong {
 }
 
 a {
-  color: black;
+  color: var(--primary-color);
 }
 
 a:visited, a:link {
@@ -390,7 +410,7 @@ a:visited, a:link {
 }
 
 a:hover {
-  background-color: #EEE;
+  background-color: var(--a-hover-bg);
 }
 
 code, pre {
@@ -402,10 +422,6 @@ code.hljs {
 }
 
 p > code {
-  padding: .125rem;
-  border-radius: .125rem;
-  background-color: #f2f2f2;
-
   padding: .2em .4em;
   border-radius: 6px;
   font-size: 85%;
@@ -437,8 +453,8 @@ body {
 .blog-title h1 {
   margin: auto;
   display: inline-block;
-  color: white;
-  background-color: black;
+  color: var(--primary-contrast-color);
+  background-color: var(--primary-color);
   padding: .5rem;
 }
 .blog-title h3 {
@@ -447,10 +463,10 @@ body {
   font-size: .9rem;
 }
 .blog-title a {
-  color: white;
+  color: var(--primary-contrast-color);
 }
 .blog-title a:hover {
-  background-color: black;
+  background-color: var(--primary-color);
   border-bottom: 2px solid lightgray;
 }
 
@@ -483,13 +499,13 @@ body {
 
 .post-time {
   font-size: .75rem;
-  color: gray;
+  color: var(--minor-text);
   margin-bottom: .25rem;
 }
 
 .post-header a {
   border-bottom: none;
-  color: black;
+  color: var(--primary-color);
 }
 
 .post-section hgroup {
@@ -499,7 +515,7 @@ body {
 .post-section > hgroup h2 {
   font-weight: 400;
   font-size: 1.5rem;
-  color: black;
+  color: var(--primary-color);
 }
 .post-section > hgroup h6 {
   font-size: 1rem;
@@ -553,8 +569,8 @@ body {
 
 .footer-back a {
   padding: 0 .4rem;
-  color: white;
-  background-color: black;
+  color: var(--primary-contrast-color);
+  background-color: var(--primary-color);
 }
 
 .page-footer {
