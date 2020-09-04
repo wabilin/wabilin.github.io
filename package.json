@@ -14,8 +14,8 @@
     "cssnano": "^4.1.10",
     "imagemin": "^7.0.1",
     "imagemin-webp": "^6.0.0",
-    "mumimal": "^0.3.0",
-    "postcss-cli": "^7.1.1"
+    "mumimal": "^0.4.0",
+    "postcss-cli": "^7.1.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.4",
