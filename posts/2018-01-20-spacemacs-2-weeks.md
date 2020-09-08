@@ -70,12 +70,12 @@ emacs 的按法明顯輕鬆許多，所以我存檔的時候都會使用 emacs �
 這樣的按鍵規劃，讓人非常快速就可以上手，而且不容易忘記。
 
 如果真的想不起來... 其實在按每個按鍵的時候下面都有提示可以偷看：
-![SPC-p hint](./img/2018/01/emacs_2_weeks/1.webp)
+![SPC-p hint](./img/2018/01/emacs_2_weeks/1.jpg)
 
 如果這樣還找不到功能，也可以用 `Space ?` 或 `Space Space` 來搜尋
 
 例如想要找 replace 功能:
-![SPC-? hint](./img/2018/01/emacs_2_weeks/2.webp)
+![SPC-? hint](./img/2018/01/emacs_2_weeks/2.jpg)
 
 最糟狀況這樣都還找不到的話，也很容易 Google 得到。Spacemacs 的社群已經蠻大的了。
 
