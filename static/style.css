@@ -376,18 +376,20 @@ textarea {
   --primary-contrast-color: white;
   --a-hover-bg: #EEE;
   --code-bg: rgba(27,31,35,.05);
+  --img-shadow-color: gray;
 }
 
 @media screen and (prefers-color-scheme: dark) {
   :root {
-    --bg-color: black;
+    --bg-color: #121212;
     --normal-text: #E0E0E0;
     --minor-text: #AAA;
-    --article-h-color: #EEE;
+    --article-h-color: white;
     --primary-color: white;
     --primary-contrast-color: black;
     --a-hover-bg: #333;
     --code-bg: #333;
+    --img-shadow-color: black;
   }
 }
 
@@ -434,7 +436,7 @@ p > code {
 img {
   max-width: 100%;
   margin: .25rem 0;
-  box-shadow: 1px 1px 5px gray;
+  box-shadow: 1px 1px 5px var(--img-shadow-color);
 }
 
 ol, ul {
