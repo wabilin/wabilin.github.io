@@ -11,14 +11,14 @@
   },
   "keywords": [],
   "dependencies": {
-    "cssnano": "^4.1.10",
-    "imagemin": "^7.0.1",
-    "imagemin-webp": "^6.0.0",
-    "mumimal": "^0.4.0",
-    "postcss-cli": "^7.1.2"
+    "cssnano": "4.1.10",
+    "imagemin": "7.0.1",
+    "imagemin-webp": "6.0.0",
+    "mumimal": "0.4.0",
+    "postcss-cli": "7.1.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.4",
-    "static-server": "^2.2.1"
+    "nodemon": "2.0.4",
+    "static-server": "2.2.1"
   }
 }
