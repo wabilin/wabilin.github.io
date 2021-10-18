@@ -15,7 +15,7 @@
     "imagemin": "8.0.0",
     "imagemin-webp": "6.0.0",
     "mumimal": "0.4.0",
-    "postcss-cli": "7.1.2"
+    "postcss-cli": "9.0.1"
   },
   "devDependencies": {
     "nodemon": "2.0.7",
