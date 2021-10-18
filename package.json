@@ -11,7 +11,7 @@
   },
   "keywords": [],
   "dependencies": {
-    "cssnano": "4.1.11",
+    "cssnano": "5.0.8",
     "imagemin": "8.0.0",
     "imagemin-webp": "6.0.0",
     "mumimal": "0.4.0",
